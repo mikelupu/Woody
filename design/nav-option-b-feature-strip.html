@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Nav Option B — Feature strip below header</title>
+<style>
+  :root {
+    --ink: #18201b;
+    --muted: #667069;
+    --paper: #f4f1e8;
+    --panel: #fffdf7;
+    --line: #d5d0c3;
+    --forest: #234b3a;
+    --forest-bright: #2d6a4f;
+    --gold: #d7a928;
+    --light-square: #e9dfca;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    background:
+      radial-gradient(circle at 10% 0%, rgb(215 169 40 / 10%), transparent 30rem),
+      var(--paper);
+    color: var(--ink);
+  }
+  .site-header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 1.5rem clamp(1rem, 4vw, 4rem);
+    color: #fff;
+    background: var(--forest);
+    border-bottom: 5px solid var(--gold);
+  }
+  h1 { margin: 0; font-family: Georgia, serif; font-size: clamp(1.7rem, 4vw, 3rem); }
+  .eyebrow {
+    margin: 0 0 .35rem;
+    color: #d9e7de;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  .score-strip { display: flex; gap: clamp(.8rem, 3vw, 2rem); margin: 0; }
+  .score-strip div { text-align: center; }
+  .score-strip dt { color: #c8d7cd; font-size: .7rem; text-transform: uppercase; }
+  .score-strip dd { margin: .2rem 0 0; font: 700 1.3rem Georgia, serif; }
+
+  /* ─── Option B: full-width feature strip ─────────────────── */
+  .feature-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background: var(--panel);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 6px 12px rgb(30 35 30 / 5%);
+  }
+  .feature-strip a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem clamp(1rem, 3vw, 2rem);
+    color: var(--ink);
+    text-decoration: none;
+    border-right: 1px solid var(--line);
+    position: relative;
+    transition: background-color 120ms ease;
+  }
+  .feature-strip a:last-child { border-right: 0; }
+  .feature-strip a:hover { background: var(--light-square); }
+  .feature-strip a:focus-visible { outline: 3px solid #1473e6; outline-offset: -3px; }
+  .feature-strip a.current {
+    background: #fffdf0;
+  }
+  .feature-strip a.current::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 3px;
+    background: var(--gold);
+  }
+  .feature-strip .icon {
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    color: var(--forest-bright);
+    background: rgb(45 106 79 / 12%);
+    border-radius: .4rem;
+    flex: 0 0 auto;
+  }
+  .feature-strip .icon svg { width: 20px; height: 20px; }
+  .feature-strip .label {
+    display: block;
+    font: 700 1.02rem Georgia, serif;
+    line-height: 1.15;
+  }
+  .feature-strip .sub {
+    display: block;
+    margin-top: .18rem;
+    color: var(--muted);
+    font-size: .78rem;
+  }
+
+  main { width: min(1180px, calc(100% - 2rem)); margin: 2rem auto; }
+  .caption { max-width: 60ch; color: var(--muted); font-size: .9rem; line-height: 1.5; }
+  .caption strong { color: var(--ink); }
+
+  @media (max-width: 720px) {
+    .feature-strip { grid-template-columns: 1fr; }
+    .feature-strip a { border-right: 0; border-bottom: 1px solid var(--line); }
+    .feature-strip a:last-child { border-bottom: 0; }
+  }
+</style>
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Private · Local · Deliberate</p>
+      <h1>Hanging Piece Trainer</h1>
+    </div>
+    <dl class="score-strip">
+      <div><dt>Score</dt><dd>12</dd></div>
+      <div><dt>Attempts</dt><dd>18</dd></div>
+      <div><dt>Accuracy</dt><dd>67%</dd></div>
+      <div><dt>Streak</dt><dd>3</dd></div>
+      <div><dt>Best</dt><dd>7</dd></div>
+    </dl>
+  </header>
+  <nav class="feature-strip" aria-label="Sections">
+    <a href="#" class="current" aria-current="page">
+      <span class="icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 3 8l9 5 9-5-9-5zm0 7L3 15l9 5 9-5-9-5z"/></svg>
+      </span>
+      <span>
+        <span class="label">Hanging trainer</span>
+        <span class="sub">Spot every loose piece</span>
+      </span>
+    </a>
+    <a href="#">
+      <span class="icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6 6.6.6-5 4.4 1.5 6.5L12 16.9l-6 3.6 1.5-6.5-5-4.4L9.1 8z"/></svg>
+      </span>
+      <span>
+        <span class="label">Tactics</span>
+        <span class="sub">Solve fork · pin · skewer puzzles</span>
+      </span>
+    </a>
+    <a href="#">
+      <span class="icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h6v6H4zm10 0h6v6h-6zM4 14h6v6H4zm10 0h6v6h-6z"/></svg>
+      </span>
+      <span>
+        <span class="label">Mini game</span>
+        <span class="sub">Two-minute capture rush</span>
+      </span>
+    </a>
+  </nav>
+  <main>
+    <p class="caption">
+      <strong>Option B — Feature strip.</strong> Full-width band below the header with
+      three cards: icon + title + one-line description. The current section is highlighted
+      with a gold underline. Most discoverable — each section is self-explanatory — at the
+      cost of vertical space.
+    </p>
+  </main>
+</body>
+</html>

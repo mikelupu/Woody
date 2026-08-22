@@ -1,0 +1,54 @@
+[project]
+name = "hanging-piece-trainer"
+version = "0.1.0"
+description = "A private, offline chess piece-safety trainer"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+  "Flask>=3.1,<4",
+  "python-chess>=1.999,<2",
+]
+
+[project.optional-dependencies]
+curation = ["zstandard>=0.23,<1"]
+browser = ["playwright>=1.54,<2"]
+dev = [
+  "coverage[toml]>=7.10,<8",
+  "pre-commit>=4.2,<5",
+  "pytest>=8.4,<9",
+  "ruff>=0.12,<1",
+]
+
+[project.scripts]
+hanging-piece-trainer = "hanging_piece_trainer.app:main"
+hpt-curate = "hanging_piece_trainer.curation:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hanging_piece_trainer"]
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["hanging_piece_trainer"]
+
+[tool.coverage.report]
+fail_under = 80
+show_missing = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.ruff.format]
+quote-style = "double"
+

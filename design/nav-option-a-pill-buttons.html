@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Nav Option A — Gold pill buttons in header</title>
+<style>
+  :root {
+    --ink: #18201b;
+    --muted: #667069;
+    --paper: #f4f1e8;
+    --panel: #fffdf7;
+    --line: #d5d0c3;
+    --forest: #234b3a;
+    --forest-bright: #2d6a4f;
+    --gold: #d7a928;
+    --light-square: #e9dfca;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    background:
+      radial-gradient(circle at 10% 0%, rgb(215 169 40 / 10%), transparent 30rem),
+      var(--paper);
+    color: var(--ink);
+  }
+  .site-header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 1.5rem clamp(1rem, 4vw, 4rem);
+    color: #fff;
+    background: var(--forest);
+    border-bottom: 5px solid var(--gold);
+  }
+  h1 {
+    margin: 0 0 .35rem;
+    font-family: Georgia, serif;
+    font-size: clamp(1.7rem, 4vw, 3rem);
+  }
+  .eyebrow {
+    margin: 0 0 .35rem;
+    color: #d9e7de;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  .score-strip { display: flex; gap: clamp(.8rem, 3vw, 2rem); margin: 0; }
+  .score-strip div { text-align: center; }
+  .score-strip dt { color: #c8d7cd; font-size: .7rem; text-transform: uppercase; }
+  .score-strip dd { margin: .2rem 0 0; font: 700 1.3rem Georgia, serif; }
+
+  /* ─── Option A: gold pill navigation ─────────────────────── */
+  .nav-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin: .8rem 0 0;
+  }
+  .nav-pills a {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .5rem 1rem;
+    border-radius: 999px;
+    color: var(--ink);
+    background: var(--gold);
+    font-weight: 800;
+    font-size: .82rem;
+    text-decoration: none;
+    letter-spacing: .01em;
+    transition: transform 120ms ease, background-color 120ms ease, box-shadow 120ms ease;
+    box-shadow: 0 3px 8px rgb(0 0 0 / 12%);
+  }
+  .nav-pills a:hover {
+    background: #e8b833;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgb(0 0 0 / 18%);
+  }
+  .nav-pills a:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+  .nav-pills a.current {
+    color: var(--gold);
+    background: transparent;
+    border: 2px solid var(--gold);
+    padding: calc(.5rem - 2px) calc(1rem - 2px);
+    box-shadow: none;
+    cursor: default;
+  }
+  .nav-pills a.current:hover { transform: none; }
+  .nav-pills svg { width: 14px; height: 14px; flex: 0 0 auto; }
+
+  main { width: min(1180px, calc(100% - 2rem)); margin: 2rem auto; }
+  .caption { max-width: 60ch; color: var(--muted); font-size: .9rem; line-height: 1.5; }
+  .caption strong { color: var(--ink); }
+</style>
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Private · Local · Deliberate</p>
+      <h1>Hanging Piece Trainer</h1>
+      <nav class="nav-pills" aria-label="Sections">
+        <a href="#" class="current" aria-current="page">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3 3 8l9 5 9-5-9-5zm0 7L3 15l9 5 9-5-9-5z"/></svg>
+          Hanging trainer
+        </a>
+        <a href="#">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6 6.6.6-5 4.4 1.5 6.5L12 16.9l-6 3.6 1.5-6.5-5-4.4L9.1 8z"/></svg>
+          Tactics
+        </a>
+        <a href="#">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 4h6v6H4zm10 0h6v6h-6zM4 14h6v6H4zm10 0h6v6h-6z"/></svg>
+          Mini game
+        </a>
+      </nav>
+    </div>
+    <dl class="score-strip">
+      <div><dt>Score</dt><dd>12</dd></div>
+      <div><dt>Attempts</dt><dd>18</dd></div>
+      <div><dt>Accuracy</dt><dd>67%</dd></div>
+      <div><dt>Streak</dt><dd>3</dd></div>
+      <div><dt>Best</dt><dd>7</dd></div>
+    </dl>
+  </header>
+  <main>
+    <p class="caption">
+      <strong>Option A — Gold pill navigation.</strong> Compact, sits inside the header
+      beneath the title. Solid gold pills for other sections; the current section is a
+      gold-outlined pill (inverted). High contrast against the forest background, matches
+      the existing gold accent, small footprint.
+    </p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,4207 @@
+{
+  "catalog_checksum": "9bb9d7bf51daa8324073c87738c3637545eea4c9266c2c887f24045de4ab5c77",
+  "puzzles": [
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "c6"
+          ],
+          "undefended": [
+            "c6",
+            "g7"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "a2",
+            "d4",
+            "g2",
+            "h1",
+            "h4"
+          ]
+        }
+      },
+      "first_move_uci": "f3d4",
+      "presented_fen": "r3k2r/2p1p1b1/2qp1p2/p6p/Pp1NP2Q/1P6/R1P2PPP/4K2R b Kkq - 1 22",
+      "puzzle_id": "4YqE9",
+      "rating": 1126,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "c6c3",
+        "e1e2",
+        "c3d4"
+      ],
+      "source_fen": "r3k2r/2p1p1b1/2qp1p2/p6p/Pp2P2Q/1P3N2/R1P2PPP/4K2R w Kkq - 0 22",
+      "source_url": "https://lichess.org/training/4YqE9",
+      "themes": [
+        "crushing",
+        "fork",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "d5"
+          ],
+          "undefended": [
+            "a8",
+            "d5"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "a1",
+            "b2",
+            "b5",
+            "h1"
+          ]
+        }
+      },
+      "first_move_uci": "e1d2",
+      "presented_fen": "r1b1qrk1/pp1n1pbp/5Bp1/1Bpp4/8/2PP1Q1N/PP1K1PPP/RN5R b - - 2 11",
+      "puzzle_id": "5LDOr",
+      "rating": 2394,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "d7e5",
+        "b5e8",
+        "e5f3"
+      ],
+      "source_fen": "r1b1qrk1/pp1n1pbp/5Bp1/1Bpp4/8/2PP1Q1N/PP3PPP/RN2K2R w KQ - 1 11",
+      "source_url": "https://lichess.org/training/5LDOr",
+      "themes": [
+        "advantage",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "a4",
+            "a8",
+            "c7"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "g6"
+          ],
+          "undefended": [
+            "g2",
+            "g6"
+          ]
+        }
+      },
+      "first_move_uci": "f8f7",
+      "presented_fen": "r5k1/2q1pr1p/1p1p2N1/p2P4/n1pQP3/2P2P2/1P4P1/1K1R3R w - - 1 24",
+      "puzzle_id": "5SAFl",
+      "rating": 897,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "d4h8"
+      ],
+      "source_fen": "r4rk1/2q1p2p/1p1p2N1/p2P4/n1pQP3/2P2P2/1P4P1/1K1R3R b - - 0 23",
+      "source_url": "https://lichess.org/training/5SAFl",
+      "themes": [
+        "mate",
+        "mateIn1",
+        "middlegame",
+        "oneMove"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "e2"
+          ],
+          "undefended": [
+            "c8",
+            "e2",
+            "g2"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "f4",
+            "h7"
+          ]
+        }
+      },
+      "first_move_uci": "h1e1",
+      "presented_fen": "2q5/4kp1N/p7/1p6/5Q2/1P6/1PP1rPrP/1K1RR3 b - - 2 30",
+      "puzzle_id": "5ijgM",
+      "rating": 927,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "c8c2",
+        "b1a1",
+        "c2b2"
+      ],
+      "source_fen": "2q5/4kp1N/p7/1p6/5Q2/1P6/1PP1rPrP/1K1R3R w - - 1 30",
+      "source_url": "https://lichess.org/training/5ijgM",
+      "themes": [
+        "fork",
+        "mate",
+        "mateIn2",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "g5"
+          ],
+          "undefended": [
+            "a8",
+            "b7",
+            "c4",
+            "g5",
+            "h8"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "a2",
+            "e5",
+            "f2",
+            "g2"
+          ]
+        }
+      },
+      "first_move_uci": "e4f6",
+      "presented_fen": "r3kb1r/ppp1q2p/4pNb1/4P1pQ/2p5/8/PPP1NPPP/2KR3R b kq - 3 14",
+      "puzzle_id": "5rOlY",
+      "rating": 982,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "e7f6",
+        "e5f6",
+        "g6h5"
+      ],
+      "source_fen": "r3kb1r/ppp1q2p/4p1b1/4P1pQ/2p1N3/8/PPP1NPPP/2KR3R w kq - 2 14",
+      "source_url": "https://lichess.org/training/5rOlY",
+      "themes": [
+        "advantage",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "h7"
+          ],
+          "undefended": [
+            "b1",
+            "f7",
+            "h7"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "e4"
+          ],
+          "undefended": [
+            "e4"
+          ]
+        }
+      },
+      "first_move_uci": "d8e8",
+      "presented_fen": "2k1r3/pppb1p1p/2n5/8/4Q3/2B3P1/1PP1KP1P/1q3B1R w - - 1 18",
+      "puzzle_id": "76Vmu",
+      "rating": 1148,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "e4e8",
+        "d7e8",
+        "f1h3"
+      ],
+      "source_fen": "2kr4/pppb1p1p/2n5/8/4Q3/2B3P1/1PP1KP1P/1q3B1R b - - 0 17",
+      "source_url": "https://lichess.org/training/76Vmu",
+      "themes": [
+        "crushing",
+        "middlegame",
+        "sacrifice",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "a1",
+            "g5"
+          ],
+          "undefended": [
+            "a1",
+            "a8",
+            "c7",
+            "g5"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "h5"
+          ],
+          "undefended": [
+            "a3",
+            "b3",
+            "d3",
+            "e1",
+            "h5"
+          ]
+        }
+      },
+      "first_move_uci": "d7e8",
+      "presented_fen": "r3br2/2q1k3/p1p1P3/1p4pQ/2P5/PP1B3P/5PP1/b3R1K1 w - - 1 27",
+      "puzzle_id": "7KFp3",
+      "rating": 1840,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "h5h7",
+        "e8f7",
+        "e6f7"
+      ],
+      "source_fen": "r4r2/2qbk3/p1p1P3/1p4pQ/2P5/PP1B3P/5PP1/b3R1K1 b - - 0 26",
+      "source_url": "https://lichess.org/training/7KFp3",
+      "themes": [
+        "advancedPawn",
+        "crushing",
+        "discoveredAttack",
+        "discoveredCheck",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "f4"
+          ],
+          "undefended": [
+            "b7",
+            "f4"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "b3",
+            "c3"
+          ]
+        }
+      },
+      "first_move_uci": "f1g1",
+      "presented_fen": "r3r1k1/pp3ppp/2p5/2P5/3P1n2/PBBb2P1/5P1P/R2R2K1 b - - 2 24",
+      "puzzle_id": "7Ovp3",
+      "rating": 1833,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "f4e2",
+        "g1g2",
+        "d3e4"
+      ],
+      "source_fen": "r3r1k1/pp3ppp/2p5/2P5/3P1n2/PBBb2P1/5P1P/R2R1K2 w - - 1 24",
+      "source_url": "https://lichess.org/training/7Ovp3",
+      "themes": [
+        "advantage",
+        "fork",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "h3"
+          ],
+          "undefended": [
+            "d7",
+            "e4",
+            "h3"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "b3"
+          ],
+          "undefended": [
+            "a1",
+            "b3",
+            "c5"
+          ]
+        }
+      },
+      "first_move_uci": "e2d1",
+      "presented_fen": "5r2/1p1b2kp/p3p1p1/2P5/3nq1N1/1B2B1Qn/5P2/R2KR3 b - - 1 34",
+      "puzzle_id": "8LsyG",
+      "rating": 2464,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "e4d3",
+        "e3d2",
+        "h3f2",
+        "g4f2",
+        "d3g3"
+      ],
+      "source_fen": "5r2/1p1b2kp/p3p1p1/2P5/3nq1N1/1B2B1Qn/4KP2/R3R3 w - - 0 34",
+      "source_url": "https://lichess.org/training/8LsyG",
+      "themes": [
+        "crushing",
+        "deflection",
+        "exposedKing",
+        "fork",
+        "long",
+        "middlegame"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "f4"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "d4"
+          ],
+          "undefended": [
+            "c2",
+            "d4"
+          ]
+        }
+      },
+      "first_move_uci": "h6f4",
+      "presented_fen": "4r1k1/Rb2r1pp/8/1P1p1p2/3B1q2/5B2/2P3PP/5QK1 w - - 0 30",
+      "puzzle_id": "9XqoB",
+      "rating": 977,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "f3d5",
+        "b7d5",
+        "f1f4"
+      ],
+      "source_fen": "4r1k1/Rb2r1pp/7q/1P1p1p2/3B1P2/5B2/2P3PP/5QK1 b - - 0 29",
+      "source_url": "https://lichess.org/training/9XqoB",
+      "themes": [
+        "crushing",
+        "discoveredAttack",
+        "master",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "c2"
+          ],
+          "undefended": [
+            "b5",
+            "c2",
+            "c8",
+            "e7"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "d4"
+          ],
+          "undefended": [
+            "a2",
+            "d4"
+          ]
+        }
+      },
+      "first_move_uci": "c3d3",
+      "presented_fen": "2r3k1/p3qppp/4p3/1p1p4/2NP4/1P1r4/P1bQ1PPP/2R2RK1 w - - 2 23",
+      "puzzle_id": "9YZk7",
+      "rating": 1998,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "d2c2",
+        "d3d4",
+        "c2b2",
+        "d4c4",
+        "b3c4"
+      ],
+      "source_fen": "2r3k1/p3qppp/4p3/1p1p4/2NP4/1Pr5/P1bQ1PPP/2R2RK1 b - - 1 22",
+      "source_url": "https://lichess.org/training/9YZk7",
+      "themes": [
+        "advantage",
+        "long",
+        "middlegame"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "c7",
+            "h4"
+          ],
+          "undefended": [
+            "c7",
+            "g6",
+            "h4"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "a5"
+          ]
+        }
+      },
+      "first_move_uci": "g1h1",
+      "presented_fen": "2b2rk1/2p3b1/3p2pp/B2Pp3/2P1N2q/6Pn/5P1P/3QRB1K b - - 2 24",
+      "puzzle_id": "9eH8e",
+      "rating": 1624,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "h4e4",
+        "e1e4",
+        "h3f2",
+        "h1g1",
+        "f2d1"
+      ],
+      "source_fen": "2b2rk1/2p3b1/3p2pp/B2Pp3/2P1N2q/6Pn/5P1P/3QRBK1 w - - 1 24",
+      "source_url": "https://lichess.org/training/9eH8e",
+      "themes": [
+        "advantage",
+        "fork",
+        "long",
+        "middlegame",
+        "sacrifice"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "a7",
+            "c8",
+            "d5"
+          ],
+          "undefended": [
+            "a7",
+            "c8",
+            "d5",
+            "h2"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "c3"
+          ],
+          "undefended": [
+            "b7",
+            "c3",
+            "e6"
+          ]
+        }
+      },
+      "first_move_uci": "b2c3",
+      "presented_fen": "2r3k1/pQ4p1/4N3/3p3p/8/2P2KP1/P3n2r/R4R2 b - - 0 27",
+      "puzzle_id": "9nqw5",
+      "rating": 1032,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "c8c3"
+      ],
+      "source_fen": "2r3k1/pQ4p1/4N3/3p3p/8/2q2KP1/PP2n2r/R4R2 w - - 2 27",
+      "source_url": "https://lichess.org/training/9nqw5",
+      "themes": [
+        "mate",
+        "mateIn1",
+        "middlegame",
+        "oneMove"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "c6"
+          ],
+          "undefended": [
+            "c6",
+            "d4",
+            "e7",
+            "h5"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "a1",
+            "b2",
+            "c2"
+          ]
+        }
+      },
+      "first_move_uci": "e4e5",
+      "presented_fen": "r4rk1/p3bppp/2pp4/1p2P2q/3p1Pn1/P2P1Q2/BPP3PP/RN3RK1 b - - 0 17",
+      "puzzle_id": "AT5B8",
+      "rating": 782,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "h5h2"
+      ],
+      "source_fen": "r4rk1/p3bppp/2pp4/1p5q/3pPPn1/P2P1Q2/BPP3PP/RN3RK1 w - - 2 17",
+      "source_url": "https://lichess.org/training/AT5B8",
+      "themes": [
+        "kingsideAttack",
+        "mate",
+        "mateIn1",
+        "middlegame",
+        "oneMove"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "b6"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "e3"
+          ],
+          "undefended": [
+            "a2",
+            "c1",
+            "e3",
+            "g4"
+          ]
+        }
+      },
+      "first_move_uci": "c8e8",
+      "presented_fen": "4rn2/2rq1pk1/1p1p1p1p/p2B1Pp1/2P3PP/4R3/PP5Q/2R3K1 w - - 4 32",
+      "puzzle_id": "Ax7vy",
+      "rating": 2507,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "h4g5",
+        "f6g5",
+        "f5f6",
+        "g7h7",
+        "e3h3"
+      ],
+      "source_fen": "2r2n2/2rq1pk1/1p1p1p1p/p2B1Pp1/2P3PP/4R3/PP5Q/2R3K1 b - - 3 31",
+      "source_url": "https://lichess.org/training/Ax7vy",
+      "themes": [
+        "advantage",
+        "long",
+        "middlegame"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "a7",
+            "h8"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "b2"
+          ],
+          "undefended": [
+            "a1",
+            "b2",
+            "f5",
+            "g2",
+            "h1"
+          ]
+        }
+      },
+      "first_move_uci": "b7b5",
+      "presented_fen": "3qkb1r/r3pppp/p4n2/1p1p1B2/Q1nP4/2N1P3/PP1B1PPP/R3K2R w KQk - 0 13",
+      "puzzle_id": "BVptd",
+      "rating": 1353,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "c3b5",
+        "a6b5",
+        "a4a7"
+      ],
+      "source_fen": "3qkb1r/rp2pppp/p4n2/3p1B2/Q1nP4/2N1P3/PP1B1PPP/R3K2R b KQk - 2 12",
+      "source_url": "https://lichess.org/training/BVptd",
+      "themes": [
+        "advantage",
+        "master",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "a7",
+            "b6"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "a4"
+          ],
+          "undefended": [
+            "a4",
+            "b2",
+            "e5"
+          ]
+        }
+      },
+      "first_move_uci": "c8g4",
+      "presented_fen": "4qr2/r3b3/pp4k1/2p1Q1Bp/P3P1bP/2P5/1P4P1/3R1RK1 w - - 1 25",
+      "puzzle_id": "BtcKI",
+      "rating": 2448,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "d1d6",
+        "e7d6",
+        "e5d6"
+      ],
+      "source_fen": "2b1qr2/r3b3/pp4k1/2p1Q1Bp/P3P2P/2P5/1P4P1/3R1RK1 b - - 0 24",
+      "source_url": "https://lichess.org/training/BtcKI",
+      "themes": [
+        "crushing",
+        "middlegame",
+        "sacrifice",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "b1"
+          ],
+          "undefended": [
+            "b1",
+            "e6"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "f1"
+          ],
+          "undefended": [
+            "a3",
+            "f1",
+            "g6",
+            "h4"
+          ]
+        }
+      },
+      "first_move_uci": "h8g8",
+      "presented_fen": "2rr2k1/6p1/1pn1p1P1/4Pp2/p2q1B1Q/P7/6PP/1q3R1K w - - 2 28",
+      "puzzle_id": "CAahH",
+      "rating": 1445,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "h4h7",
+        "g8f8",
+        "h7h8",
+        "f8e7",
+        "h8g7",
+        "e7e8",
+        "g7f7"
+      ],
+      "source_fen": "2rr3k/6p1/1pn1p1P1/4Pp2/p2q1B1Q/P7/6PP/1q3R1K b - - 1 27",
+      "source_url": "https://lichess.org/training/CAahH",
+      "themes": [
+        "deflection",
+        "kingsideAttack",
+        "mate",
+        "mateIn4",
+        "middlegame",
+        "veryLong"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "a8",
+            "b2",
+            "d6",
+            "g7"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "a1"
+          ],
+          "undefended": [
+            "a1",
+            "g5",
+            "h1"
+          ]
+        }
+      },
+      "first_move_uci": "b6b2",
+      "presented_fen": "r1b1k2r/pp1n1pbp/2pppnp1/6B1/B2PP3/2N2Q2/PqP1NPPP/R3K2R w KQkq - 0 10",
+      "puzzle_id": "CV8wN",
+      "rating": 1379,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "a1b1",
+        "b2b1",
+        "c3b1"
+      ],
+      "source_fen": "r1b1k2r/pp1n1pbp/1qpppnp1/6B1/B2PP3/2N2Q2/PPP1NPPP/R3K2R b KQkq - 3 9",
+      "source_url": "https://lichess.org/training/CV8wN",
+      "themes": [
+        "advantage",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "d2",
+            "h3"
+          ],
+          "undefended": [
+            "a7",
+            "b7",
+            "d2",
+            "d6",
+            "h3"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "g4"
+          ],
+          "undefended": [
+            "a2",
+            "c3",
+            "g4"
+          ]
+        }
+      },
+      "first_move_uci": "f4h3",
+      "presented_fen": "5rk1/pp4p1/3p3p/2p1p1q1/1P2P1N1/P1PPQ2n/R2n2P1/4N1K1 w - - 0 26",
+      "puzzle_id": "Cqqvj",
+      "rating": 2391,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "g2h3",
+        "f8f1",
+        "g1g2",
+        "g5e3",
+        "g4e3",
+        "f1e1",
+        "g2f2"
+      ],
+      "source_fen": "5rk1/pp4p1/3p3p/2p1p1q1/1P2PnN1/P1PPQ2P/R2n2P1/4N1K1 b - - 0 25",
+      "source_url": "https://lichess.org/training/Cqqvj",
+      "themes": [
+        "advantage",
+        "hangingPiece",
+        "middlegame",
+        "veryLong"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "b4"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "f4",
+            "h5"
+          ],
+          "undefended": [
+            "a2",
+            "b2",
+            "f4",
+            "h5"
+          ]
+        }
+      },
+      "first_move_uci": "g7g6",
+      "presented_fen": "r2q1rk1/3p1p1p/p1b1p1p1/6bQ/1p3B2/8/PPB2PPP/2R2RK1 w - - 0 19",
+      "puzzle_id": "D9sXf",
+      "rating": 1711,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "h5g5",
+        "d8g5",
+        "f4g5"
+      ],
+      "source_fen": "r2q1rk1/3p1ppp/p1b1p3/6bQ/1p3B2/8/PPB2PPP/2R2RK1 b - - 3 18",
+      "source_url": "https://lichess.org/training/D9sXf",
+      "themes": [
+        "advantage",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "b7",
+            "h3"
+          ],
+          "undefended": [
+            "b7",
+            "c3",
+            "h3"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "d4"
+          ]
+        }
+      },
+      "first_move_uci": "f3g1",
+      "presented_fen": "5rk1/1pp2ppp/3bp3/3p4/3P4/2r3Pn/P3B1PP/RQ2R1NK b - - 0 25",
+      "puzzle_id": "Dw1Y5",
+      "rating": 805,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "h3f2"
+      ],
+      "source_fen": "5rk1/1pp2ppp/3bp3/3p4/3P4/2r2NPn/P3B1PP/RQ2R1qK w - - 6 25",
+      "source_url": "https://lichess.org/training/Dw1Y5",
+      "themes": [
+        "mate",
+        "mateIn1",
+        "middlegame",
+        "oneMove",
+        "smotheredMate"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "f7",
+            "g7"
+          ],
+          "undefended": [
+            "f7",
+            "g7"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "a1",
+            "d3"
+          ]
+        }
+      },
+      "first_move_uci": "e3f5",
+      "presented_fen": "1k5r/ppp1bpp1/2np4/4pN1r/4P3/1BPP2P1/PP3P2/R1B2RK1 b - - 4 20",
+      "puzzle_id": "EYpDF",
+      "rating": 1172,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "h5h1",
+        "g1g2",
+        "h8h2",
+        "g2f3",
+        "h1f1"
+      ],
+      "source_fen": "1k5r/ppp1bpp1/2np4/4p2r/4P3/1BPPN1P1/PP3P2/R1B2RK1 w - - 3 20",
+      "source_url": "https://lichess.org/training/EYpDF",
+      "themes": [
+        "advantage",
+        "deflection",
+        "kingsideAttack",
+        "long",
+        "middlegame"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "f3"
+          ],
+          "undefended": [
+            "a6",
+            "d2",
+            "d6",
+            "f3"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "d4",
+            "e7"
+          ],
+          "undefended": [
+            "d4",
+            "e7"
+          ]
+        }
+      },
+      "first_move_uci": "a8f3",
+      "presented_fen": "5k1r/4Rpb1/p2p1N2/1p5p/3B4/P4q1P/1P1r2P1/5RK1 w - - 0 23",
+      "puzzle_id": "ErLAU",
+      "rating": 1393,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "e7e8"
+      ],
+      "source_fen": "q4k1r/4Rpb1/p2p1N2/1p5p/3B4/P4Q1P/1P1r2P1/5RK1 b - - 0 22",
+      "source_url": "https://lichess.org/training/ErLAU",
+      "themes": [
+        "mate",
+        "mateIn1",
+        "middlegame",
+        "oneMove"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "e1",
+            "f4"
+          ],
+          "undefended": [
+            "a8",
+            "e1",
+            "f4"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "f3"
+          ],
+          "undefended": [
+            "a2",
+            "f3"
+          ]
+        }
+      },
+      "first_move_uci": "g2g3",
+      "presented_fen": "r6k/pR4R1/3p3p/3P4/3Qbq2/2P2NPP/P4P1K/4r3 b - - 0 31",
+      "puzzle_id": "FcxP2",
+      "rating": 1821,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "e1h1",
+        "h2h1",
+        "f4f3",
+        "h1g1",
+        "f3h1"
+      ],
+      "source_fen": "r6k/pR4R1/3p3p/3P4/3Qbq2/2P2N1P/P4PPK/4r3 w - - 3 31",
+      "source_url": "https://lichess.org/training/FcxP2",
+      "themes": [
+        "attraction",
+        "long",
+        "mate",
+        "mateIn3",
+        "middlegame",
+        "sacrifice"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "g2",
+            "g7"
+          ],
+          "undefended": [
+            "g2",
+            "g5",
+            "g6",
+            "g7",
+            "g8"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "e4",
+            "e6"
+          ],
+          "undefended": [
+            "a1",
+            "d1",
+            "e4",
+            "e6"
+          ]
+        }
+      },
+      "first_move_uci": "h8h1",
+      "presented_fen": "r1q1k1n1/pp2pRb1/3pP1p1/2pN2p1/4P3/1B6/PPPP2b1/R1BQ2Kr w q - 1 14",
+      "puzzle_id": "FmXRg",
+      "rating": 1835,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "g1g2",
+        "h1d1",
+        "f7g7"
+      ],
+      "source_fen": "r1q1k1nr/pp2pRb1/3pP1p1/2pN2p1/4P3/1B6/PPPP2b1/R1BQ2K1 b kq - 0 13",
+      "source_url": "https://lichess.org/training/FmXRg",
+      "themes": [
+        "crushing",
+        "middlegame",
+        "sacrifice",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "h4"
+          ],
+          "undefended": [
+            "b7",
+            "c7",
+            "e8",
+            "h4"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "a1",
+            "b2"
+          ]
+        }
+      },
+      "first_move_uci": "e2f2",
+      "presented_fen": "4r1k1/1bp2pp1/p6p/1p6/2p4q/4BP2/PPB2QPP/R6K b - - 5 24",
+      "puzzle_id": "H7fVR",
+      "rating": 1244,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "h4f2",
+        "e3f2",
+        "e8e2",
+        "h1g1",
+        "e2c2"
+      ],
+      "source_fen": "4r1k1/1bp2pp1/p6p/1p6/2p4q/4BP2/PPB1Q1PP/R6K w - - 4 24",
+      "source_url": "https://lichess.org/training/H7fVR",
+      "themes": [
+        "advantage",
+        "fork",
+        "long",
+        "middlegame"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "f7"
+          ],
+          "undefended": [
+            "f7",
+            "h8"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "a3"
+          ],
+          "undefended": [
+            "a3",
+            "c2"
+          ]
+        }
+      },
+      "first_move_uci": "f6g4",
+      "presented_fen": "2k4r/1pp1pp2/6p1/7p/3r2n1/P3q2P/2P1B1PK/1R2QR2 w - - 2 21",
+      "puzzle_id": "HKnJI",
+      "rating": 1590,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "e2g4",
+        "h5g4",
+        "e1e3"
+      ],
+      "source_fen": "2k4r/1pp1pp2/5np1/7p/3r4/P3q2P/2P1B1PK/1R2QR2 b - - 1 20",
+      "source_url": "https://lichess.org/training/HKnJI",
+      "themes": [
+        "crushing",
+        "discoveredAttack",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "b7"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "h2"
+          ],
+          "undefended": [
+            "a2",
+            "e2",
+            "f5",
+            "h2"
+          ]
+        }
+      },
+      "first_move_uci": "d8d6",
+      "presented_fen": "r4rk1/pp3ppp/3q1n2/2pPbQB1/8/8/PP2NP1P/2KR2R1 w - - 1 18",
+      "puzzle_id": "IYoBw",
+      "rating": 2246,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "f2f4",
+        "e5b2",
+        "c1b2"
+      ],
+      "source_fen": "r2q1rk1/pp3ppp/5n2/2pPbQB1/8/8/PP2NP1P/2KR2R1 b - - 0 17",
+      "source_url": "https://lichess.org/training/IYoBw",
+      "themes": [
+        "advantage",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "e4"
+          ],
+          "undefended": [
+            "a6",
+            "c7",
+            "e4",
+            "g3"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "a3"
+          ],
+          "undefended": [
+            "a3"
+          ]
+        }
+      },
+      "first_move_uci": "d6c4",
+      "presented_fen": "3rr2k/2p3p1/p1P1B2p/1p1P4/2n1pR2/P5qP/5RP1/5QK1 w - - 5 36",
+      "puzzle_id": "Ixd4Q",
+      "rating": 595,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "f4f8",
+        "e8f8",
+        "f2f8",
+        "d8f8",
+        "f1f8"
+      ],
+      "source_fen": "3rr2k/2p3p1/p1PnB2p/1p1P4/4pR2/P5qP/5RP1/5QK1 b - - 4 35",
+      "source_url": "https://lichess.org/training/Ixd4Q",
+      "themes": [
+        "crushing",
+        "kingsideAttack",
+        "long",
+        "middlegame"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "d7"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "e5"
+          ],
+          "undefended": [
+            "d3",
+            "e5",
+            "f2",
+            "g1",
+            "h7"
+          ]
+        }
+      },
+      "first_move_uci": "g7f5",
+      "presented_fen": "4rk2/3r1p1Q/1p2p3/p1q1Pn2/P1Pp3P/1P1R3K/5P2/6R1 w - - 2 38",
+      "puzzle_id": "KOxMS",
+      "rating": 1703,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "h7h8",
+        "f8e7",
+        "h8f6"
+      ],
+      "source_fen": "4rk2/3r1pnQ/1p2p3/p1q1P3/P1Pp3P/1P1R3K/5P2/6R1 b - - 1 37",
+      "source_url": "https://lichess.org/training/KOxMS",
+      "themes": [
+        "crushing",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "a6"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "b2"
+          ],
+          "undefended": [
+            "b2",
+            "h2"
+          ]
+        }
+      },
+      "first_move_uci": "f6d5",
+      "presented_fen": "r3r1k1/p6p/bp1p2p1/2pnq3/4N3/5PN1/PP3KPP/R2QR3 w - - 0 20",
+      "puzzle_id": "L8v82",
+      "rating": 1579,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "d1d5",
+        "e5d5",
+        "e4f6"
+      ],
+      "source_fen": "r3r1k1/p6p/bp1p1np1/2pPq3/4N3/5PN1/PP3KPP/R2QR3 b - - 2 19",
+      "source_url": "https://lichess.org/training/L8v82",
+      "themes": [
+        "advantage",
+        "kingsideAttack",
+        "middlegame",
+        "sacrifice",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "e1"
+          ],
+          "undefended": [
+            "b7",
+            "e1",
+            "f2"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "h1"
+          ],
+          "undefended": [
+            "a2",
+            "g2",
+            "h1"
+          ]
+        }
+      },
+      "first_move_uci": "d4d3",
+      "presented_fen": "r2q4/pp5k/6p1/3R4/8/1PPQ4/PBK2nPP/4r2R b - - 0 25",
+      "puzzle_id": "LoHRJ",
+      "rating": 1463,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "f2d3",
+        "d5d8",
+        "a8d8",
+        "h1e1",
+        "d3e1"
+      ],
+      "source_fen": "r2q4/pp5k/6p1/3R4/3Q4/1PPb4/PBK2nPP/4r2R w - - 0 25",
+      "source_url": "https://lichess.org/training/LoHRJ",
+      "themes": [
+        "crushing",
+        "long",
+        "middlegame"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "a8",
+            "f3"
+          ],
+          "undefended": [
+            "a8",
+            "f3"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "b2",
+            "f8"
+          ]
+        }
+      },
+      "first_move_uci": "d6f8",
+      "presented_fen": "r1b2B1k/p2q2pp/1p6/3Q4/8/P1P1Pp2/1P3P1P/3R1RK1 b - - 0 24",
+      "puzzle_id": "LurrS",
+      "rating": 1008,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "d7g4",
+        "g1h1",
+        "g4g2"
+      ],
+      "source_fen": "r1b2r1k/p2q2pp/1p1B4/3Q4/8/P1P1Pp2/1P3P1P/3R1RK1 w - - 2 24",
+      "source_url": "https://lichess.org/training/LurrS",
+      "themes": [
+        "kingsideAttack",
+        "mate",
+        "mateIn2",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "a7",
+            "b8",
+            "e8"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "b2"
+          ],
+          "undefended": [
+            "a2",
+            "b2",
+            "d5",
+            "h6"
+          ]
+        }
+      },
+      "first_move_uci": "a8b8",
+      "presented_fen": "1rb1r1k1/p4p1p/1p4pB/2pN4/3b4/8/PP3PPP/3R1RK1 w - - 2 18",
+      "puzzle_id": "M86vq",
+      "rating": 1559,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "d1d4",
+        "c5d4",
+        "d5f6",
+        "g8h8",
+        "f6e8"
+      ],
+      "source_fen": "r1b1r1k1/p4p1p/1p4pB/2pN4/3b4/8/PP3PPP/3R1RK1 b - - 1 17",
+      "source_url": "https://lichess.org/training/M86vq",
+      "themes": [
+        "crushing",
+        "fork",
+        "long",
+        "middlegame",
+        "sacrifice"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "a6",
+            "b4",
+            "e5"
+          ],
+          "undefended": [
+            "a6",
+            "b4",
+            "e5",
+            "h6"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "a4",
+            "d6"
+          ]
+        }
+      },
+      "first_move_uci": "c7d6",
+      "presented_fen": "2r3k1/4nq1p/p2Q2pb/3Pp3/Np2P3/6N1/PP3r1P/1K3R1R b - - 0 26",
+      "puzzle_id": "MPshY",
+      "rating": 1393,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "f2f1",
+        "h1f1",
+        "f7f1",
+        "g3f1",
+        "c8c1"
+      ],
+      "source_fen": "2r3k1/2Q1nq1p/p2p2pb/3Pp3/Np2P3/6N1/PP3r1P/1K3R1R w - - 2 26",
+      "source_url": "https://lichess.org/training/MPshY",
+      "themes": [
+        "long",
+        "mate",
+        "mateIn3",
+        "middlegame",
+        "operaMate",
+        "sacrifice"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "c7"
+          ],
+          "undefended": [
+            "c7"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": []
+        }
+      },
+      "first_move_uci": "d5d6",
+      "presented_fen": "q4rk1/B1r1pp1p/3P2p1/5b2/1PnQ4/P5P1/6BP/R4RK1 b - - 0 24",
+      "puzzle_id": "MWdFP",
+      "rating": 1534,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "a8a7",
+        "d4a7",
+        "c7a7"
+      ],
+      "source_fen": "q4rk1/B1r1pp1p/6p1/3P1b2/1PnQ4/P5P1/6BP/R4RK1 w - - 3 24",
+      "source_url": "https://lichess.org/training/MWdFP",
+      "themes": [
+        "advantage",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "a8",
+            "e7"
+          ],
+          "undefended": [
+            "a8",
+            "e7"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "f6"
+          ],
+          "undefended": [
+            "a1",
+            "b2",
+            "c2",
+            "f6",
+            "g2",
+            "h1"
+          ]
+        }
+      },
+      "first_move_uci": "g5f6",
+      "presented_fen": "r1b2r1k/3nq1pp/p2p1B2/1p1Qp3/4P3/5N1P/PPP2PP1/R3K2R b KQ - 0 15",
+      "puzzle_id": "MdfG9",
+      "rating": 2466,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "d7f6",
+        "d5a8",
+        "c8h3",
+        "a8f8",
+        "e7f8"
+      ],
+      "source_fen": "r1b2r1k/3nq1pp/p2p1p2/1p1Qp1B1/4P3/5N1P/PPP2PP1/R3K2R w KQ - 2 15",
+      "source_url": "https://lichess.org/training/MdfG9",
+      "themes": [
+        "advantage",
+        "discoveredAttack",
+        "long",
+        "middlegame"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "a6",
+            "c8",
+            "e4"
+          ],
+          "undefended": [
+            "a6",
+            "c8",
+            "e4",
+            "h2"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "a4"
+          ]
+        }
+      },
+      "first_move_uci": "e1e3",
+      "presented_fen": "2r3k1/1Q3pbp/p5p1/P2B4/R3p3/4RP2/5P1q/5K2 b - - 0 32",
+      "puzzle_id": "MotVy",
+      "rating": 1995,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "h2h1",
+        "f1e2",
+        "c8c2"
+      ],
+      "source_fen": "2r3k1/1Q3pbp/p5p1/P2B4/R3p3/4nP2/5P1q/4RK2 w - - 0 32",
+      "source_url": "https://lichess.org/training/MotVy",
+      "themes": [
+        "mate",
+        "mateIn2",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "b7",
+            "f3"
+          ],
+          "undefended": [
+            "b5",
+            "b7",
+            "f3"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "a2",
+            "a5",
+            "e1"
+          ]
+        }
+      },
+      "first_move_uci": "g6e4",
+      "presented_fen": "2r4k/1b6/7p/Bp6/3RB1n1/2P2q2/PPQ4P/4R1K1 b - - 2 33",
+      "puzzle_id": "Mvzjy",
+      "rating": 2439,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "b7e4",
+        "d4e4",
+        "g4e3"
+      ],
+      "source_fen": "2r4k/1b6/6Bp/Bp6/3R2n1/2P2q2/PPQ4P/4R1K1 w - - 1 33",
+      "source_url": "https://lichess.org/training/Mvzjy",
+      "themes": [
+        "advantage",
+        "master",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "e3"
+          ],
+          "undefended": [
+            "a7",
+            "c6",
+            "e3",
+            "h4"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": []
+        }
+      },
+      "first_move_uci": "f1f3",
+      "presented_fen": "8/p5pk/2q5/8/7p/P1B1rRrP/1P4PQ/6RK b - - 7 37",
+      "puzzle_id": "OiwrA",
+      "rating": 1472,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "e3f3",
+        "g2f3",
+        "c6f3"
+      ],
+      "source_fen": "8/p5pk/2q5/8/7p/P1B1r1rP/1P4PQ/5RRK w - - 6 37",
+      "source_url": "https://lichess.org/training/OiwrA",
+      "themes": [
+        "advantage",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": []
+        },
+        "white": {
+          "hanging": [
+            "a3",
+            "b3"
+          ],
+          "undefended": [
+            "a3",
+            "b3",
+            "e1",
+            "g7"
+          ]
+        }
+      },
+      "first_move_uci": "e7d6",
+      "presented_fen": "r6r/2p3Q1/p2k1p2/2q1b3/2p5/PP6/6BP/4R2K w - - 4 35",
+      "puzzle_id": "P3rKt",
+      "rating": 1366,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "e1d1",
+        "c5d4",
+        "d1d4"
+      ],
+      "source_fen": "r6r/2p1k1Q1/p4p2/2q1b3/2p5/PP6/6BP/4R2K b - - 3 34",
+      "source_url": "https://lichess.org/training/P3rKt",
+      "themes": [
+        "advantage",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "h7"
+          ],
+          "undefended": [
+            "a5",
+            "a8",
+            "f8",
+            "h7"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "c3"
+          ],
+          "undefended": [
+            "a1",
+            "c2",
+            "c3",
+            "g2",
+            "h1",
+            "h5",
+            "h8"
+          ]
+        }
+      },
+      "first_move_uci": "f7h8",
+      "presented_fen": "r1b2b1N/p1k1p1pp/2p2p2/q2p3Q/3P4/2P5/P1P2PPP/R1B1K2R b KQ - 0 13",
+      "puzzle_id": "PxJlq",
+      "rating": 895,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "a5c3",
+        "c1d2",
+        "c3a1"
+      ],
+      "source_fen": "r1b2b1r/p1k1pNpp/2p2p2/q2p3Q/3P4/2P5/P1P2PPP/R1B1K2R w KQ - 4 13",
+      "source_url": "https://lichess.org/training/PxJlq",
+      "themes": [
+        "advantage",
+        "fork",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "g4"
+          ],
+          "undefended": [
+            "g4"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "a2"
+          ]
+        }
+      },
+      "first_move_uci": "h2h3",
+      "presented_fen": "4rrk1/1pqb2pp/p1nbp3/3p2B1/N2P2n1/3B1N1P/PP3PP1/2RQR1K1 b - - 0 17",
+      "puzzle_id": "QklpD",
+      "rating": 2040,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "d6h2",
+        "g1f1",
+        "g4f2"
+      ],
+      "source_fen": "4rrk1/1pqb2pp/p1nbp3/3p2B1/N2P2n1/3B1N2/PP3PPP/2RQR1K1 w - - 2 17",
+      "source_url": "https://lichess.org/training/QklpD",
+      "themes": [
+        "crushing",
+        "kingsideAttack",
+        "master",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "g5"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "h3"
+          ],
+          "undefended": [
+            "b4",
+            "f5",
+            "h3"
+          ]
+        }
+      },
+      "first_move_uci": "a8c8",
+      "presented_fen": "2q2rk1/3n1ppp/2p5/3ppNn1/1N6/4P2P/5P2/Q4RK1 w - - 1 23",
+      "puzzle_id": "Qlh6s",
+      "rating": 883,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "f5e7",
+        "g8h8",
+        "e7c8"
+      ],
+      "source_fen": "q4rk1/3n1ppp/2p5/3ppNn1/1N6/4P2P/5P2/Q4RK1 b - - 0 22",
+      "source_url": "https://lichess.org/training/Qlh6s",
+      "themes": [
+        "advantage",
+        "fork",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "a7",
+            "b3",
+            "b7",
+            "e5",
+            "e6"
+          ],
+          "undefended": [
+            "a7",
+            "b3",
+            "b7",
+            "e5",
+            "e6"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "a6"
+          ],
+          "undefended": [
+            "a6"
+          ]
+        }
+      },
+      "first_move_uci": "d6a6",
+      "presented_fen": "6k1/pp4pp/R3p3/4p3/2N1Q2P/1nPK4/PP3r1P/5r1R b - - 0 28",
+      "puzzle_id": "RBizY",
+      "rating": 2132,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "b3c1",
+        "d3e3",
+        "f2e2"
+      ],
+      "source_fen": "6k1/pp4pp/q2Rp3/4p3/2N1Q2P/1nPK4/PP3r1P/5r1R w - - 0 28",
+      "source_url": "https://lichess.org/training/RBizY",
+      "themes": [
+        "mate",
+        "mateIn2",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "b6"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "d3"
+          ],
+          "undefended": [
+            "a2",
+            "d3"
+          ]
+        }
+      },
+      "first_move_uci": "e4c5",
+      "presented_fen": "3r2k1/1p1r1pp1/pq5p/2np4/3N4/2PQ3P/PP2RPP1/4R1K1 w - - 4 25",
+      "puzzle_id": "Rha3D",
+      "rating": 730,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "e2e8",
+        "d8e8",
+        "e1e8"
+      ],
+      "source_fen": "3r2k1/1p1r1pp1/pq5p/3p4/3Nn3/2PQ3P/PP2RPP1/4R1K1 b - - 3 24",
+      "source_url": "https://lichess.org/training/Rha3D",
+      "themes": [
+        "kingsideAttack",
+        "mate",
+        "mateIn2",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "b7",
+            "e5"
+          ],
+          "undefended": [
+            "b6",
+            "b7",
+            "e5",
+            "g8",
+            "h7"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "b4",
+            "f2",
+            "h2"
+          ]
+        }
+      },
+      "first_move_uci": "e3d4",
+      "presented_fen": "6r1/1p2kp1p/1b2b3/2N1rp2/1PBK4/6P1/5P1P/R3R3 b - - 4 25",
+      "puzzle_id": "RsC6m",
+      "rating": 2223,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "g8d8",
+        "d4c3",
+        "b6c5"
+      ],
+      "source_fen": "6r1/1p2kp1p/1b2b3/2N1rp2/1PB5/4K1P1/5P1P/R3R3 w - - 3 25",
+      "source_url": "https://lichess.org/training/RsC6m",
+      "themes": [
+        "advantage",
+        "deflection",
+        "master",
+        "middlegame",
+        "pin",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "b7",
+            "d3"
+          ],
+          "undefended": [
+            "b7",
+            "c7",
+            "d3"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "d5"
+          ],
+          "undefended": [
+            "b2",
+            "d5"
+          ]
+        }
+      },
+      "first_move_uci": "h4g5",
+      "presented_fen": "r4r2/ppp2kp1/4b1np/3Q2q1/8/3p4/PP3PPP/R3R1K1 w - - 0 21",
+      "puzzle_id": "S9oho",
+      "rating": 802,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "d5e6"
+      ],
+      "source_fen": "r4r2/ppp2kp1/4b1np/3Q2N1/7q/3p4/PP3PPP/R3R1K1 b - - 5 20",
+      "source_url": "https://lichess.org/training/S9oho",
+      "themes": [
+        "mate",
+        "mateIn1",
+        "middlegame",
+        "oneMove"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "b6"
+          ],
+          "undefended": [
+            "a2",
+            "b6"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "e6"
+          ],
+          "undefended": [
+            "b1",
+            "b7",
+            "e6"
+          ]
+        }
+      },
+      "first_move_uci": "d8e8",
+      "presented_fen": "r3r3/1R6/pp2Q1pk/2p3q1/2P5/1P2P3/n5PP/1R4K1 w - - 1 32",
+      "puzzle_id": "SHlg0",
+      "rating": 2209,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "e6h3",
+        "g5h5",
+        "h3d7",
+        "a2c3",
+        "d7g7",
+        "h6g5",
+        "g7c3"
+      ],
+      "source_fen": "r2r4/1R6/pp2Q1pk/2p3q1/2P5/1P2P3/n5PP/1R4K1 b - - 0 31",
+      "source_url": "https://lichess.org/training/SHlg0",
+      "themes": [
+        "advantage",
+        "fork",
+        "master",
+        "middlegame",
+        "veryLong"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "a8"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "a2"
+          ],
+          "undefended": [
+            "a2"
+          ]
+        }
+      },
+      "first_move_uci": "f3d5",
+      "presented_fen": "r4kr1/p3b1p1/1pp2pQP/n2q4/3B4/N1P5/PP3P2/2K3R1 w - - 1 27",
+      "puzzle_id": "Sk4BC",
+      "rating": 1596,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "h6g7",
+        "g8g7",
+        "g6g7"
+      ],
+      "source_fen": "r4kr1/p3b1p1/1pp2pQP/n7/3B4/N1P2q2/PP3P2/2K3R1 b - - 0 26",
+      "source_url": "https://lichess.org/training/Sk4BC",
+      "themes": [
+        "advancedPawn",
+        "crushing",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "d4"
+          ],
+          "undefended": [
+            "d4",
+            "d8"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "c5",
+            "f2",
+            "g2"
+          ]
+        }
+      },
+      "first_move_uci": "d2g5",
+      "presented_fen": "3q2k1/2p1r1pp/8/2Qb2B1/3p4/5N2/rPP2PPP/2KR3R b - - 1 23",
+      "puzzle_id": "Sr0bz",
+      "rating": 2168,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "e7e2",
+        "c1b1",
+        "d8a8",
+        "c5d5",
+        "a8d5"
+      ],
+      "source_fen": "3q2k1/2p1r1pp/8/2Qb4/3p4/5N2/rPPB1PPP/2KR3R w - - 0 23",
+      "source_url": "https://lichess.org/training/Sr0bz",
+      "themes": [
+        "advantage",
+        "long",
+        "middlegame",
+        "quietMove"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "b2"
+          ],
+          "undefended": [
+            "b2",
+            "e7"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "b1"
+          ],
+          "undefended": [
+            "b1",
+            "c3"
+          ]
+        }
+      },
+      "first_move_uci": "d3c3",
+      "presented_fen": "r5k1/4pp1p/3p2p1/1PpP1b2/2P5/2Q2N1P/1p3PP1/rR1B2K1 b - - 5 33",
+      "puzzle_id": "T7F9a",
+      "rating": 2260,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "a1b1",
+        "g1h2",
+        "a8a2"
+      ],
+      "source_fen": "r5k1/4pp1p/3p2p1/1PpP1b2/2P5/3Q1N1P/1p3PP1/rR1B2K1 w - - 4 33",
+      "source_url": "https://lichess.org/training/T7F9a",
+      "themes": [
+        "crushing",
+        "defensiveMove",
+        "hangingPiece",
+        "middlegame",
+        "pin",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "e8"
+          ],
+          "undefended": [
+            "a1",
+            "b7",
+            "e8",
+            "h5"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "e2",
+            "g6"
+          ],
+          "undefended": [
+            "e2",
+            "g6"
+          ]
+        }
+      },
+      "first_move_uci": "e5g6",
+      "presented_fen": "4rnk1/1p4p1/p1p3N1/3p2Bp/1P4nP/P5Q1/4RPP1/b6K b - - 0 31",
+      "puzzle_id": "UMJX7",
+      "rating": 1820,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "e8e2",
+        "g6e7",
+        "g8h8"
+      ],
+      "source_fen": "4rnk1/1p4p1/p1p3r1/3pN1Bp/1P4nP/P5Q1/4RPP1/b6K w - - 1 31",
+      "source_url": "https://lichess.org/training/UMJX7",
+      "themes": [
+        "crushing",
+        "defensiveMove",
+        "hangingPiece",
+        "master",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "a8",
+            "b7",
+            "g7"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "c3",
+            "f2",
+            "h3"
+          ],
+          "undefended": [
+            "c3",
+            "f2",
+            "h3"
+          ]
+        }
+      },
+      "first_move_uci": "g6g5",
+      "presented_fen": "r3k3/pp2b1p1/2p1Q2r/2q1R1p1/6P1/2PP3P/P1P2P2/2KR4 w q - 0 22",
+      "puzzle_id": "UYwTj",
+      "rating": 2168,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "e6g8",
+        "e8d7",
+        "e5e7",
+        "c5e7",
+        "g8a8"
+      ],
+      "source_fen": "r3k3/pp2b1p1/2p1Q1pr/2q1R3/6P1/2PP3P/P1P2P2/2KR4 b q - 2 21",
+      "source_url": "https://lichess.org/training/UYwTj",
+      "themes": [
+        "crushing",
+        "discoveredAttack",
+        "exposedKing",
+        "long",
+        "middlegame"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "h6"
+          ],
+          "undefended": [
+            "a5",
+            "b7",
+            "h6"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "e5"
+          ],
+          "undefended": [
+            "e5",
+            "g2"
+          ]
+        }
+      },
+      "first_move_uci": "f4e5",
+      "presented_fen": "r4rk1/pp2pp2/2p2bpp/q3P3/2P5/2N4P/PP1QB1P1/2KR3R b - - 0 17",
+      "puzzle_id": "UoGW9",
+      "rating": 1560,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "f6g5",
+        "d2g5",
+        "h6g5"
+      ],
+      "source_fen": "r4rk1/pp2pp2/2p2bpp/q3n3/2P2P2/2N4P/PP1QB1P1/2KR3R w - - 0 17",
+      "source_url": "https://lichess.org/training/UoGW9",
+      "themes": [
+        "advantage",
+        "middlegame",
+        "pin",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "a3",
+            "d7"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "d4",
+            "f3"
+          ],
+          "undefended": [
+            "d4",
+            "f3"
+          ]
+        }
+      },
+      "first_move_uci": "e7f5",
+      "presented_fen": "5rk1/2pq1p1p/4pQp1/4Pn2/3PN3/r4P2/5P1P/2R2RK1 w - - 2 23",
+      "puzzle_id": "UqMVb",
+      "rating": 1726,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "f6f5",
+        "g6f5",
+        "e4f6",
+        "g8h8",
+        "f6d7"
+      ],
+      "source_fen": "5rk1/2pqnp1p/4pQp1/4P3/3PN3/r4P2/5P1P/2R2RK1 b - - 1 22",
+      "source_url": "https://lichess.org/training/UqMVb",
+      "themes": [
+        "advantage",
+        "fork",
+        "long",
+        "middlegame",
+        "sacrifice"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "f8"
+          ],
+          "undefended": [
+            "f8",
+            "g4",
+            "h7"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "g5"
+          ],
+          "undefended": [
+            "a2",
+            "b2",
+            "b5",
+            "c2",
+            "g5"
+          ]
+        }
+      },
+      "first_move_uci": "h8f8",
+      "presented_fen": "3k1r2/p2rn2p/3b2p1/1N4B1/6q1/3P4/PPP3P1/4RR1K w - - 0 26",
+      "puzzle_id": "VGkik",
+      "rating": 1151,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "f1f8"
+      ],
+      "source_fen": "3k1Q1r/p2rn2p/3b2p1/1N4B1/6q1/3P4/PPP3P1/4RR1K b - - 7 25",
+      "source_url": "https://lichess.org/training/VGkik",
+      "themes": [
+        "mate",
+        "mateIn1",
+        "middlegame",
+        "oneMove"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "d5",
+            "f6"
+          ],
+          "undefended": [
+            "d5",
+            "f6"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "g2"
+          ]
+        }
+      },
+      "first_move_uci": "g4d4",
+      "presented_fen": "1k1r3r/p1p4p/1p1b1p1P/3q4/3Q4/1P1PBP2/1PP3P1/2KR3R b - - 2 23",
+      "puzzle_id": "VN2v6",
+      "rating": 1120,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "d5d4",
+        "e3d4",
+        "d6f4",
+        "c1b1",
+        "d8d4"
+      ],
+      "source_fen": "1k1r3r/p1p4p/1p1b1p1P/3q4/6Q1/1P1PBP2/1PP3P1/2KR3R w - - 1 23",
+      "source_url": "https://lichess.org/training/VN2v6",
+      "themes": [
+        "advantage",
+        "discoveredAttack",
+        "long",
+        "middlegame",
+        "queensideAttack"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "a8",
+            "g7"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "c5"
+          ],
+          "undefended": [
+            "c5"
+          ]
+        }
+      },
+      "first_move_uci": "b7b6",
+      "presented_fen": "r3k2r/p2qpnbp/1p4p1/2BpPp2/P4P2/1P3Q2/6PP/1R2R1K1 w kq - 0 21",
+      "puzzle_id": "Xh8uB",
+      "rating": 1192,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "e5e6",
+        "d7c6",
+        "e6f7",
+        "e8f8",
+        "c5e7"
+      ],
+      "source_fen": "r3k2r/pp1qpnbp/6p1/2BpPp2/P4P2/1P3Q2/6PP/1R2R1K1 b kq - 3 20",
+      "source_url": "https://lichess.org/training/Xh8uB",
+      "themes": [
+        "advancedPawn",
+        "advantage",
+        "attackingF2F7",
+        "fork",
+        "long",
+        "middlegame"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "e1"
+          ],
+          "undefended": [
+            "b7",
+            "c7",
+            "e1"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "b2",
+            "c2",
+            "h5"
+          ]
+        }
+      },
+      "first_move_uci": "f5f1",
+      "presented_fen": "r7/ppn3pk/5r1p/7Q/8/2N3R1/PPP3PP/4qRK1 b - - 2 25",
+      "puzzle_id": "Z10Bx",
+      "rating": 442,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "e1f1"
+      ],
+      "source_fen": "r7/ppn3pk/5r1p/5R1Q/8/2N3R1/PPP3PP/4q1K1 w - - 1 25",
+      "source_url": "https://lichess.org/training/Z10Bx",
+      "themes": [
+        "mate",
+        "mateIn1",
+        "middlegame",
+        "oneMove"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "c3",
+            "d7"
+          ],
+          "undefended": [
+            "a6",
+            "c3",
+            "d7"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": []
+        }
+      },
+      "first_move_uci": "f3e4",
+      "presented_fen": "r3r1k1/p2n1ppp/b7/3R4/4B3/P1q1P3/2Q2PPP/1RB3K1 b - - 0 19",
+      "puzzle_id": "Z7JCC",
+      "rating": 952,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "c3e1"
+      ],
+      "source_fen": "r3r1k1/p2n1ppp/b7/3R4/4n3/P1q1PB2/2Q2PPP/1RB3K1 w - - 0 19",
+      "source_url": "https://lichess.org/training/Z7JCC",
+      "themes": [
+        "mate",
+        "mateIn1",
+        "middlegame",
+        "oneMove"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "d5"
+          ],
+          "undefended": [
+            "b7",
+            "d5",
+            "g7"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "d2",
+            "e6"
+          ],
+          "undefended": [
+            "b2",
+            "c2",
+            "d2",
+            "e6"
+          ]
+        }
+      },
+      "first_move_uci": "g6f5",
+      "presented_fen": "r6r/pp4pp/4R3/3p1k2/6n1/2N3Q1/PPPB1qPP/7K w - - 1 21",
+      "puzzle_id": "aWP5P",
+      "rating": 2128,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "e6e5",
+        "f5f6",
+        "c3d5",
+        "f6f7",
+        "e5e7"
+      ],
+      "source_fen": "r6r/pp4pp/4R1k1/3p4/6n1/2N3Q1/PPPB1qPP/7K b - - 0 20",
+      "source_url": "https://lichess.org/training/aWP5P",
+      "themes": [
+        "advantage",
+        "long",
+        "middlegame"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "g7"
+          ],
+          "undefended": [
+            "a8",
+            "g7"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "d4"
+          ],
+          "undefended": [
+            "a1",
+            "b2",
+            "c2",
+            "d4",
+            "h1",
+            "h4"
+          ]
+        }
+      },
+      "first_move_uci": "d7d6",
+      "presented_fen": "r1b4r/ppp1qQbp/2nkPp1p/3p4/3P3N/8/PPP3PP/RN2KB1R w KQ - 1 12",
+      "puzzle_id": "ahhHD",
+      "rating": 1033,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "h4f5"
+      ],
+      "source_fen": "r1b4r/pppkqQbp/2n1Pp1p/3p4/3P3N/8/PPP3PP/RN2KB1R b KQ - 0 11",
+      "source_url": "https://lichess.org/training/ahhHD",
+      "themes": [
+        "mate",
+        "mateIn1",
+        "middlegame",
+        "oneMove"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "a7",
+            "b7",
+            "d3",
+            "e8"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "c3"
+          ],
+          "undefended": [
+            "a2",
+            "c3",
+            "f1"
+          ]
+        }
+      },
+      "first_move_uci": "e6g6",
+      "presented_fen": "4r1k1/pp3ppp/2p3q1/4bN2/4P1Q1/1PPr3P/P5P1/2B2R1K w - - 3 33",
+      "puzzle_id": "b3Saf",
+      "rating": 1792,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "f5e7",
+        "g8h8",
+        "e7g6"
+      ],
+      "source_fen": "4r1k1/pp3ppp/2p1q3/4bN2/4P1Q1/1PPr3P/P5P1/2B2R1K b - - 2 32",
+      "source_url": "https://lichess.org/training/b3Saf",
+      "themes": [
+        "advantage",
+        "kingsideAttack",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "e4"
+          ],
+          "undefended": [
+            "a7",
+            "e4",
+            "h8"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "e3"
+          ],
+          "undefended": [
+            "a3",
+            "e3",
+            "e5"
+          ]
+        }
+      },
+      "first_move_uci": "b7b6",
+      "presented_fen": "4kb1r/p4ppp/1p2p3/2p1P3/2P1p1Q1/BP2P2P/P1r2qP1/RR5K w k - 0 19",
+      "puzzle_id": "bPf4R",
+      "rating": 2245,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "g4e4",
+        "f2g2",
+        "e4g2",
+        "c2g2",
+        "h1g2"
+      ],
+      "source_fen": "4kb1r/pp3ppp/4p3/2p1P3/2P1p1Q1/BP2P2P/P1r2qP1/RR5K b k - 1 18",
+      "source_url": "https://lichess.org/training/bPf4R",
+      "themes": [
+        "advantage",
+        "long",
+        "middlegame"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "d7"
+          ],
+          "undefended": [
+            "c5",
+            "d7",
+            "f4"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "a1",
+            "c2",
+            "f3"
+          ]
+        }
+      },
+      "first_move_uci": "e2e7",
+      "presented_fen": "r4rk1/pp1qQppp/3P4/2pp4/5n2/P4P2/BPPP3P/RNB1R1K1 b - - 2 16",
+      "puzzle_id": "bpivL",
+      "rating": 2116,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "d7h3",
+        "e7g5",
+        "h3f3",
+        "g5g3",
+        "f4h3",
+        "g3h3",
+        "f3h3"
+      ],
+      "source_fen": "r4rk1/pp1q1ppp/3P4/2pp4/5n2/P4P2/BPPPQ2P/RNB1R1K1 w - - 1 16",
+      "source_url": "https://lichess.org/training/bpivL",
+      "themes": [
+        "crushing",
+        "kingsideAttack",
+        "middlegame",
+        "veryLong",
+        "xRayAttack"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "c6",
+            "c7"
+          ],
+          "undefended": [
+            "c6",
+            "c7"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "d4"
+          ],
+          "undefended": [
+            "b7",
+            "d3",
+            "d4"
+          ]
+        }
+      },
+      "first_move_uci": "b4b7",
+      "presented_fen": "r3r1k1/pQp3pp/2p2p2/8/2PP2q1/2NB2Pb/PP3P1P/R4RK1 b - - 2 18",
+      "puzzle_id": "cTfKi",
+      "rating": 1320,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "g4f3",
+        "b7c6",
+        "f3c6"
+      ],
+      "source_fen": "r3r1k1/p1p3pp/2p2p2/8/1QPP2q1/2NB2Pb/PP3P1P/R4RK1 w - - 1 18",
+      "source_url": "https://lichess.org/training/cTfKi",
+      "themes": [
+        "crushing",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "a1",
+            "g4"
+          ],
+          "undefended": [
+            "a1",
+            "b7",
+            "c4",
+            "g4"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "b2"
+          ],
+          "undefended": [
+            "b2",
+            "h4"
+          ]
+        }
+      },
+      "first_move_uci": "h8g7",
+      "presented_fen": "r2q1r2/pp3pk1/3p1Np1/8/2n3bQ/P7/1P4PP/n4RK1 w - - 0 22",
+      "puzzle_id": "e0GPO",
+      "rating": 893,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "h4h7"
+      ],
+      "source_fen": "r2q1r1k/pp3pB1/3p1Np1/8/2n3bQ/P7/1P4PP/n4RK1 b - - 7 21",
+      "source_url": "https://lichess.org/training/e0GPO",
+      "themes": [
+        "mate",
+        "mateIn1",
+        "middlegame",
+        "oneMove"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "a7"
+          ],
+          "undefended": [
+            "a7",
+            "h8"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "g4"
+          ],
+          "undefended": [
+            "a2",
+            "g4"
+          ]
+        }
+      },
+      "first_move_uci": "f7f5",
+      "presented_fen": "2kr1b1r/ppp4p/2q3p1/5p2/6Q1/2P1B3/PP3P1P/2KR3R w - - 0 15",
+      "puzzle_id": "eroH2",
+      "rating": 2486,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "d1d8",
+        "c8d8",
+        "g4d4",
+        "d8c8",
+        "h1d1",
+        "f8g7",
+        "d4g7"
+      ],
+      "source_fen": "2kr1b1r/ppp2p1p/2q3p1/8/6Q1/2P1B3/PP3P1P/2KR3R b - - 1 14",
+      "source_url": "https://lichess.org/training/eroH2",
+      "themes": [
+        "advantage",
+        "attraction",
+        "fork",
+        "middlegame",
+        "quietMove",
+        "veryLong"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "c5",
+            "h7"
+          ],
+          "undefended": [
+            "a8",
+            "b7",
+            "c4",
+            "c5",
+            "h7"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "d8"
+          ],
+          "undefended": [
+            "a1",
+            "b2",
+            "c2",
+            "d8",
+            "h5"
+          ]
+        }
+      },
+      "first_move_uci": "g5d8",
+      "presented_fen": "r2B4/pppk3p/2n1r3/2b4Q/2pp4/8/PPP2PPP/RN4K1 b - - 0 15",
+      "puzzle_id": "fSIkO",
+      "rating": 735,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "e6e1"
+      ],
+      "source_fen": "r2q4/pppk3p/2n1r3/2b3BQ/2pp4/8/PPP2PPP/RN4K1 w - - 0 15",
+      "source_url": "https://lichess.org/training/fSIkO",
+      "themes": [
+        "backRankMate",
+        "mate",
+        "mateIn1",
+        "middlegame",
+        "oneMove"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "a5",
+            "b7",
+            "c5"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "a3",
+            "e6"
+          ],
+          "undefended": [
+            "a3",
+            "e6",
+            "f2",
+            "g1",
+            "h7"
+          ]
+        }
+      },
+      "first_move_uci": "e8e7",
+      "presented_fen": "r5r1/1b2k1BR/p3Bp2/qpp5/8/P1PP4/2PK1P2/6R1 w - - 1 29",
+      "puzzle_id": "hZ23S",
+      "rating": 2450,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "e6g8",
+        "a8g8",
+        "g7h6",
+        "e7e6",
+        "g1g8"
+      ],
+      "source_fen": "r3k1r1/1b4BR/p3Bp2/qpp5/8/P1PP4/2PK1P2/6R1 b - - 0 28",
+      "source_url": "https://lichess.org/training/hZ23S",
+      "themes": [
+        "crushing",
+        "discoveredAttack",
+        "discoveredCheck",
+        "long",
+        "middlegame"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "c7"
+          ],
+          "undefended": [
+            "c7",
+            "f6"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "f2"
+          ],
+          "undefended": [
+            "d3",
+            "f2"
+          ]
+        }
+      },
+      "first_move_uci": "e7c7",
+      "presented_fen": "3r2k1/R1r2p2/2p2qp1/2Qp4/3P3p/3BP2K/4NP2/8 w - - 0 31",
+      "puzzle_id": "hwL76",
+      "rating": 1708,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "a7c7",
+        "f6f3",
+        "h3h4",
+        "f3f2",
+        "e2g3"
+      ],
+      "source_fen": "3r2k1/R1R1rp2/2p2qp1/2Qp4/3P3p/3BP2K/4NP2/8 b - - 0 30",
+      "source_url": "https://lichess.org/training/hwL76",
+      "themes": [
+        "advantage",
+        "defensiveMove",
+        "long",
+        "middlegame"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "a7"
+          ],
+          "undefended": [
+            "a7"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "d4"
+          ],
+          "undefended": [
+            "a6",
+            "b2",
+            "d4",
+            "e1"
+          ]
+        }
+      },
+      "first_move_uci": "c7c5",
+      "presented_fen": "2r3k1/p4pp1/Qp1rpn1p/2qnN3/3R4/6N1/PP3PPP/4R1K1 w - - 9 26",
+      "puzzle_id": "i5Xow",
+      "rating": 1579,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "d4c4",
+        "c5c4",
+        "e5c4"
+      ],
+      "source_fen": "2r3k1/p1q2pp1/Qp1rpn1p/3nN3/3R4/6N1/PP3PPP/4R1K1 b - - 8 25",
+      "source_url": "https://lichess.org/training/i5Xow",
+      "themes": [
+        "advantage",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "e5",
+            "h8"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "c5"
+          ],
+          "undefended": [
+            "b2",
+            "b5",
+            "c2",
+            "c5",
+            "d2",
+            "h4"
+          ]
+        }
+      },
+      "first_move_uci": "d7e5",
+      "presented_fen": "r1q1kb1r/1p3p2/4p1pn/1PPpn1Np/7P/5Q2/1PPB1PP1/R4RK1 w kq - 0 17",
+      "puzzle_id": "iQZNb",
+      "rating": 1749,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "f3f6",
+        "a8a1",
+        "f1a1",
+        "h8g8",
+        "f6e5"
+      ],
+      "source_fen": "r1q1kb1r/1p1n1p2/4p1pn/1PPpP1Np/7P/5Q2/1PPB1PP1/R4RK1 b kq - 0 16",
+      "source_url": "https://lichess.org/training/iQZNb",
+      "themes": [
+        "advantage",
+        "fork",
+        "long",
+        "middlegame"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "c5",
+            "g3"
+          ],
+          "undefended": [
+            "c5",
+            "g3",
+            "h6"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "a1",
+            "c4",
+            "e5",
+            "f2"
+          ]
+        }
+      },
+      "first_move_uci": "e2e5",
+      "presented_fen": "2k2r2/pp1q4/2p4p/2b1Q3/P1Pp4/2B2PrP/1P3RP1/R6K b - - 1 29",
+      "puzzle_id": "iWE6g",
+      "rating": 2387,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "g3g5",
+        "e5c5",
+        "g5c5"
+      ],
+      "source_fen": "2k2r2/pp1q4/2p4p/2b5/P1Pp4/2B2PrP/1P2QRP1/R6K w - - 0 29",
+      "source_url": "https://lichess.org/training/iWE6g",
+      "themes": [
+        "crushing",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "a4",
+            "b7"
+          ],
+          "undefended": [
+            "a4",
+            "b7",
+            "c4"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "g4",
+            "h4"
+          ]
+        }
+      },
+      "first_move_uci": "b3c5",
+      "presented_fen": "3rr1k1/1pp1qp1p/2n3p1/2N1P1N1/p1nPQPPP/P7/1P6/1R1R2K1 b - - 1 26",
+      "puzzle_id": "j7B7X",
+      "rating": 2282,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "d8d4",
+        "d1d4",
+        "e7c5"
+      ],
+      "source_fen": "3rr1k1/1pp1qp1p/2n3p1/4P1N1/p1nPQPPP/PN6/1P6/1R1R2K1 w - - 0 26",
+      "source_url": "https://lichess.org/training/j7B7X",
+      "themes": [
+        "advantage",
+        "capturingDefender",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "b7"
+          ],
+          "undefended": [
+            "a7",
+            "b7",
+            "c7",
+            "e8",
+            "g3"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "a2",
+            "a3",
+            "d1",
+            "e3"
+          ]
+        }
+      },
+      "first_move_uci": "f1f2",
+      "presented_fen": "4r1k1/ppp2pbp/8/4p3/4B3/BP2PPqp/P1P2RP1/3Q2K1 b - - 1 26",
+      "puzzle_id": "jTEFj",
+      "rating": 1275,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "h3h2",
+        "g1h1",
+        "g3f2"
+      ],
+      "source_fen": "4r1k1/ppp2pbp/8/4p3/4B3/BP2PPqp/P1P3P1/3Q1RK1 w - - 0 26",
+      "source_url": "https://lichess.org/training/jTEFj",
+      "themes": [
+        "advancedPawn",
+        "advantage",
+        "deflection",
+        "kingsideAttack",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "a6",
+            "h3"
+          ],
+          "undefended": [
+            "a6",
+            "c7",
+            "h3"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "b2",
+            "c5"
+          ],
+          "undefended": [
+            "a8",
+            "b2",
+            "c5"
+          ]
+        }
+      },
+      "first_move_uci": "e1f1",
+      "presented_fen": "Q7/2p3pk/p6p/1pN5/5r2/2P4b/PP3qP1/R4R1K b - - 2 27",
+      "puzzle_id": "jcg2s",
+      "rating": 1637,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "h3g2",
+        "a8g2",
+        "f4h4",
+        "g2h2",
+        "h4h2"
+      ],
+      "source_fen": "Q7/2p3pk/p6p/1pN5/5r2/2P4b/PP3qP1/R3R2K w - - 1 27",
+      "source_url": "https://lichess.org/training/jcg2s",
+      "themes": [
+        "fork",
+        "long",
+        "mate",
+        "mateIn3",
+        "middlegame",
+        "sacrifice"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "a8",
+            "c2",
+            "g4",
+            "h8"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "g3"
+          ],
+          "undefended": [
+            "a1",
+            "b2",
+            "f7",
+            "g3"
+          ]
+        }
+      },
+      "first_move_uci": "d8c8",
+      "presented_fen": "rnk4r/p4Q2/2p1N3/3p4/6n1/6P1/PPb2bB1/R4K2 w - - 3 25",
+      "puzzle_id": "kvak7",
+      "rating": 899,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "f7c7"
+      ],
+      "source_fen": "rn1k3r/p4Q2/2p1N3/3p4/6n1/6P1/PPb2bB1/R4K2 b - - 2 24",
+      "source_url": "https://lichess.org/training/kvak7",
+      "themes": [
+        "master",
+        "mate",
+        "mateIn1",
+        "middlegame",
+        "oneMove"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "b4"
+          ],
+          "undefended": [
+            "b4",
+            "c6"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "e4",
+            "f4"
+          ],
+          "undefended": [
+            "e4",
+            "f4"
+          ]
+        }
+      },
+      "first_move_uci": "e5c4",
+      "presented_fen": "r3r1k1/5q2/2p3p1/1p6/1pn1PP2/8/1Q2B3/2KR3R w - - 1 31",
+      "puzzle_id": "n0mLP",
+      "rating": 758,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "b2h8"
+      ],
+      "source_fen": "r3r1k1/5q2/2p3p1/1p2n3/1p2PP2/8/1Q2B3/2KR3R b - - 0 30",
+      "source_url": "https://lichess.org/training/n0mLP",
+      "themes": [
+        "mate",
+        "mateIn1",
+        "middlegame",
+        "oneMove"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "g5"
+          ],
+          "undefended": [
+            "b7",
+            "c5",
+            "c7",
+            "g5"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "a1",
+            "b2",
+            "h1"
+          ]
+        }
+      },
+      "first_move_uci": "e4g6",
+      "presented_fen": "4rr1k/ppp5/4B1Q1/2bP2qP/2P3P1/N4N2/PP4P1/R4K1R b - - 2 25",
+      "puzzle_id": "n4M5w",
+      "rating": 2660,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "g5e3",
+        "g6c2",
+        "f8f3",
+        "g2f3",
+        "e3f3",
+        "f1e1",
+        "c5b4",
+        "c2c3",
+        "b4c3"
+      ],
+      "source_fen": "4rr1k/ppp5/4B3/2bP2qP/2P1Q1P1/N4N2/PP4P1/R4K1R w - - 1 25",
+      "source_url": "https://lichess.org/training/n4M5w",
+      "themes": [
+        "crushing",
+        "fork",
+        "middlegame",
+        "veryLong"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "f1",
+            "g6"
+          ],
+          "undefended": [
+            "b7",
+            "f1",
+            "g6"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "b2",
+            "g5"
+          ],
+          "undefended": [
+            "a1",
+            "b2",
+            "c2",
+            "g5"
+          ]
+        }
+      },
+      "first_move_uci": "c4f1",
+      "presented_fen": "r2qrk2/ppp3bQ/2np2p1/6N1/4P3/8/PPP3PP/R4bK1 w - - 0 20",
+      "puzzle_id": "oNe5T",
+      "rating": 1262,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "a1f1",
+        "d8f6",
+        "f1f6"
+      ],
+      "source_fen": "r2qrk2/ppp3bQ/2np2p1/6N1/2b1P3/8/PPP3PP/R4RK1 b - - 1 19",
+      "source_url": "https://lichess.org/training/oNe5T",
+      "themes": [
+        "crushing",
+        "master",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "c8",
+            "g7",
+            "h8"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "a4",
+            "b2"
+          ],
+          "undefended": [
+            "a4",
+            "b2",
+            "e4",
+            "h1"
+          ]
+        }
+      },
+      "first_move_uci": "b4c3",
+      "presented_fen": "rnb1k1nr/3p1ppp/2p1p3/q7/R2PP3/2b1BN2/1PPQ1PPP/4KB1R w Kkq - 0 10",
+      "puzzle_id": "oNuz1",
+      "rating": 1543,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "a4a5",
+        "c3d2",
+        "e3d2",
+        "a8a5",
+        "d2a5"
+      ],
+      "source_fen": "rnb1k1nr/3p1ppp/2p1p3/q7/Rb1PP3/2N1BN2/1PPQ1PPP/4KB1R b Kkq - 0 9",
+      "source_url": "https://lichess.org/training/oNuz1",
+      "themes": [
+        "advantage",
+        "long",
+        "middlegame"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "a8",
+            "b6",
+            "e5",
+            "f8"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "a2"
+          ],
+          "undefended": [
+            "a2",
+            "g5"
+          ]
+        }
+      },
+      "first_move_uci": "c6e5",
+      "presented_fen": "r1b2r1k/1p4pp/1q4p1/4n1P1/2Q5/1PP5/PB6/2KR3R w - - 0 23",
+      "puzzle_id": "oV8jc",
+      "rating": 1447,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "h1h7",
+        "h8h7",
+        "d1h1",
+        "c8h3",
+        "h1h3"
+      ],
+      "source_fen": "r1b2r1k/1p4pp/1qn3p1/4P1P1/2Q5/1PP5/PB6/2KR3R b - - 0 22",
+      "source_url": "https://lichess.org/training/oV8jc",
+      "themes": [
+        "attraction",
+        "long",
+        "mate",
+        "mateIn3",
+        "middlegame",
+        "sacrifice"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "a5"
+          ],
+          "undefended": [
+            "a5",
+            "g2"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "e2",
+            "e4",
+            "g5",
+            "h7"
+          ],
+          "undefended": [
+            "a2",
+            "e2",
+            "e4",
+            "g5",
+            "h7"
+          ]
+        }
+      },
+      "first_move_uci": "f2g2",
+      "presented_fen": "4r1k1/1b5R/2qp2p1/p1p1n1P1/4P3/2Q5/PP2N1r1/2KR4 w - - 0 30",
+      "puzzle_id": "p1sDa",
+      "rating": 2221,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "c3h3",
+        "e5f7",
+        "h7f7",
+        "g8f7",
+        "h3h7",
+        "f7e6",
+        "e2f4"
+      ],
+      "source_fen": "4r1k1/1b5R/2qp2p1/p1p1n1P1/4P3/2Q5/PP2NrB1/2KR4 b - - 0 29",
+      "source_url": "https://lichess.org/training/p1sDa",
+      "themes": [
+        "attraction",
+        "crushing",
+        "exposedKing",
+        "middlegame",
+        "sacrifice",
+        "veryLong"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "e7"
+          ],
+          "undefended": [
+            "a8",
+            "e7"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "c2",
+            "g5"
+          ],
+          "undefended": [
+            "b2",
+            "c2",
+            "c4",
+            "e5",
+            "g5"
+          ]
+        }
+      },
+      "first_move_uci": "f1f7",
+      "presented_fen": "r3nrk1/p1p1bRpp/1p4b1/4P1N1/2B3P1/2N4P/PPP5/3R2K1 b - - 0 17",
+      "puzzle_id": "r2Zx0",
+      "rating": 2273,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "f8f7",
+        "g5f7",
+        "g6f7",
+        "e5e6",
+        "f7g6"
+      ],
+      "source_fen": "r3nrk1/p1p1bppp/1p4b1/4P1N1/2B3P1/2N4P/PPP5/3R1RK1 w - - 1 17",
+      "source_url": "https://lichess.org/training/r2Zx0",
+      "themes": [
+        "advantage",
+        "long",
+        "middlegame"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "a7"
+          ],
+          "undefended": [
+            "a7",
+            "h3",
+            "h7"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "b3",
+            "h5"
+          ]
+        }
+      },
+      "first_move_uci": "e2h5",
+      "presented_fen": "2kr4/ppq2p1p/2pbppr1/7B/1P6/PQPPB1Pb/5P1P/3RR1K1 b - - 6 22",
+      "puzzle_id": "raFAv",
+      "rating": 2103,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "d6g3",
+        "h5g6",
+        "g3h2"
+      ],
+      "source_fen": "2kr4/ppq2p1p/2pbppr1/8/1P6/PQPPB1Pb/4BP1P/3RR1K1 w - - 5 22",
+      "source_url": "https://lichess.org/training/raFAv",
+      "themes": [
+        "crushing",
+        "kingsideAttack",
+        "middlegame",
+        "sacrifice",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "b1",
+            "c7",
+            "d4"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "c5"
+          ],
+          "undefended": [
+            "c5"
+          ]
+        }
+      },
+      "first_move_uci": "f5b1",
+      "presented_fen": "r4rk1/2p2ppp/p7/2N1P3/2pq1P2/P6P/1P2Q1P1/1bB1R2K w - - 0 24",
+      "puzzle_id": "s3eUK",
+      "rating": 1420,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "c1e3",
+        "d4d5",
+        "e1b1"
+      ],
+      "source_fen": "r4rk1/2p2ppp/p7/2N1Pb2/2pq1P2/P6P/1P2Q1P1/1RB1R2K b - - 0 23",
+      "source_url": "https://lichess.org/training/s3eUK",
+      "themes": [
+        "crushing",
+        "discoveredAttack",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "e6",
+            "e7"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "d2"
+          ],
+          "undefended": [
+            "a4",
+            "d2",
+            "f2",
+            "g2"
+          ]
+        }
+      },
+      "first_move_uci": "e5c4",
+      "presented_fen": "1r6/2k1b3/1pp1bp2/p5p1/N1n1Pp1p/P4P1P/1PPRBBP1/1K6 w - - 4 25",
+      "puzzle_id": "ths1a",
+      "rating": 2106,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "e2c4",
+        "e6c4",
+        "f2b6",
+        "b8b6",
+        "d2d7",
+        "c7d7",
+        "a4b6",
+        "d7e6",
+        "b6c4"
+      ],
+      "source_fen": "1r6/2k1b3/1pp1bp2/p3n1p1/N3Pp1p/P4P1P/1PPRBBP1/1K6 b - - 3 24",
+      "source_url": "https://lichess.org/training/ths1a",
+      "themes": [
+        "advantage",
+        "attraction",
+        "fork",
+        "middlegame",
+        "sacrifice",
+        "veryLong"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "f5"
+          ],
+          "undefended": [
+            "b7",
+            "f5"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "b2",
+            "c2",
+            "d5",
+            "e2"
+          ]
+        }
+      },
+      "first_move_uci": "d1d5",
+      "presented_fen": "r2qr1k1/pp3pp1/2nb3p/3Q1b2/1P2n3/2P2N1P/PBN1BPP1/R4RK1 b - - 0 15",
+      "puzzle_id": "uAiNG",
+      "rating": 1331,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "d6h2",
+        "g1h2",
+        "d8d5"
+      ],
+      "source_fen": "r2qr1k1/pp3pp1/2nb3p/3p1b2/1P2n3/2P2N1P/PBN1BPP1/R2Q1RK1 w - - 7 15",
+      "source_url": "https://lichess.org/training/uAiNG",
+      "themes": [
+        "crushing",
+        "discoveredAttack",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "h8"
+          ],
+          "undefended": [
+            "e7",
+            "h8"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "b3",
+            "h3"
+          ]
+        }
+      },
+      "first_move_uci": "a6a8",
+      "presented_fen": "R6r/1k1bqp2/1p1p4/1Pp2pPp/2PpP3/1Q1PnN1B/5K2/R7 b - - 0 32",
+      "puzzle_id": "v8Fcv",
+      "rating": 2153,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "h8a8",
+        "a1a8",
+        "b7a8",
+        "b3a4",
+        "a8b8",
+        "a4a6",
+        "e7d8"
+      ],
+      "source_fen": "r6r/1k1bqp2/Rp1p4/1Pp2pPp/2PpP3/1Q1PnN1B/5K2/R7 w - - 4 32",
+      "source_url": "https://lichess.org/training/v8Fcv",
+      "themes": [
+        "crushing",
+        "middlegame",
+        "veryLong"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "b7",
+            "e5"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "e3"
+          ],
+          "undefended": [
+            "e3"
+          ]
+        }
+      },
+      "first_move_uci": "f6d5",
+      "presented_fen": "r2q1rk1/1pp1bpp1/p6p/3nn3/3N4/P1N1BP2/1PQ3PP/3R1RK1 w - - 0 17",
+      "puzzle_id": "v90UZ",
+      "rating": 2047,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "c3d5",
+        "d8d5",
+        "d4f5",
+        "d5e6",
+        "f5e7",
+        "e6e7",
+        "e3c5"
+      ],
+      "source_fen": "r2q1rk1/1pp1bpp1/p4n1p/3Pn3/3N4/P1N1BP2/1PQ3PP/3R1RK1 b - - 2 16",
+      "source_url": "https://lichess.org/training/v90UZ",
+      "themes": [
+        "crushing",
+        "middlegame",
+        "veryLong"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "e5"
+          ],
+          "undefended": [
+            "a7",
+            "e5",
+            "g2",
+            "g7"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "b5"
+          ],
+          "undefended": [
+            "b5"
+          ]
+        }
+      },
+      "first_move_uci": "b7c6",
+      "presented_fen": "1r5r/p3k1pp/2p5/1Q2p3/1P1p2P1/P3b2P/1BP3q1/1K3RN1 w - - 0 26",
+      "puzzle_id": "wvCm9",
+      "rating": 1567,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "b5e5",
+        "e7d8",
+        "e5b8"
+      ],
+      "source_fen": "1r5r/pp2k1pp/2P5/1Q2p3/1P1p2P1/P3b2P/1BP3q1/1K3RN1 b - - 1 25",
+      "source_url": "https://lichess.org/training/wvCm9",
+      "themes": [
+        "crushing",
+        "interference",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "b7"
+          ],
+          "undefended": [
+            "b7",
+            "g5"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "a2",
+            "c4",
+            "d1",
+            "d5"
+          ]
+        }
+      },
+      "first_move_uci": "b3d1",
+      "presented_fen": "7r/1p2k3/p3P3/2NP2p1/1PRb1r2/P4p2/R4P2/3B2K1 b - - 9 37",
+      "puzzle_id": "ww80g",
+      "rating": 1074,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "f4g4",
+        "g1f1",
+        "h8h1"
+      ],
+      "source_fen": "7r/1p2k3/p3P3/2NP2p1/1PRb1r2/PB3p2/R4P2/6K1 w - - 8 37",
+      "source_url": "https://lichess.org/training/ww80g",
+      "themes": [
+        "mate",
+        "mateIn2",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "f8"
+          ],
+          "undefended": [
+            "a5",
+            "f8"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "e1"
+          ],
+          "undefended": [
+            "a1",
+            "e1",
+            "g4"
+          ]
+        }
+      },
+      "first_move_uci": "f3e1",
+      "presented_fen": "5r1k/p5pp/8/q2p4/6Q1/8/PPP2RPP/R1B1N1K1 b - - 0 20",
+      "puzzle_id": "x6FHd",
+      "rating": 863,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "a5e1",
+        "f2f1",
+        "e1f1"
+      ],
+      "source_fen": "5r1k/p5pp/8/q2p4/6Q1/5N2/PPP2RPP/R1B1r1K1 w - - 5 20",
+      "source_url": "https://lichess.org/training/x6FHd",
+      "themes": [
+        "mate",
+        "mateIn2",
+        "middlegame",
+        "short"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "c7"
+          ],
+          "undefended": [
+            "a7",
+            "b7",
+            "c7",
+            "e6",
+            "h5"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "b2",
+            "e4"
+          ]
+        }
+      },
+      "first_move_uci": "f1g1",
+      "presented_fen": "5kr1/ppp5/4r3/3NN2n/2P1PP2/7K/PP6/R5R1 b - - 2 32",
+      "puzzle_id": "yAirA",
+      "rating": 1625,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "h5f4",
+        "d5f4",
+        "e6h6",
+        "f4h5",
+        "h6h5"
+      ],
+      "source_fen": "5kr1/ppp5/4r3/3NN2n/2P1PP2/7K/PP6/R4R2 w - - 1 32",
+      "source_url": "https://lichess.org/training/yAirA",
+      "themes": [
+        "exposedKing",
+        "long",
+        "mate",
+        "mateIn3",
+        "middlegame",
+        "sacrifice"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "f7",
+            "g4"
+          ],
+          "undefended": [
+            "a8",
+            "b7",
+            "d6",
+            "f7",
+            "g4",
+            "g7",
+            "h8"
+          ]
+        },
+        "white": {
+          "hanging": [],
+          "undefended": [
+            "a1",
+            "c2",
+            "f5"
+          ]
+        }
+      },
+      "first_move_uci": "b5f5",
+      "presented_fen": "r2k3r/1p3ppp/3q4/p4Q2/6n1/3P4/PPP2PPP/R1B2RK1 b - - 2 18",
+      "puzzle_id": "yvoBZ",
+      "rating": 412,
+      "side_to_move": "black",
+      "solution_moves_uci": [
+        "d6h2"
+      ],
+      "source_fen": "r2k3r/1p3ppp/3q4/pQ6/6n1/3P4/PPP2PPP/R1B2RK1 w - - 1 18",
+      "source_url": "https://lichess.org/training/yvoBZ",
+      "themes": [
+        "kingsideAttack",
+        "mate",
+        "mateIn1",
+        "middlegame",
+        "oneMove"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [
+            "h7"
+          ],
+          "undefended": [
+            "a5",
+            "h7"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "f3",
+            "f5"
+          ],
+          "undefended": [
+            "a2",
+            "d2",
+            "f3",
+            "f5"
+          ]
+        }
+      },
+      "first_move_uci": "g7f6",
+      "presented_fen": "3q1r2/5p1p/1n3k2/p2p1B2/1p1P4/2r2P1P/P1PQ1P1K/6R1 w - - 2 29",
+      "puzzle_id": "z62Py",
+      "rating": 1253,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "d2g5"
+      ],
+      "source_fen": "3q1r2/5pkp/1n6/p2p1B2/1p1P4/2r2P1P/P1PQ1P1K/6R1 b - - 1 28",
+      "source_url": "https://lichess.org/training/z62Py",
+      "themes": [
+        "mate",
+        "mateIn1",
+        "middlegame",
+        "oneMove"
+      ]
+    },
+    {
+      "answers_by_color": {
+        "black": {
+          "hanging": [],
+          "undefended": [
+            "a7"
+          ]
+        },
+        "white": {
+          "hanging": [
+            "c4"
+          ],
+          "undefended": [
+            "a1",
+            "b2",
+            "c2",
+            "c4",
+            "d2",
+            "f5",
+            "h3"
+          ]
+        }
+      },
+      "first_move_uci": "c6d5",
+      "presented_fen": "2r1r1k1/pp2qpp1/3b1n1p/3p1RP1/2Q5/2N4P/PPPB1P2/R5K1 w - - 0 20",
+      "puzzle_id": "zf8qQ",
+      "rating": 1560,
+      "side_to_move": "white",
+      "solution_moves_uci": [
+        "g5f6",
+        "d5c4",
+        "f6e7"
+      ],
+      "source_fen": "2r1r1k1/pp2qpp1/2pb1n1p/3P1RP1/2Q5/2N4P/PPPB1P2/R5K1 b - - 0 19",
+      "source_url": "https://lichess.org/training/zf8qQ",
+      "themes": [
+        "advancedPawn",
+        "advantage",
+        "middlegame",
+        "short"
+      ]
+    }
+  ],
+  "rules_version": "1.0.0",
+  "schema_version": 2,
+  "selection_seed": 20260809,
+  "source": {
+    "name": "lichess_db_puzzle.csv.zst",
+    "sha256": "a0ea9129c6b6434dfb34a9ac4ec660c9cfff22b2de465e01854f018fc847f073",
+    "url": "https://database.lichess.org/lichess_db_puzzle.csv.zst"
+  }
+}

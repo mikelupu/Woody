@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hanging Piece Trainer · Mini Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='minigame.css') }}">
+    <script src="{{ url_for('static', filename='minigame.js') }}" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div>
+        <p class="eyebrow">Private · Local · Deliberate</p>
+        <h1>Chess Mini Game</h1>
+        <nav class="nav-pills" aria-label="Sections">
+          <a href="{{ url_for('index') }}">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3 3 8l9 5 9-5-9-5zm0 7L3 15l9 5 9-5-9-5z"/></svg>
+            Hanging trainer
+          </a>
+          <a href="{{ url_for('tactics_page') }}">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6 6.6.6-5 4.4 1.5 6.5L12 16.9l-6 3.6 1.5-6.5-5-4.4L9.1 8z"/></svg>
+            Tactics
+          </a>
+          <a href="{{ url_for('minigame') }}" class="current" aria-current="page">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 4h6v6H4zm10 0h6v6h-6zM4 14h6v6H4zm10 0h6v6h-6z"/></svg>
+            Mini game
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="trainer" aria-labelledby="minigame-title">
+        <div class="board-column">
+          <h2 id="minigame-title" class="visually-hidden">Two-minute capture rush</h2>
+          <div class="game-panel" role="group" aria-label="Game state and controls">
+            <dl class="panel-stats" aria-label="Score">
+              <div><dt>Time</dt><dd id="timer">2:00</dd></div>
+              <div><dt>White</dt><dd id="score-white">0</dd></div>
+              <div><dt>Black</dt><dd id="score-black">0</dd></div>
+              <div><dt>Best</dt><dd id="best-score">0</dd></div>
+            </dl>
+            <div class="panel-actions">
+              <button id="start" class="start-btn" type="button">Start game</button>
+              <button id="config-open" class="icon-button" type="button" aria-label="Game settings" title="Game settings">
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+                  <path fill="currentColor" d="M19.14 12.94c.04-.31.06-.62.06-.94s-.02-.63-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.61-.22l-2.39.96a7.03 7.03 0 0 0-1.63-.95l-.36-2.54a.5.5 0 0 0-.5-.42h-3.84a.5.5 0 0 0-.5.42l-.36 2.54c-.59.24-1.13.56-1.63.95l-2.39-.96a.5.5 0 0 0-.61.22L2.63 8.84a.5.5 0 0 0 .12.64l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32c.14.24.42.34.68.22l2.39-.96c.5.39 1.04.71 1.63.95l.36 2.54c.05.24.26.42.5.42h3.84c.24 0 .45-.18.5-.42l.36-2.54c.59-.24 1.13-.56 1.63-.95l2.39.96c.26.12.54.02.68-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58ZM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div id="board" class="board" role="grid" aria-label="Chess board"></div>
+          <div id="board-status" class="status" role="status" aria-live="polite">Click Start game to begin.</div>
+        </div>
+
+        <aside class="controls" aria-label="Rules">
+          <h2>How to play</h2>
+          <ul class="rules">
+            <li>You are white. Both sides start with two pieces.</li>
+            <li>Click a white piece, then click a highlighted target to move.</li>
+            <li>Capture to score: knight and bishop = 3, rook = 5, queen = 9.</li>
+            <li>After any capture, a new piece spawns on a random empty square.</li>
+            <li>Only legal chess moves. No kings, no check.</li>
+            <li>Highest white score at time-up wins. Best score is saved locally.</li>
+          </ul>
+        </aside>
+      </section>
+    </main>
+
+    <dialog id="config-dialog" class="config-dialog" aria-labelledby="config-title">
+      <form id="config-form" method="dialog">
+        <h2 id="config-title">Game settings</h2>
+        <label class="config-field">
+          <span>Duration</span>
+          <select id="duration">
+            <option value="60">1:00</option>
+            <option value="120" selected>2:00</option>
+            <option value="180">3:00</option>
+            <option value="300">5:00</option>
+          </select>
+        </label>
+        <p class="muted">New duration applies to the next game you start.</p>
+        <div class="dialog-actions">
+          <button type="button" id="config-cancel" class="dialog-btn">Cancel</button>
+          <button type="submit" value="save" class="dialog-btn dialog-btn-primary">Save</button>
+        </div>
+      </form>
+    </dialog>
+  </body>
+</html>
