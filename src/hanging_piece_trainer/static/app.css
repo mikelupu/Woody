@@ -180,6 +180,19 @@ main { width: min(1180px, calc(100% - 2rem)); margin: 2rem auto 4rem; }
 }
 .square.light { background: var(--light-square); }
 .square.dark { background: var(--dark-square); }
+.square.piece-white {
+  color: #fff;
+  text-shadow:
+    -1px -1px 0 #151a16,
+    1px -1px 0 #151a16,
+    -1px 1px 0 #151a16,
+    1px 1px 0 #151a16,
+    0 0 3px rgb(0 0 0 / 40%);
+}
+.square.piece-black {
+  color: #151a16;
+  text-shadow: 0 0 1px rgb(255 255 255 / 55%);
+}
 .square:disabled { cursor: default; }
 .square[data-file]::after { content: attr(data-file); right: .18rem; bottom: .05rem; }
 .square[data-rank]::before { content: attr(data-rank); left: .18rem; top: .05rem; }

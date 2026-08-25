@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 import os
+import shutil
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlsplit
@@ -19,6 +20,9 @@ from .catalog import (
 from .repository import ProgressRepository, RepositoryError
 from .service import (
     ApplicationError,
+    EngineHost,
+    PawnGameService,
+    PawnSessionStore,
     PresentationStore,
     SolveStore,
     TacticsService,
@@ -34,6 +38,7 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
         CATALOG_TACTICS_PATH=os.environ.get(
             "HPT_TACTICS_CATALOG_PATH", str(default_tactics_catalog_path())
         ),
+        STOCKFISH_PATH=_resolve_stockfish_path(),
         DATABASE=str(Path(app.instance_path) / "progress.sqlite3"),
         PRESENTATION_TTL_SECONDS=7200,
         JSON_SORT_KEYS=False,
@@ -84,11 +89,19 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
         if catalog_tactics is not None and database_error is None
         else None
     )
+
+    engine_host = EngineHost(app.config.get("STOCKFISH_PATH"))
+    pawn_service = PawnGameService(
+        engine_host, PawnSessionStore(ttl_seconds=app.config["PRESENTATION_TTL_SECONDS"])
+    )
+
     app.extensions["catalog"] = catalog
     app.extensions["catalog_tactics"] = catalog_tactics
     app.extensions["repository"] = repository
     app.extensions["training_service"] = training_service
     app.extensions["tactics_service"] = tactics_service
+    app.extensions["engine"] = engine_host
+    app.extensions["pawn_service"] = pawn_service
 
     def require_training() -> TrainingService:
         current = app.extensions["training_service"]
@@ -168,6 +181,14 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
     def tactics_page():
         return render_template("tactics.html")
 
+    @app.get("/tactics/stats")
+    def tactics_stats_page():
+        return render_template("tactics_stats.html")
+
+    @app.get("/pawn-war")
+    def pawn_page():
+        return render_template("pawn.html")
+
     @app.get("/api/v1/puzzles/next")
     def next_puzzle():
         previous_id = request.args.get("previous_id")
@@ -199,6 +220,26 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
         rows = repository.history(limit=limit, offset=offset)
         return jsonify({"attempts": rows, "limit": limit, "offset": offset})
 
+    @app.post("/api/v1/pawn/new")
+    def pawn_new():
+        _require_same_origin_json()
+        payload = request.get_json(silent=True)
+        if payload is None:
+            raise ApplicationError("invalid_json", "A JSON request body is required")
+        return jsonify(pawn_service.new_game(payload))
+
+    @app.post("/api/v1/pawn/move")
+    def pawn_move():
+        _require_same_origin_json()
+        payload = request.get_json(silent=True)
+        if payload is None:
+            raise ApplicationError("invalid_json", "A JSON request body is required")
+        return jsonify(pawn_service.submit_move(payload))
+
+    @app.get("/api/v1/pawn/health")
+    def pawn_health():
+        return jsonify(engine_host.status())
+
     @app.get("/api/v1/tactics/puzzles/next")
     def next_tactic():
         previous_id = request.args.get("previous_id")
@@ -212,10 +253,37 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
             raise ApplicationError("invalid_json", "A JSON request body is required")
         return jsonify(require_tactics().submit_move(payload))
 
+    @app.post("/api/v1/tactics/reveal")
+    def submit_tactic_reveal():
+        _require_same_origin_json()
+        payload = request.get_json(silent=True)
+        if payload is None:
+            raise ApplicationError("invalid_json", "A JSON request body is required")
+        return jsonify(require_tactics().reveal(payload))
+
     @app.get("/api/v1/tactics/stats")
     def tactic_stats():
         require_tactics()
         return jsonify(repository.solve_stats())
+
+    @app.get("/api/v1/tactics/batches")
+    def tactic_batches():
+        require_tactics()
+        try:
+            limit = int(request.args.get("limit", "100"))
+            offset = int(request.args.get("offset", "0"))
+        except ValueError as exc:
+            raise ApplicationError(
+                "invalid_pagination", "Pagination values must be integers"
+            ) from exc
+        return jsonify(
+            {
+                "batches": repository.tactics_batch_history(limit=limit, offset=offset),
+                "statistics": repository.tactics_batch_stats(),
+                "limit": limit,
+                "offset": offset,
+            }
+        )
 
     @app.get("/api/v1/tactics/attempts")
     def tactic_attempts():
@@ -244,6 +312,7 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
                         "ready" if catalog_tactics is not None else catalog_tactics_error
                     ),
                     "database": "ready" if database_error is None else database_error,
+                    "engine": engine_host.status(),
                 }
             ),
             200 if overall_ready else 503,
@@ -262,6 +331,14 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
             raise ApplicationError("origin_rejected", "Cross-origin mutation rejected", status=403)
 
     return app
+
+
+def _resolve_stockfish_path() -> str | None:
+    override = os.environ.get("HPT_STOCKFISH_PATH")
+    if override and Path(override).exists():
+        return override
+    discovered = shutil.which("stockfish")
+    return discovered
 
 
 def main() -> None:

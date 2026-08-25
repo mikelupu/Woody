@@ -1,7 +1,7 @@
 "use strict";
 
 const glyphs = {
-  N: "♘", B: "♗", R: "♖", Q: "♕",
+  N: "♞", B: "♝", R: "♜", Q: "♛",
   n: "♞", b: "♝", r: "♜", q: "♛",
 };
 const pieceNames = { n: "knight", b: "bishop", r: "rook", q: "queen" };
@@ -254,6 +254,7 @@ function render() {
       button.type = "button";
       const light = (rank + fileIdx) % 2 !== 0;
       button.className = `square ${light ? "light" : "dark"}`;
+      if (symbol) button.classList.add(symbol === symbol.toUpperCase() ? "piece-white" : "piece-black");
       if (state.selected === sq) button.classList.add("selected");
       if (state.legalTargets.includes(sq)) {
         button.classList.add("legal");

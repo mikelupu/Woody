@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import json
 import sqlite3
 from pathlib import Path
@@ -91,6 +92,35 @@ class ProgressRepository:
                     "CREATE INDEX IF NOT EXISTS solve_attempts_submitted_at_idx "
                     "ON solve_attempts(submitted_at DESC, attempt_id DESC)"
                 )
+                # Migrate older solve_attempts to carry batch context.
+                for ddl in (
+                    "ALTER TABLE solve_attempts ADD COLUMN batch_index INTEGER",
+                    "ALTER TABLE solve_attempts ADD COLUMN cycle INTEGER",
+                ):
+                    with contextlib.suppress(sqlite3.OperationalError):
+                        connection.execute(ddl)
+                connection.execute(
+                    """
+                    CREATE TABLE IF NOT EXISTS tactics_batches (
+                        row_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        batch_index INTEGER NOT NULL,
+                        cycle INTEGER NOT NULL,
+                        completed_at TEXT NOT NULL,
+                        points_earned INTEGER NOT NULL CHECK (points_earned >= 0),
+                        points_possible INTEGER NOT NULL CHECK (points_possible >= 0),
+                        puzzles_solved INTEGER NOT NULL CHECK (puzzles_solved >= 0),
+                        puzzle_ids TEXT NOT NULL,
+                        per_puzzle_points TEXT NOT NULL,
+                        schema_version INTEGER NOT NULL,
+                        rules_version TEXT NOT NULL,
+                        UNIQUE (batch_index, cycle)
+                    )
+                    """
+                )
+                connection.execute(
+                    "CREATE INDEX IF NOT EXISTS tactics_batches_completed_at_idx "
+                    "ON tactics_batches(completed_at DESC, row_id DESC)"
+                )
         except sqlite3.DatabaseError as exc:
             raise RepositoryError("unable to initialize progress database") from exc
 
@@ -116,7 +146,7 @@ class ProgressRepository:
         )
         values = [
             json.dumps(attempt[name], sort_keys=True)
-            if isinstance(attempt[name], (dict, list))
+            if isinstance(attempt[name], dict | list)
             else attempt[name]
             for name in columns
         ]
@@ -207,10 +237,17 @@ class ProgressRepository:
             "submitted_at",
             "schema_version",
             "rules_version",
+            "batch_index",
+            "cycle",
         )
+        attempt = {
+            **attempt,
+            "batch_index": attempt.get("batch_index"),
+            "cycle": attempt.get("cycle"),
+        }
         values = [
             json.dumps(attempt[name], sort_keys=True)
-            if isinstance(attempt[name], (dict, list))
+            if isinstance(attempt[name], dict | list)
             else attempt[name]
             for name in columns
         ]
@@ -285,6 +322,123 @@ class ProgressRepository:
             result[name] = json.loads(result[name])
         result["completed"] = bool(result["completed"])
         result["point_awarded"] = bool(result["point_awarded"])
+        return result
+
+    def solve_attempts_in_batch(self, batch_index: int, cycle: int) -> list[dict[str, Any]]:
+        """Return `(puzzle_id, wrong_moves)` rows for solves in this batch/cycle."""
+        try:
+            with self._connect() as connection:
+                rows = connection.execute(
+                    "SELECT puzzle_id, wrong_moves, submitted_at FROM solve_attempts "
+                    "WHERE batch_index = ? AND cycle = ? AND completed = 1 "
+                    "ORDER BY submitted_at ASC",
+                    (batch_index, cycle),
+                ).fetchall()
+            return [dict(row) for row in rows]
+        except sqlite3.DatabaseError as exc:
+            raise RepositoryError("unable to read batch attempts") from exc
+
+    def commit_tactics_batch(self, batch: dict[str, Any]) -> dict[str, Any]:
+        columns = (
+            "batch_index",
+            "cycle",
+            "completed_at",
+            "points_earned",
+            "points_possible",
+            "puzzles_solved",
+            "puzzle_ids",
+            "per_puzzle_points",
+            "schema_version",
+            "rules_version",
+        )
+        values = [
+            json.dumps(batch[name], sort_keys=True)
+            if isinstance(batch[name], dict | list)
+            else batch[name]
+            for name in columns
+        ]
+        try:
+            with self._connect() as connection:
+                connection.execute("BEGIN IMMEDIATE")
+                placeholders = ", ".join("?" for _ in columns)
+                cursor = connection.execute(
+                    f"INSERT INTO tactics_batches ({', '.join(columns)}) VALUES ({placeholders})",
+                    values,
+                )
+                row = connection.execute(
+                    "SELECT * FROM tactics_batches WHERE row_id = ?", (cursor.lastrowid,)
+                ).fetchone()
+                if row is None:
+                    raise RepositoryError("tactics batch disappeared during commit")
+                return self._decode_tactics_batch(row)
+        except sqlite3.IntegrityError as exc:
+            raise RepositoryError("batch already committed for this cycle") from exc
+        except sqlite3.DatabaseError as exc:
+            raise RepositoryError("unable to commit tactics batch") from exc
+
+    def tactics_batch_history(self, *, limit: int = 100, offset: int = 0) -> list[dict[str, Any]]:
+        if not 1 <= limit <= 500 or offset < 0:
+            raise RepositoryError("invalid history bounds")
+        try:
+            with self._connect() as connection:
+                rows = connection.execute(
+                    "SELECT * FROM tactics_batches "
+                    "ORDER BY completed_at DESC, row_id DESC LIMIT ? OFFSET ?",
+                    (limit, offset),
+                ).fetchall()
+            return [self._decode_tactics_batch(row) for row in rows]
+        except sqlite3.DatabaseError as exc:
+            raise RepositoryError("unable to read tactics batch history") from exc
+
+    def completed_batches(self, cycle: int) -> set[int]:
+        try:
+            with self._connect() as connection:
+                rows = connection.execute(
+                    "SELECT batch_index FROM tactics_batches WHERE cycle = ?", (cycle,)
+                ).fetchall()
+            return {int(row["batch_index"]) for row in rows}
+        except sqlite3.DatabaseError as exc:
+            raise RepositoryError("unable to read completed batches") from exc
+
+    def current_cycle(self, batches_per_cycle: int) -> int:
+        try:
+            with self._connect() as connection:
+                row = connection.execute(
+                    "SELECT MAX(cycle) AS max_cycle FROM tactics_batches"
+                ).fetchone()
+            if row is None or row["max_cycle"] is None:
+                return 0
+            done = self.completed_batches(int(row["max_cycle"]))
+            if len(done) >= batches_per_cycle:
+                return int(row["max_cycle"]) + 1
+            return int(row["max_cycle"])
+        except sqlite3.DatabaseError as exc:
+            raise RepositoryError("unable to determine current cycle") from exc
+
+    def tactics_batch_stats(self) -> dict[str, Any]:
+        try:
+            with self._connect() as connection:
+                rows = connection.execute(
+                    "SELECT points_earned, points_possible FROM tactics_batches"
+                ).fetchall()
+        except sqlite3.DatabaseError as exc:
+            raise RepositoryError("unable to derive tactics batch statistics") from exc
+        earned = [int(row["points_earned"]) for row in rows]
+        possible = [int(row["points_possible"]) for row in rows]
+        batches = len(earned)
+        return {
+            "batches": batches,
+            "total_earned": sum(earned),
+            "total_possible": sum(possible),
+            "average_earned": (sum(earned) / batches) if batches else 0.0,
+            "best_batch": max(earned) if earned else 0,
+        }
+
+    @staticmethod
+    def _decode_tactics_batch(row: sqlite3.Row) -> dict[str, Any]:
+        result = dict(row)
+        for name in ("puzzle_ids", "per_puzzle_points"):
+            result[name] = json.loads(result[name])
         return result
 
     @staticmethod
