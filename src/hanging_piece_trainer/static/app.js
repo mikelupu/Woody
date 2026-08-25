@@ -1,10 +1,7 @@
 "use strict";
 
-const glyphs = {
-  P: "♟", N: "♞", B: "♝", R: "♜", Q: "♛", K: "♚",
-  p: "♟", n: "♞", b: "♝", r: "♜", q: "♛", k: "♚",
-};
 const pieceNames = { p: "pawn", n: "knight", b: "bishop", r: "rook", q: "queen", k: "king" };
+const pieceSvg = (symbol) => (window.PIECES && symbol ? window.PIECES[symbol] || "" : "");
 
 const state = {
   puzzle: null,
@@ -66,11 +63,10 @@ function renderBoard() {
     button.type = "button";
     button.className = `square ${(Number(square[1]) + "abcdefgh".indexOf(square[0])) % 2 ? "light" : "dark"}`;
     if (state.hanging.has(square)) button.classList.add("hanging");
-    if (symbol) button.classList.add(symbol === symbol.toUpperCase() ? "piece-white" : "piece-black");
     button.dataset.square = square;
     if (index >= 56) button.dataset.file = square[0];
     if (index % 8 === 0) button.dataset.rank = square[1];
-    button.textContent = glyphs[symbol] || "";
+    button.innerHTML = pieceSvg(symbol);
     button.setAttribute("role", "gridcell");
     button.setAttribute("aria-label", labelFor(square, symbol));
     button.disabled = state.locked || !eligible(symbol);

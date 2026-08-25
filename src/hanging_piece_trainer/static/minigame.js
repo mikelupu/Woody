@@ -1,10 +1,7 @@
 "use strict";
 
-const glyphs = {
-  N: "♞", B: "♝", R: "♜", Q: "♛",
-  n: "♞", b: "♝", r: "♜", q: "♛",
-};
 const pieceNames = { n: "knight", b: "bishop", r: "rook", q: "queen" };
+const pieceSvg = (symbol) => (window.PIECES && symbol ? window.PIECES[symbol] || "" : "");
 const values = { n: 3, b: 3, r: 5, q: 9 };
 const startingPairs = ["RQ", "RN", "NB", "BQ", "NQ"];
 const spawnKinds = ["N", "B", "R", "Q"];
@@ -254,14 +251,13 @@ function render() {
       button.type = "button";
       const light = (rank + fileIdx) % 2 !== 0;
       button.className = `square ${light ? "light" : "dark"}`;
-      if (symbol) button.classList.add(symbol === symbol.toUpperCase() ? "piece-white" : "piece-black");
       if (state.selected === sq) button.classList.add("selected");
       if (state.legalTargets.includes(sq)) {
         button.classList.add("legal");
         if (symbol) button.classList.add("capture");
       }
       button.dataset.square = sq;
-      button.textContent = symbol ? glyphs[symbol] : "";
+      button.innerHTML = pieceSvg(symbol);
       button.setAttribute("role", "gridcell");
       button.setAttribute("aria-label", squareLabel(sq, symbol));
       button.disabled = !state.active;

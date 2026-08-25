@@ -7,7 +7,7 @@
 - Python `sqlite3` — local transactional progress storage; Python standard library.
 
 Exact resolved versions are recorded in `uv.lock`. No JavaScript packages, remote fonts, CDNs,
-analytics, or telemetry are used at runtime. Chess pieces use operating-system Unicode glyphs.
+analytics, or telemetry are used at runtime.
 
 ## Development and curation
 
@@ -27,3 +27,14 @@ matching Lichess's published checksum. Lichess database exports are released und
 Catalog metadata records the source URL/checksum, selection seed, rules version, and catalog
 checksum. `scripts/generate_development_catalog.py` remains available only as an offline fallback;
 it is not the source of the shipped catalog.
+
+## Chess piece art
+
+The SVG chess pieces in `src/hanging_piece_trainer/static/pieces.js` are the
+Cburnett set, drawn by Colin M.L. Burnett. The originals are hosted on
+Wikimedia Commons
+(<https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces>) and are
+licensed under [CC-BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
+The bundled copies are unmodified and inlined for offline rendering; changes
+made to the surrounding JavaScript wrapper do not extend to the SVG assets
+themselves.
