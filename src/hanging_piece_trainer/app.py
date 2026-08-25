@@ -2,14 +2,16 @@
 
 from __future__ import annotations
 
+import hmac
 import logging
 import os
 import shutil
+from base64 import b64decode
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlsplit
 
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, Response, jsonify, render_template, request
 
 from .catalog import (
     CatalogError,
@@ -122,6 +124,33 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
                 status=503,
             )
         return current
+
+    basic_user = os.environ.get("HPT_BASIC_USER")
+    basic_pass = os.environ.get("HPT_BASIC_PASS")
+
+    @app.before_request
+    def basic_auth_gate():
+        if not basic_user or not basic_pass:
+            return None  # Auth disabled (local dev)
+        # Health endpoint is publicly reachable so hosting platforms can probe it.
+        if request.path == "/api/v1/health":
+            return None
+        header = request.headers.get("Authorization", "")
+        if header.startswith("Basic "):
+            try:
+                decoded = b64decode(header[6:], validate=True).decode("utf-8")
+                submitted_user, _, submitted_pass = decoded.partition(":")
+            except (ValueError, UnicodeDecodeError):
+                submitted_user = submitted_pass = ""
+            if hmac.compare_digest(submitted_user, basic_user) and hmac.compare_digest(
+                submitted_pass, basic_pass
+            ):
+                return None
+        return Response(
+            "Authentication required",
+            status=401,
+            headers={"WWW-Authenticate": 'Basic realm="Hanging Piece Trainer"'},
+        )
 
     @app.after_request
     def security_headers(response):

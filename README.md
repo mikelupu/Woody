@@ -101,3 +101,68 @@ This is a desktop-first, single-user local application. It does not move chess p
 source tactic, use an engine, provide accounts/cloud sync, expose a LAN server, perform telemetry,
 or optimize training adaptively. See [the technical blueprint](design/blueprint.md) for the complete
 architecture and [provenance](PROVENANCE.md) for dependency/data origins.
+
+## Deploying to Railway
+
+The app can also run as a single-user hosted instance behind HTTP basic auth. The
+committed `Dockerfile` installs Stockfish + gunicorn, `railway.toml` selects the
+Dockerfile builder and points the health check at `/api/v1/health`, and setting
+`HPT_BASIC_USER` / `HPT_BASIC_PASS` at runtime enables the auth gate.
+
+**One-time setup**
+
+1. Install the Railway CLI:
+   ```sh
+   brew install railway
+   railway login
+   ```
+2. From the repo root, link this checkout to your existing project. When
+   prompted, pick the project and then either an existing service or create a
+   new one for this app:
+   ```sh
+   railway link
+   ```
+3. In the Railway dashboard, on the same service:
+   - **Volumes** → add a volume, mount path `/data`. This is where the SQLite
+     ledger (`progress.sqlite3`) lives so it survives redeploys.
+   - **Variables** → set:
+     - `HPT_BASIC_USER` — a username you pick
+     - `HPT_BASIC_PASS` — a strong password
+     - (optional) `HPT_INSTANCE_PATH=/data` — already the Dockerfile default; set
+       explicitly if you ever change the mount path.
+     - (optional) `HPT_STOCKFISH_PATH=/usr/games/stockfish` — already the
+       Dockerfile default.
+
+**Deploy**
+
+```sh
+railway up
+```
+
+The first deploy takes a couple of minutes (Docker layer + `pip install .` +
+`apt-get install stockfish`). Subsequent deploys reuse the layer cache.
+
+**Verify**
+
+```sh
+railway open                              # opens your Railway URL in a browser
+curl -u USER:PASS https://YOUR-APP.up.railway.app/api/v1/health
+```
+
+You should see `{"catalog": "ready", "catalog_tactics": "ready", ...}`. Without
+credentials, `/` returns `401` with a `WWW-Authenticate: Basic ...` header — the
+browser will prompt for the username/password you set above.
+
+**Notes and limitations**
+
+- The `Dockerfile` uses `--workers 1` on purpose: session state
+  (`PresentationStore`, `SolveStore`, `PawnSessionStore`) and the Stockfish
+  subprocess live in the worker process. Scaling out would need a real session
+  store and per-worker engines.
+- The volume mount is important; without it every redeploy drops your tactics
+  batch history and hanging-piece attempts.
+- Basic auth protects all routes except `/api/v1/health` so Railway's health
+  check keeps working. If you don't set `HPT_BASIC_USER` and `HPT_BASIC_PASS`,
+  the app runs unauthenticated — fine locally, dangerous on a public URL.
+- Local `docker build` may fail on machines behind a corporate proxy with a
+  private CA; Railway's build environment doesn't have that issue.

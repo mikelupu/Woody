@@ -151,3 +151,24 @@ def test_not_found_is_stable_json(client) -> None:
     response = client.get("/missing")
     assert response.status_code == 404
     assert response.json["error"]["code"] == "not_found"
+
+
+def test_basic_auth_gate_when_env_vars_set(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setenv("HPT_BASIC_USER", "captain")
+    monkeypatch.setenv("HPT_BASIC_PASS", "s3cret")
+    app = create_app({"TESTING": True, "DATABASE": str(tmp_path / "progress.sqlite3")})
+    client = app.test_client()
+    # No credentials -> 401 + WWW-Authenticate
+    unauthorized = client.get("/")
+    assert unauthorized.status_code == 401
+    assert unauthorized.headers["WWW-Authenticate"].startswith("Basic ")
+    # Wrong credentials -> 401
+    from base64 import b64encode
+
+    bad = b64encode(b"captain:wrong").decode()
+    assert client.get("/", headers={"Authorization": f"Basic {bad}"}).status_code == 401
+    # Right credentials -> 200
+    good = b64encode(b"captain:s3cret").decode()
+    assert client.get("/", headers={"Authorization": f"Basic {good}"}).status_code == 200
+    # Health endpoint stays public for platform probes.
+    assert client.get("/api/v1/health").status_code in (200, 503)
