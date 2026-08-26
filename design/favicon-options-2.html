@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Favicon options — round 2</title>
+<style>
+  :root {
+    --ink: #18201b;
+    --muted: #667069;
+    --paper: #f4f1e8;
+    --panel: #fffdf7;
+    --line: #d5d0c3;
+    --forest: #234b3a;
+    --forest-bright: #2d6a4f;
+    --gold: #d7a928;
+    --light-square: #e9dfca;
+    --dark-square: #66806b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem clamp(1rem, 4vw, 3rem) 4rem;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at 10% 0%, rgb(215 169 40 / 10%), transparent 30rem),
+      var(--paper);
+  }
+  header { max-width: 62rem; margin: 0 auto 2rem; }
+  h1 {
+    margin: 0 0 .5rem;
+    font-weight: 800;
+    font-size: clamp(1.5rem, 3.4vw, 2.1rem);
+    letter-spacing: -.02em;
+  }
+  header p { margin: 0 0 .5rem; color: var(--muted); max-width: 60ch; line-height: 1.5; }
+  .row-scale {
+    max-width: 62rem;
+    margin: 0 auto 2.5rem;
+    padding: 1.4rem 1.6rem 1.6rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: .5rem;
+    box-shadow: 0 8px 20px rgb(30 35 30 / 6%);
+  }
+  .row-scale h2 {
+    margin: 0 0 1.2rem;
+    font: 700 .74rem "IBM Plex Mono", ui-monospace, monospace;
+    text-transform: uppercase;
+    letter-spacing: .18em;
+    color: var(--muted);
+  }
+  .row-scale h2 span { color: var(--forest); }
+  .scale-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    align-items: end;
+  }
+  .cell { display: flex; flex-direction: column; align-items: center; gap: .55rem; }
+  .cell figcaption {
+    font: 700 .68rem "IBM Plex Mono", ui-monospace, monospace;
+    letter-spacing: .12em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .cell.stacked > span { display: inline-block; line-height: 0; }
+  .tab-mock {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .3rem .55rem .3rem .35rem;
+    background: #dcd6c1;
+    border-radius: .35rem .35rem 0 0;
+    color: var(--ink);
+    font-size: .7rem;
+    max-width: 12rem;
+    line-height: 1;
+  }
+  .cards {
+    max-width: 62rem;
+    margin: 0 auto;
+    display: grid;
+    gap: 1.5rem;
+  }
+  @media (min-width: 780px) {
+    .cards { grid-template-columns: 1fr 1fr; }
+  }
+  .card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.25rem;
+    padding: 1.35rem 1.5rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: .5rem;
+    box-shadow: 0 8px 20px rgb(30 35 30 / 6%);
+    align-items: start;
+  }
+  .card .preview { display: flex; flex-direction: column; gap: .55rem; align-items: center; }
+  .card .preview .large { width: 96px; height: 96px; line-height: 0; }
+  .card h3 { margin: 0 0 .3rem; font-family: Georgia, serif; font-size: 1.05rem; }
+  .card p { margin: 0 0 .5rem; color: var(--muted); font-size: .88rem; line-height: 1.45; }
+  .card .tag {
+    display: inline-block;
+    padding: .18rem .55rem;
+    border-radius: 999px;
+    background: rgb(45 106 79 / 12%);
+    color: var(--forest-bright);
+    font: 700 .65rem "IBM Plex Mono", ui-monospace, monospace;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+  }
+  footer {
+    max-width: 62rem;
+    margin: 2rem auto 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: .85rem;
+    line-height: 1.55;
+  }
+  footer strong { color: var(--ink); }
+  code { font-family: "IBM Plex Mono", ui-monospace, monospace; background: var(--paper); padding: 0 .3rem; border-radius: .2rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Favicon options — take 2</h1>
+  <p>
+    Five fresh directions. This round leans on real artwork (Cburnett) for
+    the detailed piece, and clean geometric primitives (rectangles, circles,
+    diagonals) for everything else — no more hand-drawn wobbly paths.
+  </p>
+  <p>
+    The top strip is the size that actually matters: 16 px in a browser tab.
+    If a design doesn't hold up here it doesn't matter how good it looks big.
+  </p>
+</header>
+
+<section class="row-scale">
+  <h2>16 × 16 · <span>browser tab</span></h2>
+  <div class="scale-grid">
+    <div class="cell"><span class="tab-mock"><span class="fav" data-size="16" data-id="A"></span> Hanging Piece</span><figcaption>A · Cburnett</figcaption></div>
+    <div class="cell"><span class="tab-mock"><span class="fav" data-size="16" data-id="B"></span> Hanging Piece</span><figcaption>B · Monogram</figcaption></div>
+    <div class="cell"><span class="tab-mock"><span class="fav" data-size="16" data-id="C"></span> Hanging Piece</span><figcaption>C · Pawn</figcaption></div>
+    <div class="cell"><span class="tab-mock"><span class="fav" data-size="16" data-id="D"></span> Hanging Piece</span><figcaption>D · Board</figcaption></div>
+    <div class="cell"><span class="tab-mock"><span class="fav" data-size="16" data-id="E"></span> Hanging Piece</span><figcaption>E · Diagonal</figcaption></div>
+  </div>
+</section>
+
+<section class="row-scale">
+  <h2>32 · 64 · 128 px</h2>
+  <div class="scale-grid">
+    <div class="cell stacked"><span class="fav" data-size="32" data-id="A"></span><span class="fav" data-size="64" data-id="A"></span><span class="fav" data-size="128" data-id="A"></span></div>
+    <div class="cell stacked"><span class="fav" data-size="32" data-id="B"></span><span class="fav" data-size="64" data-id="B"></span><span class="fav" data-size="128" data-id="B"></span></div>
+    <div class="cell stacked"><span class="fav" data-size="32" data-id="C"></span><span class="fav" data-size="64" data-id="C"></span><span class="fav" data-size="128" data-id="C"></span></div>
+    <div class="cell stacked"><span class="fav" data-size="32" data-id="D"></span><span class="fav" data-size="64" data-id="D"></span><span class="fav" data-size="128" data-id="D"></span></div>
+    <div class="cell stacked"><span class="fav" data-size="32" data-id="E"></span><span class="fav" data-size="64" data-id="E"></span><span class="fav" data-size="128" data-id="E"></span></div>
+  </div>
+</section>
+
+<section class="cards">
+  <div class="card">
+    <div class="preview">
+      <span class="fav large" data-size="96" data-id="A"></span>
+      <span class="tag">Traditional</span>
+    </div>
+    <div>
+      <h3>A · Cburnett knight (real artwork)</h3>
+      <p>
+        The actual black Cburnett knight from the piece set already shipping
+        in the app, placed on a cream tile with a soft forest border. This is
+        real professional line-art rather than my previous hand-drawn horror;
+        it holds up at every size ≥ 20 px and is instantly recognisable as
+        chess.
+      </p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="preview">
+      <span class="fav large" data-size="96" data-id="B"></span>
+      <span class="tag">Typographic</span>
+    </div>
+    <div>
+      <h3>B · Bold H monogram</h3>
+      <p>
+        A single bold <code>H</code> in gold on a forest tile. No fake chess
+        garnish this time — just a clean letterform (single path, no rogue
+        rectangles). Reads perfectly at 16 px because it's just three thick
+        strokes. Feels like a small product brand mark.
+      </p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="preview">
+      <span class="fav large" data-size="96" data-id="C"></span>
+      <span class="tag">Modern flat</span>
+    </div>
+    <div>
+      <h3>C · Cream pawn silhouette on forest</h3>
+      <p>
+        A simplified pawn — head, neck, body, base — drawn as clean geometry
+        rather than illustrated. Pawn is the easiest chess piece to render
+        legibly at small sizes because it's near-radial. Modern app-icon feel;
+        still obviously chess.
+      </p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="preview">
+      <span class="fav large" data-size="96" data-id="D"></span>
+      <span class="tag">Pure geometry</span>
+    </div>
+    <div>
+      <h3>D · Chessboard tile</h3>
+      <p>
+        A 2×2 mini chessboard using the exact <code>--light-square</code> and
+        <code>--dark-square</code> tokens from the app, framed by a forest
+        border. Nothing else. No piece, no letter. Says "chess" without
+        picking a piece; matches the palette of the actual boards you play on.
+      </p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="preview">
+      <span class="fav large" data-size="96" data-id="E"></span>
+      <span class="tag">Minimal / abstract</span>
+    </div>
+    <div>
+      <h3>E · Diagonal split with gold rule</h3>
+      <p>
+        The tile is cut diagonally — cream in the upper-right, forest in the
+        lower-left, with a single gold hairline along the cut. A tiny gold
+        square sits in the cream half. Reads as a chess-square abstracted;
+        works as a brand mark even if you didn't know the site.
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>
+    <strong>Once picked:</strong> the chosen SVG goes to
+    <code>src/hanging_piece_trainer/static/favicon.svg</code>, gets linked
+    from every template with
+    <code>&lt;link rel="icon" type="image/svg+xml"&gt;</code>, and a
+    32 px-derived <code>favicon.ico</code> gets added for old Safari / Windows.
+  </p>
+</footer>
+
+<script>
+  // ═══════════════ 5 favicons — 32×32 viewBox each ═══════════════
+  const SVGS = {
+
+    // ── A ─ Cburnett knight (black variant, unmodified artwork), on cream tile ─
+    A: `
+      <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cburnett knight">
+        <rect x="0.75" y="0.75" width="30.5" height="30.5" rx="5" fill="#f4f1e8" stroke="#234b3a" stroke-width="1"/>
+        <g transform="translate(4 3) scale(0.542)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
+          <path fill="#000" d="M22 10c10.5 1 16.5 8 16 29H15c0-9 10-6.5 8-21"/>
+          <path fill="#000" d="M24 18c.38 2.91-5.55 7.37-8 9-3 2-2.82 4.34-5 4-1.04-.94 1.41-3.04 0-3-1 0 .19 1.23-1 2-1 0-4 1-4-4 0-2 6-12 6-12s1.89-1.9 2-3.5c-.73-1-.5-2-.5-3 1-1 3 2.5 3 2.5h2s.78-2 2.5-3c1 0 1 3 1 3"/>
+          <path fill="#ececec" stroke="#ececec" d="M9.5 25.5a.5.5 0 1 1-1 0 .5.5 0 1 1 1 0m5.43-9.75a.5 1.5 30 1 1-.86-.5.5 1.5 30 1 1 .86.5"/>
+          <path fill="#ececec" stroke="none" d="m24.55 10.4-.45 1.45.5.15c3.15 1 5.65 2.49 7.9 6.75S35.75 29.06 35.25 39l-.05.5h2.25l.05-.5c.5-10.06-.88-16.85-3.25-21.34s-5.79-6.64-9.19-7.16z"/>
+        </g>
+      </svg>`,
+
+    // ── B ─ Bold H monogram, gold on forest ─
+    B: `
+      <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="H monogram">
+        <rect width="32" height="32" rx="6.5" fill="#234b3a"/>
+        <path fill="#d7a928" d="M8 6.5 h4.2 v8.4 h7.6 v-8.4 h4.2 v19 h-4.2 v-8.4 h-7.6 v8.4 h-4.2 z"/>
+      </svg>`,
+
+    // ── C ─ Cream pawn silhouette on forest ─
+    C: `
+      <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pawn silhouette">
+        <rect width="32" height="32" rx="6.5" fill="#234b3a"/>
+        <g fill="#f4f1e8">
+          <circle cx="16" cy="9.5" r="3.6"/>
+          <path d="M12.4 13.6 h7.2 l-.6 2.6 h-6 z"/>
+          <path d="M11 16.6 h10 l-1 4.4 h-8 z"/>
+          <path d="M9.5 21.2 h13 l-1 4.2 h-11 z"/>
+          <rect x="8" y="25.2" width="16" height="3.4" rx="0.6"/>
+        </g>
+      </svg>`,
+
+    // ── D ─ 2×2 chessboard inset with forest border ─
+    D: `
+      <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chessboard tile">
+        <rect width="32" height="32" rx="6.5" fill="#234b3a"/>
+        <rect x="4"  y="4"  width="12" height="12" fill="#e9dfca"/>
+        <rect x="16" y="4"  width="12" height="12" fill="#66806b"/>
+        <rect x="4"  y="16" width="12" height="12" fill="#66806b"/>
+        <rect x="16" y="16" width="12" height="12" fill="#e9dfca"/>
+      </svg>`,
+
+    // ── E ─ Diagonal split (cream / forest) with gold hairline and gold square ─
+    E: `
+      <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagonal split">
+        <rect width="32" height="32" rx="6.5" fill="#f4f1e8"/>
+        <path fill="#234b3a" d="M0 32 L32 0 L32 32 Z"/>
+        <path stroke="#d7a928" stroke-width="1.4" d="M32 0 L0 32"/>
+        <rect x="6.5" y="6.5" width="6" height="6" rx="1" fill="#d7a928"/>
+      </svg>`,
+  };
+
+  // Render every .fav element with the requested SVG at the requested pixel size.
+  document.querySelectorAll(".fav").forEach((el) => {
+    const id = el.getAttribute("data-id");
+    const size = Number(el.getAttribute("data-size"));
+    el.innerHTML = SVGS[id];
+    const svg = el.querySelector("svg");
+    if (svg) {
+      svg.setAttribute("width", size);
+      svg.setAttribute("height", size);
+      if (size <= 20) svg.setAttribute("shape-rendering", "geometricPrecision");
+    }
+    el.style.display = "inline-block";
+    el.style.lineHeight = 0;
+  });
+</script>
+
+</body>
+</html>

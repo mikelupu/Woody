@@ -198,6 +198,12 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
         payload = {"error": {"code": "not_found", "message": "Not found", "retryable": False}}
         return jsonify(payload), 404
 
+    @app.get("/favicon.ico")
+    def favicon_ico():
+        # Root-relative favicon fallback for browsers that always request
+        # /favicon.ico regardless of the <link rel="icon"> tags in the page.
+        return app.send_static_file("favicon-32.png")
+
     @app.get("/")
     def index():
         return render_template("index.html")
