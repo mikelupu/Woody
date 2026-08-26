@@ -187,10 +187,11 @@ function handleSquareClick(sq) {
   if (!state.active || state.turn !== "w") return;
   const piece = state.pieces.get(sq);
   if (state.selected && state.legalTargets.includes(sq)) {
-    applyMove(state.selected, sq);
+    const from = state.selected;
+    applyMove(from, sq);
     state.selected = null;
     state.legalTargets = [];
-    render();
+    window.animateMove(boardEl, from, sq, render);
     if (state.active) scheduleBlackMove();
     return;
   }
@@ -233,7 +234,7 @@ function doBlackMove() {
     ? ` and captured your ${pieceNames[captured.toLowerCase()]} on ${chosen.to}`
     : "";
   statusEl.textContent = `Black moved ${chosen.from}→${chosen.to}${capturedText}. Your move.`;
-  render();
+  window.animateMove(boardEl, chosen.from, chosen.to, render);
   if (state.active && !allLegalMoves(state.pieces, "w").length) {
     spawnPiece("w");
     statusEl.textContent = "You had no legal move — a new white piece spawned. Continue.";

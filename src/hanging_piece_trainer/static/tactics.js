@@ -205,16 +205,15 @@ async function attemptMove(from, to, matches) {
     applyMoveOnBoard(from, to, promotion);
     state.selected = null;
     state.lastMove = { from, to };
-    renderBoard();
+    window.animateMove(boardEl, from, to, renderBoard);
     if (data.opponent_move) {
       statusEl.textContent = "Correct! Opponent replies…";
       await sleep(OPPONENT_DELAY_MS);
+      const oppFrom = data.opponent_move.slice(0, 2);
+      const oppTo = data.opponent_move.slice(2, 4);
       applyUciOnBoard(data.opponent_move);
-      state.lastMove = {
-        from: data.opponent_move.slice(0, 2),
-        to: data.opponent_move.slice(2, 4),
-      };
-      renderBoard();
+      state.lastMove = { from: oppFrom, to: oppTo };
+      window.animateMove(boardEl, oppFrom, oppTo, renderBoard);
     }
     state.pieces = parseFen(data.presented_fen);
     state.legalTargets = data.legal_targets ?? {};

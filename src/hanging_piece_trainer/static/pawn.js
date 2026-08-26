@@ -177,17 +177,16 @@ async function attemptMove(from, to, matches) {
     applyMoveOnBoard(from, to, promotion);
     state.selected = null;
     state.lastMove = { from, to };
-    renderBoard();
+    window.animateMove(boardEl, from, to, renderBoard);
     // Opponent reply (if any)
     if (data.engine_move) {
       statusEl.textContent = "Stockfish is replying…";
       await sleep(OPPONENT_DELAY_MS);
+      const engFrom = data.engine_move.slice(0, 2);
+      const engTo = data.engine_move.slice(2, 4);
       applyUciOnBoard(data.engine_move);
-      state.lastMove = {
-        from: data.engine_move.slice(0, 2),
-        to: data.engine_move.slice(2, 4),
-      };
-      renderBoard();
+      state.lastMove = { from: engFrom, to: engTo };
+      window.animateMove(boardEl, engFrom, engTo, renderBoard);
     }
     // Reconcile with server state (authoritative)
     applySnapshot(data);

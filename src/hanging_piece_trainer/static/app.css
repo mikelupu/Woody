@@ -183,6 +183,11 @@ main { width: min(1180px, calc(100% - 2rem)); margin: 2rem auto 4rem; }
   height: 88%;
   pointer-events: none;
   display: block;
+  transition: transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .square > svg { transition: none; }
 }
 .square:disabled { cursor: default; }
 .square[data-file]::after { content: attr(data-file); right: .18rem; bottom: .05rem; }
