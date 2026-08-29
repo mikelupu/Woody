@@ -35,6 +35,26 @@ def test_next_puzzle_is_playable_and_safe(client, app) -> None:
     assert payload["legal_targets"]
     assert "answers_by_color" not in payload
     assert "solution_moves_uci" not in payload
+    # Metadata for the moves panel.
+    assert payload["starting_fullmove"] >= 1
+    assert payload["starting_turn"] in ("white", "black")
+
+
+def test_correct_move_returns_san_and_fen(client, app) -> None:
+    payload, solution = next_puzzle(client, app)
+    response = client.post(
+        "/api/v1/tactics/moves",
+        json={"session_id": payload["session_id"], "uci": solution[0]},
+        headers=HEADERS,
+    )
+    assert response.status_code == 200
+    body = response.json
+    assert body["correct"] is True
+    assert isinstance(body["user_san"], str) and body["user_san"]
+    assert body["fen_after_user"], "expected a FEN after the user move"
+    if body.get("opponent_move"):
+        assert isinstance(body["opponent_san"], str) and body["opponent_san"]
+        assert body["fen_after_opponent"], "expected a FEN after the opponent move"
 
 
 def test_illegal_move_is_rejected_without_advancing(client, app) -> None:

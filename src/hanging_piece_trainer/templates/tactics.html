@@ -9,8 +9,10 @@
     <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='tactics.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='movesPanel.css') }}">
     <script src="{{ url_for('static', filename='pieces.js') }}" defer></script>
     <script src="{{ url_for('static', filename='pieceAnim.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='movesPanel.js') }}" defer></script>
     <script src="{{ url_for('static', filename='tactics.js') }}" defer></script>
   </head>
   <body>
@@ -87,13 +89,6 @@
           </div>
           <div id="board-status" class="status" role="status" aria-live="polite"></div>
           <div id="board" class="board" role="grid" aria-label="Chess position"></div>
-          <div id="review-bar" class="review-bar" role="toolbar" aria-label="Step through the solution" hidden>
-            <button type="button" id="review-start" aria-label="Starting position" title="Starting position">|◀</button>
-            <button type="button" id="review-prev" aria-label="Previous move" title="Previous move">◀</button>
-            <span id="review-indicator" class="review-indicator" aria-live="polite">Starting position</span>
-            <button type="button" id="review-next" aria-label="Next move" title="Next move">▶</button>
-            <button type="button" id="review-end" aria-label="Final position" title="Final position">▶|</button>
-          </div>
           <div class="legend" aria-label="Board marker legend">
             <span><i class="swatch swatch-legal"></i>Legal target</span>
             <span><i class="swatch swatch-capture"></i>Capture</span>
@@ -125,6 +120,7 @@
               Show answer
             </button>
           </section>
+          <div id="moves-panel"></div>
           <section id="feedback" class="feedback" tabindex="-1" hidden>
             <h3 id="feedback-heading">Review</h3>
             <p id="feedback-summary"></p>

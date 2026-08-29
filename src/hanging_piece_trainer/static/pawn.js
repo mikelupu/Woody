@@ -42,6 +42,19 @@ const eloOut = document.querySelector("#elo-out");
 
 const promotionDialog = document.querySelector("#promotion-dialog");
 const promotionCancel = document.querySelector("#promotion-cancel");
+const movesPanelEl = document.querySelector("#moves-panel");
+let panel = null;
+
+function panelOnJump(fen, { isLive }) {
+  if (!fen || !state.gameId) return;
+  state.pieces = parseFen(fen, state.variant === "kingless");
+  state.selected = null;
+  state.legalTargets = isLive ? state.liveLegalTargets ?? {} : {};
+  state.locked = state.gameOver || !isLive;
+  if (!isLive) statusEl.textContent = "Viewing history — jump to live to play.";
+  else if (!state.gameOver) statusEl.textContent = "Your move.";
+  renderBoard();
+}
 
 function parseFen(fen, hideKings) {
   const pieces = new Map();
@@ -178,6 +191,7 @@ async function attemptMove(from, to, matches) {
     state.selected = null;
     state.lastMove = { from, to };
     window.animateMove(boardEl, from, to, renderBoard);
+    if (panel) panel.push({ uci: data.user_move, san: data.user_san, fen: data.fen_after_user });
     // Opponent reply (if any)
     if (data.engine_move) {
       statusEl.textContent = "Stockfish is replying…";
@@ -187,6 +201,7 @@ async function attemptMove(from, to, matches) {
       applyUciOnBoard(data.engine_move);
       state.lastMove = { from: engFrom, to: engTo };
       window.animateMove(boardEl, engFrom, engTo, renderBoard);
+      if (panel) panel.push({ uci: data.engine_move, san: data.engine_san, fen: data.fen_after_engine });
     }
     // Reconcile with server state (authoritative)
     applySnapshot(data);
@@ -226,6 +241,7 @@ function applySnapshot(data) {
   state.boardFen = data.board_fen;
   state.pieces = parseFen(data.board_fen, state.variant === "kingless");
   state.legalTargets = data.legal_targets ?? {};
+  state.liveLegalTargets = state.legalTargets;
   state.sideToMove = data.side_to_move;
   state.gameOver = data.game_over;
   state.locked = data.game_over || data.side_to_move !== state.humanColor;
@@ -323,6 +339,16 @@ async function startNewGame() {
         to: data.engine_move.slice(2, 4),
       };
     }
+    if (panel) {
+      panel.reset({
+        startingFen: data.starting_fen ?? data.board_fen,
+        startingFullmove: data.starting_fullmove ?? 1,
+        startingTurn: data.starting_turn ?? "white",
+      });
+      if (data.engine_move) {
+        panel.push({ uci: data.engine_move, san: data.engine_san, fen: data.board_fen });
+      }
+    }
     renderBoard();
   } catch (error) {
     statusEl.textContent = `Network error: ${error.message}`;
@@ -359,4 +385,7 @@ configDialog.addEventListener("close", () => {
 eloSlider.addEventListener("input", () => { eloOut.textContent = eloSlider.value; });
 
 startBtn.addEventListener("click", startNewGame);
+if (movesPanelEl && window.MovesPanel) {
+  panel = new window.MovesPanel({ container: movesPanelEl, onJump: panelOnJump });
+}
 renderBoard();

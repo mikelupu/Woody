@@ -331,6 +331,15 @@ def _replay_solution(
     return san, fens
 
 
+def _fen_start_metadata(fen: str) -> dict[str, Any]:
+    """Return `starting_fullmove` and `starting_turn` derived from a FEN."""
+    board = chess.Board(fen)
+    return {
+        "starting_fullmove": board.fullmove_number,
+        "starting_turn": "white" if board.turn == chess.WHITE else "black",
+    }
+
+
 def _score_for_puzzle(rating: int, wrong_moves: int) -> int:
     """Points earned for a puzzle given its rating and how many wrong moves were made."""
     full = round((rating or 0) / 100)
@@ -413,6 +422,7 @@ class TacticsService:
         public["remaining_plies"] = len(puzzle.solution_moves_uci)
         public["batch"] = self._batch_view(cycle, batch, attempted)
         public["batch"]["full_points"] = _score_for_puzzle(puzzle.rating or 0, 0)
+        public.update(_fen_start_metadata(puzzle.presented_fen))
         return public
 
     def submit_move(self, payload: dict[str, Any]) -> dict[str, Any]:
@@ -453,10 +463,14 @@ class TacticsService:
                 "retry": True,
                 "wrong_moves": session.wrong_moves,
             }
+        user_san = board.san(move)
         session.submitted_moves.append(uci)
         session.remaining_moves.pop(0)
         board.push(move)
+        fen_after_user = board.fen()
         opponent_uci: str | None = None
+        opponent_san: str | None = None
+        fen_after_opponent: str | None = None
         if session.remaining_moves:
             opponent_uci = session.remaining_moves.pop(0)
             try:
@@ -471,14 +485,20 @@ class TacticsService:
                     "Solution's opponent move is illegal from this position",
                     status=500,
                 )
+            opponent_san = board.san(opponent_move)
             board.push(opponent_move)
+            fen_after_opponent = board.fen()
             session.submitted_moves.append(opponent_uci)
         session.board_fen = board.fen()
         completed = not session.remaining_moves
         response: dict[str, Any] = {
             "correct": True,
             "user_move": uci,
+            "user_san": user_san,
+            "fen_after_user": fen_after_user,
             "opponent_move": opponent_uci,
+            "opponent_san": opponent_san,
+            "fen_after_opponent": fen_after_opponent,
             "presented_fen": session.board_fen,
             "legal_targets": _legal_targets(session.board_fen) if not completed else {},
             "completed": completed,
@@ -867,17 +887,24 @@ class PawnGameService:
 
         session = self.sessions.resolve(game_id)
         board = chess.Board(board_fen)
+        starting_fen = board.fen()
         engine_move_uci: str | None = None
+        engine_san: str | None = None
         # If the engine plays white (human chose black), have Stockfish move first.
         if board.turn != human_color:
             move = self._engine_play(board, variant, elo)
+            engine_san = board.san(move)
             board.push(move)
             session.board_fen = board.fen()
             engine_move_uci = move.uci()
         snapshot = self._snapshot(session, board)
         public = self._public(snapshot)
         public["engine_move"] = engine_move_uci
+        public["engine_san"] = engine_san
         public["user_move"] = None
+        public["user_san"] = None
+        public["starting_fen"] = starting_fen
+        public.update(_fen_start_metadata(starting_fen))
         return public
 
     def submit_move(self, payload: dict[str, Any]) -> dict[str, Any]:
@@ -905,14 +932,20 @@ class PawnGameService:
                 "retry": True,
                 **self._public(self._snapshot(session, board)),
             }
+        user_san = board.san(move)
         board.push(move)
-        session.board_fen = board.fen()
+        fen_after_user = board.fen()
+        session.board_fen = fen_after_user
         response = self._snapshot(session, board)
         engine_move_uci: str | None = None
+        engine_san: str | None = None
+        fen_after_engine: str | None = None
         if not response["game_over"] and board.turn != session.human_color:
             engine_move = self._engine_play(board, session.variant, session.elo)
+            engine_san = board.san(engine_move)
             board.push(engine_move)
-            session.board_fen = board.fen()
+            fen_after_engine = board.fen()
+            session.board_fen = fen_after_engine
             engine_move_uci = engine_move.uci()
             response = self._snapshot(session, board)
         if response["game_over"]:
@@ -920,7 +953,11 @@ class PawnGameService:
         public = self._public(response)
         public["correct"] = True
         public["user_move"] = move.uci()
+        public["user_san"] = user_san
+        public["fen_after_user"] = fen_after_user
         public["engine_move"] = engine_move_uci
+        public["engine_san"] = engine_san
+        public["fen_after_engine"] = fen_after_engine
         return public
 
     def _engine_play(self, board: chess.Board, variant: str, elo: int) -> chess.Move:

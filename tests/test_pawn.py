@@ -108,6 +108,18 @@ def test_kingless_accepts_legal_pawn_move_and_engine_replies(client) -> None:
     assert body["engine_move"] is not None
     engine_from = body["engine_move"][:2]
     assert engine_from != "h8"
+    # SAN + intermediate FENs for the moves panel.
+    assert body["user_san"] == "e4"
+    assert isinstance(body["engine_san"], str) and body["engine_san"]
+    assert body["fen_after_user"].startswith("7k/pppppppp"), "fen_after_user should reflect e2-e4"
+    assert body["fen_after_engine"] and body["fen_after_engine"] != body["fen_after_user"]
+
+
+def test_new_game_returns_starting_metadata(client) -> None:
+    payload = _new_kingless(client).json
+    assert payload["starting_fullmove"] == 1
+    assert payload["starting_turn"] == "white"
+    assert payload["starting_fen"].startswith("7k/pppppppp/8/8/8/8/PPPPPPPP/K7")
 
 
 def test_elo_bounds_enforced(client) -> None:

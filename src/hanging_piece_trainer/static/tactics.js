@@ -14,7 +14,6 @@ const state = {
   locked: false,
   completed: false,
   wrongMoves: 0,
-  review: null,  // { fens, san, uci, index, startingFullmove, startingTurn }
 };
 
 const boardEl = document.querySelector("#board");
@@ -27,12 +26,20 @@ const settingsOpenBtn = document.querySelector("#settings-open");
 const showRatingInput = document.querySelector("#setting-show-rating");
 const showMaxPointsInput = document.querySelector("#setting-show-max-points");
 const showAnswerBtn = document.querySelector("#show-answer");
-const reviewBar = document.querySelector("#review-bar");
-const reviewStartBtn = document.querySelector("#review-start");
-const reviewPrevBtn = document.querySelector("#review-prev");
-const reviewNextBtn = document.querySelector("#review-next");
-const reviewEndBtn = document.querySelector("#review-end");
-const reviewIndicator = document.querySelector("#review-indicator");
+const movesPanelEl = document.querySelector("#moves-panel");
+let panel = null;
+
+function panelOnJump(fen, { isLive }) {
+  if (!fen || !state.puzzle) return;
+  state.pieces = parseFen(fen);
+  state.selected = null;
+  state.legalTargets = isLive && !state.completed ? state.liveLegalTargets ?? {} : {};
+  state.lastMove = null;
+  state.locked = state.completed || !isLive;
+  if (!isLive) statusEl.textContent = "Viewing history — jump to live to continue.";
+  else if (!state.completed) statusEl.textContent = "Your move.";
+  renderBoard();
+}
 
 const SETTINGS_KEYS = { showRating: "tactics.showRating", showMaxPoints: "tactics.showMaxPoints" };
 const settings = {
@@ -206,6 +213,7 @@ async function attemptMove(from, to, matches) {
     state.selected = null;
     state.lastMove = { from, to };
     window.animateMove(boardEl, from, to, renderBoard);
+    if (panel) panel.push({ uci, san: data.user_san, fen: data.fen_after_user });
     if (data.opponent_move) {
       statusEl.textContent = "Correct! Opponent replies…";
       await sleep(OPPONENT_DELAY_MS);
@@ -214,9 +222,17 @@ async function attemptMove(from, to, matches) {
       applyUciOnBoard(data.opponent_move);
       state.lastMove = { from: oppFrom, to: oppTo };
       window.animateMove(boardEl, oppFrom, oppTo, renderBoard);
+      if (panel) {
+        panel.push({
+          uci: data.opponent_move,
+          san: data.opponent_san,
+          fen: data.fen_after_opponent,
+        });
+      }
     }
     state.pieces = parseFen(data.presented_fen);
     state.legalTargets = data.legal_targets ?? {};
+    state.liveLegalTargets = state.legalTargets;
     state.locked = data.completed;
     if (data.completed) {
       completePuzzle(data);
@@ -299,9 +315,8 @@ function completePuzzle(data) {
   const ratingRow = document.querySelector("#rating-row");
   if (ratingRow) ratingRow.hidden = false;
   showAnswerBtn.disabled = true;
-  // Also reveal the rating badge in state.puzzle so review indicator can be seeded.
   if (state.puzzle && data.rating != null) state.puzzle.rating = data.rating;
-  enterReview(data);
+  populatePanelFromCompletion(data);
   nextBtn.disabled = false;
   nextBtn.focus();
   if (data.batch_completed && data.batch_result) {
@@ -411,7 +426,6 @@ async function loadPuzzle() {
   state.selected = null;
   state.lastMove = null;
   state.wrongMoves = 0;
-  exitReview();
   document.querySelector("#feedback").hidden = true;
   statusEl.textContent = "Loading puzzle…";
   try {
@@ -424,6 +438,7 @@ async function loadPuzzle() {
     state.pieces = parseFen(data.presented_fen);
     state.sessionId = data.session_id;
     state.legalTargets = data.legal_targets ?? {};
+    state.liveLegalTargets = state.legalTargets;
     document.querySelector("#position-meta").textContent =
       `${data.side_to_move === "white" ? "White" : "Black"} to move`;
     updatePuzzleDetails(data);
@@ -431,6 +446,13 @@ async function loadPuzzle() {
     state.locked = false;
     showAnswerBtn.disabled = false;
     statusEl.textContent = "Your move — click one of your pieces.";
+    if (panel) {
+      panel.reset({
+        startingFen: data.presented_fen,
+        startingFullmove: data.starting_fullmove ?? 1,
+        startingTurn: data.starting_turn ?? data.side_to_move ?? "white",
+      });
+    }
     renderBoard();
   } catch (error) {
     statusEl.textContent = `Could not load a puzzle: ${error.message}`;
@@ -440,73 +462,6 @@ async function loadPuzzle() {
 async function errorMessage(response) {
   try { return (await response.json()).error.message; }
   catch { return `Request failed (${response.status})`; }
-}
-
-function enterReview(data) {
-  const fens = data.fen_sequence ?? [];
-  if (!fens.length) return;
-  state.review = {
-    fens,
-    san: data.expected_moves_san ?? [],
-    uci: data.expected_moves ?? [],
-    index: 0,
-    startingFullmove: data.starting_fullmove ?? 1,
-    startingTurn: data.starting_turn ?? "white",
-  };
-  reviewBar.hidden = false;
-  applyReviewFrame();
-}
-
-function applyReviewFrame() {
-  const r = state.review;
-  if (!r) return;
-  const fen = r.fens[r.index];
-  state.pieces = parseFen(fen);
-  state.selected = null;
-  state.legalTargets = {};
-  // Highlight the last move played to reach the current position.
-  if (r.index > 0) {
-    const uci = r.uci[r.index - 1] ?? "";
-    state.lastMove = uci.length >= 4 ? { from: uci.slice(0, 2), to: uci.slice(2, 4) } : null;
-  } else {
-    state.lastMove = null;
-  }
-  renderBoard();
-  updateReviewIndicator();
-  reviewStartBtn.disabled = r.index === 0;
-  reviewPrevBtn.disabled = r.index === 0;
-  reviewNextBtn.disabled = r.index >= r.fens.length - 1;
-  reviewEndBtn.disabled = r.index >= r.fens.length - 1;
-}
-
-function updateReviewIndicator() {
-  const r = state.review;
-  if (!r) return;
-  if (r.index === 0) {
-    reviewIndicator.textContent = "Starting position";
-    return;
-  }
-  // Compute a "3. Nf3" or "27… Ne2+" style label for the current move.
-  const moveIdx = r.index - 1;
-  const isBlackFirst = r.startingTurn === "black";
-  let fullmove;
-  let isBlackMove;
-  if (isBlackFirst) {
-    // moveIdx 0 → black at startingFullmove, moveIdx 1 → white at startingFullmove + 1, ...
-    fullmove = r.startingFullmove + Math.floor((moveIdx + 1) / 2);
-    isBlackMove = moveIdx % 2 === 0;
-  } else {
-    fullmove = r.startingFullmove + Math.floor(moveIdx / 2);
-    isBlackMove = moveIdx % 2 === 1;
-  }
-  const san = r.san[moveIdx] ?? r.uci[moveIdx];
-  const prefix = isBlackMove ? `${fullmove}…` : `${fullmove}.`;
-  reviewIndicator.textContent = `${prefix} ${san}  ·  ${r.index} / ${r.fens.length - 1}`;
-}
-
-function exitReview() {
-  state.review = null;
-  reviewBar.hidden = true;
 }
 
 async function revealAnswer() {
@@ -533,36 +488,28 @@ async function revealAnswer() {
   }
 }
 
-function handleReviewKey(event) {
-  if (!state.review) return;
-  if (event.key === "ArrowLeft") { event.preventDefault(); stepReview(-1); }
-  else if (event.key === "ArrowRight") { event.preventDefault(); stepReview(1); }
-  else if (event.key === "Home") { event.preventDefault(); jumpReview(0); }
-  else if (event.key === "End") { event.preventDefault(); jumpReview(state.review.fens.length - 1); }
-}
-
-function stepReview(delta) {
-  const r = state.review;
-  if (!r) return;
-  jumpReview(Math.max(0, Math.min(r.fens.length - 1, r.index + delta)));
-}
-
-function jumpReview(index) {
-  const r = state.review;
-  if (!r) return;
-  r.index = index;
-  applyReviewFrame();
+function populatePanelFromCompletion(data) {
+  if (!panel) return;
+  const sanList = data.expected_moves_san ?? [];
+  const uciList = data.expected_moves ?? [];
+  const fens = data.fen_sequence ?? [];
+  panel.reset({
+    startingFen: fens[0] ?? state.puzzle?.presented_fen,
+    startingFullmove: data.starting_fullmove ?? state.puzzle?.starting_fullmove ?? 1,
+    startingTurn: data.starting_turn ?? state.puzzle?.starting_turn ?? "white",
+  });
+  for (let i = 0; i < uciList.length; i += 1) {
+    panel.push({ uci: uciList[i], san: sanList[i], fen: fens[i + 1] });
+  }
 }
 
 showAnswerBtn.addEventListener("click", revealAnswer);
-reviewStartBtn.addEventListener("click", () => jumpReview(0));
-reviewPrevBtn.addEventListener("click", () => stepReview(-1));
-reviewNextBtn.addEventListener("click", () => stepReview(1));
-reviewEndBtn.addEventListener("click", () => jumpReview(state.review ? state.review.fens.length - 1 : 0));
-document.addEventListener("keydown", handleReviewKey);
 
 nextBtn.addEventListener("click", loadPuzzle);
 settingsOpenBtn.addEventListener("click", openSettings);
 settingsDialog.addEventListener("close", saveSettings);
 applySettingsToDom();
+if (movesPanelEl && window.MovesPanel) {
+  panel = new window.MovesPanel({ container: movesPanelEl, onJump: panelOnJump });
+}
 loadPuzzle();

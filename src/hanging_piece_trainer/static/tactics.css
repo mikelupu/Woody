@@ -125,36 +125,6 @@
 .show-answer-btn:hover:not(:disabled) { background: var(--light-square); }
 .show-answer-btn:disabled { color: var(--muted); cursor: not-allowed; opacity: .6; }
 
-.review-bar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: .4rem;
-  padding: .5rem .75rem;
-  border: 1px solid var(--line);
-  border-radius: .3rem;
-  background: var(--panel);
-}
-.review-bar button {
-  min-width: 2.2rem;
-  padding: .4rem .55rem;
-  border: 1px solid var(--line);
-  border-radius: .25rem;
-  color: var(--ink);
-  background: #fff;
-  font: 700 .95rem "IBM Plex Mono", ui-monospace, monospace;
-  cursor: pointer;
-}
-.review-bar button:hover:not(:disabled) { background: var(--light-square); }
-.review-bar button:disabled { color: var(--muted); cursor: not-allowed; opacity: .5; }
-.review-indicator {
-  flex: 1;
-  text-align: center;
-  font: 700 .88rem "IBM Plex Mono", ui-monospace, monospace;
-  color: var(--forest);
-  padding: 0 .5rem;
-}
-
 .stats .stats-link {
   color: #fff;
   font: 700 1rem "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
