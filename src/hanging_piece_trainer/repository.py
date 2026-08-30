@@ -393,6 +393,29 @@ class ProgressRepository:
         result["point_awarded"] = bool(result["point_awarded"])
         return result
 
+    def solve_attempt_for_puzzle(
+        self,
+        puzzle_id: str,
+        batch_index: int,
+        cycle: int,
+        *,
+        package: str = "tri-band-tactics",
+    ) -> dict[str, Any] | None:
+        """Return the most-recent completed solve_attempt row for one puzzle
+        in a specific batch+cycle+package, or None if none exists."""
+        try:
+            with self._connect() as connection:
+                row = connection.execute(
+                    "SELECT * FROM solve_attempts "
+                    "WHERE puzzle_id = ? AND batch_index = ? AND cycle = ? "
+                    "AND package = ? AND completed = 1 "
+                    "ORDER BY submitted_at DESC, attempt_id DESC LIMIT 1",
+                    (puzzle_id, batch_index, cycle, package),
+                ).fetchone()
+            return self._decode_solve(row) if row is not None else None
+        except sqlite3.DatabaseError as exc:
+            raise RepositoryError("unable to read solve attempt") from exc
+
     def solve_attempts_in_batch(
         self, batch_index: int, cycle: int, *, package: str = "tri-band-tactics"
     ) -> list[dict[str, Any]]:

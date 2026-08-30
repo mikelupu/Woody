@@ -27,11 +27,19 @@ const state = {
   locked: false,
   completed: false,
   wrongMoves: 0,
+  // Review support: when reviewingIndex is not null, we're showing a completed
+  // puzzle from earlier in the current batch. liveIndex is the index of the
+  // puzzle we're actually playing (or just completed) — Prev/Next navigate
+  // between reviewingIndex and liveIndex; going past liveIndex loads the next
+  // live puzzle.
+  reviewingIndex: null,
+  liveIndex: null,
 };
 
 const boardEl = document.querySelector("#board");
 const statusEl = document.querySelector("#board-status");
 const nextBtn = document.querySelector("#next");
+const prevBtn = document.querySelector("#prev");
 const promotionDialog = document.querySelector("#promotion-dialog");
 const promotionCancel = document.querySelector("#promotion-cancel");
 const settingsDialog = document.querySelector("#settings-dialog");
@@ -342,6 +350,7 @@ function completePuzzle(data) {
   if (IS_PREVIEW_BATCH && batchState.index >= batchState.total - 1) {
     nextBtn.textContent = "Back to search";
   }
+  updateNavButtons();
   nextBtn.focus();
   if (!IS_PREVIEW && data.batch_completed && data.batch_result) {
     showBatchDialog(data.batch_result);
@@ -493,8 +502,14 @@ async function loadPuzzle() {
       `${data.side_to_move === "white" ? "White" : "Black"} to move`;
     updatePuzzleDetails(data);
     updateBatch(data.batch);
+    // Track live position in the batch so Review/Previous can navigate back.
+    if (!IS_PREVIEW && data.batch) {
+      state.liveIndex = data.batch.puzzles_played ?? 0;
+      state.reviewingIndex = null;
+    }
     state.locked = false;
     showAnswerBtn.disabled = false;
+    updateNavButtons();
     statusEl.textContent = "Your move — click one of your pieces.";
     if (panel) {
       panel.reset({
@@ -574,6 +589,85 @@ function nextPuzzleInBatch() {
   loadPuzzle();
 }
 
+async function loadReviewPuzzle(index, { asLive = false } = {}) {
+  if (index === null || index === undefined) return;
+  state.locked = true;
+  showAnswerBtn.disabled = true;
+  statusEl.textContent = asLive ? "Returning to current…" : "Loading review…";
+  try {
+    const response = await fetch(`${API_BASE}/batches/current/puzzle/${index}`);
+    if (!response.ok) throw new Error(await errorMessage(response));
+    const data = await response.json();
+    state.reviewingIndex = asLive ? null : index;
+    state.completed = true;
+    state.wrongMoves = data.wrong_moves ?? 0;
+    state.puzzle = data;
+    state.pieces = parseFen(data.presented_fen);
+    state.legalTargets = {};
+    state.liveLegalTargets = {};
+    state.selected = null;
+    state.lastMove = null;
+    const positionLabel = asLive
+      ? `${data.side_to_move === "white" ? "White" : "Black"} to move`
+      : `${data.side_to_move === "white" ? "White" : "Black"} to move · Reviewing ${index + 1} / 5`;
+    document.querySelector("#position-meta").textContent = positionLabel;
+    updatePuzzleDetails(data);
+    completePuzzle({ ...data, batch: null });
+    if (!asLive) {
+      document.querySelector("#feedback-detail").textContent =
+        `Reviewing puzzle ${index + 1} of 5 from this batch. Use ◀ Previous and Next to navigate.`;
+    } else {
+      document.querySelector("#feedback-detail").textContent =
+        "Back on the current puzzle. Click Next puzzle to continue.";
+    }
+    updateNavButtons();
+    renderBoard();
+  } catch (error) {
+    statusEl.textContent = `Could not load review: ${error.message}`;
+  }
+}
+
+function updateNavButtons() {
+  if (IS_PREVIEW) return;   // preview flows manage buttons themselves
+  const live = state.liveIndex ?? 0;
+  const inReview = state.reviewingIndex !== null;
+  const displayed = inReview ? state.reviewingIndex : live;
+  const canPrev = state.completed && displayed > 0;
+  if (prevBtn) {
+    prevBtn.hidden = !canPrev;
+    prevBtn.disabled = !canPrev;
+  }
+  if (inReview) {
+    nextBtn.textContent = state.reviewingIndex + 1 < live ? "Next ▸" : "Return to current";
+  } else {
+    nextBtn.textContent = "Next puzzle";
+  }
+}
+
+function onPrevClick() {
+  if (IS_PREVIEW) return;
+  const live = state.liveIndex ?? 0;
+  const current = state.reviewingIndex ?? live;
+  if (current <= 0) return;
+  loadReviewPuzzle(current - 1);
+}
+
+function onNextClick() {
+  const live = state.liveIndex ?? 0;
+  if (state.reviewingIndex === null) {
+    // At live puzzle → advance to next live puzzle.
+    loadPuzzle();
+    return;
+  }
+  const next = state.reviewingIndex + 1;
+  if (next < live) {
+    loadReviewPuzzle(next);
+  } else {
+    // Return to the current live puzzle (which is completed).
+    loadReviewPuzzle(live, { asLive: true });
+  }
+}
+
 if (IS_PREVIEW) {
   // Hide the batch-progress stat cells in preview mode. Batch mode re-shows
   // the puzzle-position cell to repurpose it as a "Preview N / Total" counter.
@@ -590,7 +684,8 @@ if (IS_PREVIEW) {
     });
   }
 } else {
-  nextBtn.addEventListener("click", loadPuzzle);
+  nextBtn.addEventListener("click", onNextClick);
+  prevBtn?.addEventListener("click", onPrevClick);
 }
 settingsOpenBtn.addEventListener("click", openSettings);
 settingsDialog.addEventListener("close", saveSettings);

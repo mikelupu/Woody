@@ -514,6 +514,56 @@ class TacticsService:
             self._finalize_completion(session_id, session, response, given_up=False)
         return response
 
+    def review_batch_puzzle(self, index: int) -> dict[str, Any]:
+        """Return the completed puzzle at `index` in the current batch as a
+        read-only review payload. 400 if out of range; 404 if not attempted."""
+        cycle, batch, _attempted = self._current_context()
+        if not 0 <= index < len(batch.puzzle_ids):
+            raise ApplicationError(
+                "index_out_of_range",
+                f"index {index} outside 0..{len(batch.puzzle_ids) - 1}",
+                status=400,
+            )
+        puzzle_id = batch.puzzle_ids[index]
+        try:
+            puzzle = self.catalog.get(puzzle_id)
+        except CatalogError as exc:
+            raise ApplicationError("catalog_error", "puzzle vanished", status=500) from exc
+        row = self.repository.solve_attempt_for_puzzle(
+            puzzle_id, batch.index, cycle, package=self.package
+        )
+        if row is None:
+            raise ApplicationError(
+                "not_attempted",
+                f"puzzle at index {index} has not been solved in this batch yet",
+                status=404,
+            )
+        san, fen_sequence = _replay_solution(puzzle.presented_fen, puzzle.solution_moves_uci)
+        rating = puzzle.rating or 0
+        wrong_moves = int(row["wrong_moves"])
+        response: dict[str, Any] = {
+            "index": index,
+            "batch_size": TACTICS_BATCH_SIZE,
+            "batch_index": batch.index,
+            "cycle": cycle,
+            "puzzle_id": puzzle.puzzle_id,
+            "source_url": puzzle.source_url,
+            "presented_fen": puzzle.presented_fen,
+            "side_to_move": puzzle.side_to_move.value,
+            "rating": puzzle.rating,
+            "themes": list(puzzle.themes),
+            "expected_moves": list(puzzle.solution_moves_uci),
+            "expected_moves_san": san,
+            "fen_sequence": fen_sequence,
+            "submitted_moves": list(row["submitted_moves"]),
+            "wrong_moves": wrong_moves,
+            "completed": True,
+            "point_awarded": bool(row["point_awarded"]),
+            "puzzle_points": _score_for_puzzle(rating, wrong_moves),
+        }
+        response.update(_fen_start_metadata(puzzle.presented_fen))
+        return response
+
     def reveal(self, payload: dict[str, Any]) -> dict[str, Any]:
         """Give up: commit a 0-point attempt and return the full solution for review."""
         if not isinstance(payload, dict):

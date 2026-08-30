@@ -194,3 +194,44 @@ def test_stats_page_and_endpoint_available(client) -> None:
     assert endpoint.status_code == 200
     assert endpoint.json["batches"] == []
     assert endpoint.json["statistics"]["batches"] == 0
+
+
+def test_review_returns_solution_for_completed_puzzle(client, app) -> None:
+    """After solving a puzzle, review its data through the batch review endpoint."""
+    _solve_puzzle(client, app, mistakes=0)
+    r = client.get(f"{BASE}/batches/current/puzzle/0")
+    assert r.status_code == 200
+    body = r.json
+    assert body["completed"] is True
+    assert body["index"] == 0
+    assert body["batch_size"] == TACTICS_BATCH_SIZE
+    assert body["puzzle_id"]
+    assert body["presented_fen"]
+    assert body["expected_moves_san"]
+    assert body["fen_sequence"]
+    assert body["wrong_moves"] == 0
+    assert body["puzzle_points"] > 0
+    assert body["starting_fullmove"] >= 1
+    assert body["starting_turn"] in ("white", "black")
+
+
+def test_review_returns_404_for_unattempted_puzzle(client) -> None:
+    r = client.get(f"{BASE}/batches/current/puzzle/4")
+    assert r.status_code == 404
+    assert r.json["error"]["code"] == "not_attempted"
+
+
+def test_review_returns_400_for_out_of_range_index(client) -> None:
+    r = client.get(f"{BASE}/batches/current/puzzle/99")
+    assert r.status_code == 400
+    assert r.json["error"]["code"] == "index_out_of_range"
+
+
+def test_review_reflects_mistake_count(client, app) -> None:
+    _solve_puzzle(client, app, mistakes=1)
+    r = client.get(f"{BASE}/batches/current/puzzle/0")
+    body = r.json
+    assert body["wrong_moves"] == 1
+    # Half points on 1 mistake (round(rating/200)).
+    assert body["puzzle_points"] > 0
+    assert body["point_awarded"] is False

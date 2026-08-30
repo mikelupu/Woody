@@ -412,6 +412,10 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
         require_tactics(slug)
         return jsonify(repository.solve_stats(package=slug))
 
+    @app.get("/api/v1/tactics/<slug>/batches/current/puzzle/<int:index>")
+    def tactic_review_puzzle(slug: str, index: int):
+        return jsonify(require_tactics(slug).review_batch_puzzle(index))
+
     @app.get("/api/v1/tactics/<slug>/batches")
     def tactic_batches(slug: str):
         require_tactics(slug)
