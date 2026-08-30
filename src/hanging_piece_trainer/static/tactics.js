@@ -1,5 +1,18 @@
 "use strict";
 
+const SLUG = document.body?.dataset?.slug ?? "tri-band-tactics";
+const PREVIEW_ID = document.body?.dataset?.previewId ?? null;
+const PREVIEW_BATCH = document.body?.dataset?.previewBatch ?? null;
+const IS_PREVIEW_BATCH = PREVIEW_BATCH !== null;
+const IS_PREVIEW = PREVIEW_ID !== null || IS_PREVIEW_BATCH;
+const API_BASE = IS_PREVIEW
+  ? "/api/v1/tactics/preview"
+  : `/api/v1/tactics/${encodeURIComponent(SLUG)}`;
+
+// Batch mode iterates through preview puzzle_ids; single-preview mode plays
+// one puzzle only. Batch state is populated on first loadPuzzle() call.
+const batchState = { total: 0, index: 0 };
+
 const pieceNames = { p: "pawn", n: "knight", b: "bishop", r: "rook", q: "queen", k: "king" };
 const pieceSvg = (symbol) => (window.PIECES && symbol ? window.PIECES[symbol] || "" : "");
 const OPPONENT_DELAY_MS = 500;
@@ -187,7 +200,7 @@ async function attemptMove(from, to, matches) {
   state.locked = true;
   statusEl.textContent = "Checking your move…";
   try {
-    const response = await fetch("/api/v1/tactics/moves", {
+    const response = await fetch(`${API_BASE}/moves`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ session_id: state.sessionId, uci }),
@@ -307,10 +320,18 @@ function completePuzzle(data) {
   body.textContent = san;
   solutionEl.append(label, body);
   const batch = data.batch ?? {};
-  document.querySelector("#feedback-detail").textContent =
-    `Batch ${batch.index + 1} progress: ${batch.points_earned} / ${batch.points_possible}`;
+  const feedbackDetail = document.querySelector("#feedback-detail");
+  if (IS_PREVIEW) {
+    feedbackDetail.textContent =
+      "Preview complete — save the package to record scores.";
+  } else if (data.batch) {
+    feedbackDetail.textContent =
+      `Batch ${batch.index + 1} progress: ${batch.points_earned} / ${batch.points_possible}`;
+  } else {
+    feedbackDetail.textContent = "";
+  }
   statusEl.textContent = "Puzzle complete.";
-  updateBatch(batch);
+  if (!IS_PREVIEW) updateBatch(batch);
   // Reveal rating in the aside now that the puzzle is over, regardless of setting.
   const ratingRow = document.querySelector("#rating-row");
   if (ratingRow) ratingRow.hidden = false;
@@ -318,8 +339,11 @@ function completePuzzle(data) {
   if (state.puzzle && data.rating != null) state.puzzle.rating = data.rating;
   populatePanelFromCompletion(data);
   nextBtn.disabled = false;
+  if (IS_PREVIEW_BATCH && batchState.index >= batchState.total - 1) {
+    nextBtn.textContent = "Back to search";
+  }
   nextBtn.focus();
-  if (data.batch_completed && data.batch_result) {
+  if (!IS_PREVIEW && data.batch_completed && data.batch_result) {
     showBatchDialog(data.batch_result);
   }
 }
@@ -429,11 +453,37 @@ async function loadPuzzle() {
   document.querySelector("#feedback").hidden = true;
   statusEl.textContent = "Loading puzzle…";
   try {
-    const previous = state.puzzle?.puzzle_id;
-    const url = `/api/v1/tactics/puzzles/next${previous ? `?previous_id=${encodeURIComponent(previous)}` : ""}`;
-    const response = await fetch(url);
+    let response;
+    if (IS_PREVIEW_BATCH) {
+      if (batchState.total === 0) {
+        const meta = await fetch(`${API_BASE}/batch/${encodeURIComponent(PREVIEW_BATCH)}`);
+        if (!meta.ok) throw new Error(await errorMessage(meta));
+        const metaBody = await meta.json();
+        batchState.total = metaBody.count;
+        batchState.index = 0;
+      }
+      response = await fetch(
+        `${API_BASE}/batch/${encodeURIComponent(PREVIEW_BATCH)}/start`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ index: batchState.index }),
+        },
+      );
+    } else if (IS_PREVIEW) {
+      response = await fetch(`${API_BASE}/start`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ puzzle_id: PREVIEW_ID }),
+      });
+    } else {
+      const previous = state.puzzle?.puzzle_id;
+      const url = `${API_BASE}/puzzles/next${previous ? `?previous_id=${encodeURIComponent(previous)}` : ""}`;
+      response = await fetch(url);
+    }
     if (!response.ok) throw new Error(await errorMessage(response));
     const data = await response.json();
+    if (IS_PREVIEW_BATCH) updateBatchCounter();
     state.puzzle = data;
     state.pieces = parseFen(data.presented_fen);
     state.sessionId = data.session_id;
@@ -469,7 +519,7 @@ async function revealAnswer() {
   showAnswerBtn.disabled = true;
   statusEl.textContent = "Revealing the solution…";
   try {
-    const response = await fetch("/api/v1/tactics/reveal", {
+    const response = await fetch(`${API_BASE}/reveal`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ session_id: state.sessionId }),
@@ -505,7 +555,43 @@ function populatePanelFromCompletion(data) {
 
 showAnswerBtn.addEventListener("click", revealAnswer);
 
-nextBtn.addEventListener("click", loadPuzzle);
+function updateBatchCounter() {
+  const cell = document.querySelector("#batch-position")?.parentElement?.parentElement;
+  const value = document.querySelector("#batch-position");
+  const label = cell?.querySelector(".label");
+  if (!cell || !value) return;
+  cell.removeAttribute("hidden");
+  value.textContent = `${batchState.index + 1} / ${batchState.total}`;
+  if (label) label.textContent = "Preview";
+}
+
+function nextPuzzleInBatch() {
+  batchState.index += 1;
+  if (batchState.index >= batchState.total) {
+    window.location.href = "/tactics/packages/new";
+    return;
+  }
+  loadPuzzle();
+}
+
+if (IS_PREVIEW) {
+  // Hide the batch-progress stat cells in preview mode. Batch mode re-shows
+  // the puzzle-position cell to repurpose it as a "Preview N / Total" counter.
+  for (const id of ["batch-earned", "batch-position", "puzzle-position", "puzzle-full-points"]) {
+    document.querySelector(`#${id}`)?.parentElement?.parentElement?.setAttribute("hidden", "");
+  }
+  if (IS_PREVIEW_BATCH) {
+    nextBtn.textContent = "Next puzzle";
+    nextBtn.addEventListener("click", nextPuzzleInBatch);
+  } else {
+    nextBtn.textContent = "Back to search";
+    nextBtn.addEventListener("click", () => {
+      window.location.href = "/tactics/packages/new";
+    });
+  }
+} else {
+  nextBtn.addEventListener("click", loadPuzzle);
+}
 settingsOpenBtn.addEventListener("click", openSettings);
 settingsDialog.addEventListener("close", saveSettings);
 applySettingsToDom();

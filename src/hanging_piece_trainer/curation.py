@@ -62,6 +62,30 @@ def source_checksum(path: Path) -> str:
     return digest.hexdigest()
 
 
+def hash_rank(seed: int, puzzle_id: str) -> int:
+    """Deterministic 64-bit rank used to sample puzzles from a candidate pool."""
+    return int.from_bytes(
+        hashlib.blake2b(f"{seed}:{puzzle_id}".encode(), digest_size=8).digest(),
+        "big",
+    )
+
+
+def _atomic_write_catalog(path: Path, data: dict[str, Any]) -> None:
+    """Atomically write a catalog JSON to disk (tempfile → fsync → replace)."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    handle, temporary_name = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
+    try:
+        with os.fdopen(handle, "w", encoding="utf-8") as temporary:
+            json.dump(data, temporary, indent=2, sort_keys=True)
+            temporary.write("\n")
+            temporary.flush()
+            os.fsync(temporary.fileno())
+        os.replace(temporary_name, path)
+    except BaseException:
+        Path(temporary_name).unlink(missing_ok=True)
+        raise
+
+
 def curate(
     source: Path,
     output: Path,
@@ -107,10 +131,7 @@ def curate(
                 continue
             if puzzle_id in selected_ids:
                 continue
-            selection_rank = int.from_bytes(
-                hashlib.blake2b(f"{seed}:{puzzle_id}".encode(), digest_size=8).digest(),
-                "big",
-            )
+            selection_rank = hash_rank(seed, puzzle_id)
             worst_index: int | None = None
             if len(candidates) >= CATALOG_SIZE:
                 worst_index = max(
@@ -170,18 +191,7 @@ def curate(
         "puzzles": selected,
     }
     data["catalog_checksum"] = checksum(data)
-    output.parent.mkdir(parents=True, exist_ok=True)
-    handle, temporary_name = tempfile.mkstemp(prefix=f".{output.name}.", dir=output.parent)
-    try:
-        with os.fdopen(handle, "w", encoding="utf-8") as temporary:
-            json.dump(data, temporary, indent=2, sort_keys=True)
-            temporary.write("\n")
-            temporary.flush()
-            os.fsync(temporary.fileno())
-        os.replace(temporary_name, output)
-    except BaseException:
-        Path(temporary_name).unlink(missing_ok=True)
-        raise
+    _atomic_write_catalog(output, data)
     return data
 
 

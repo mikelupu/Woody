@@ -214,6 +214,7 @@ class SolveSession:
     wrong_moves: int
     created_at: float
     started_at: float
+    starting_fen: str = ""
 
 
 class SolveStore:
@@ -236,6 +237,7 @@ class SolveStore:
             wrong_moves=0,
             created_at=now,
             started_at=now,
+            starting_fen=board_fen,
         )
         return identifier
 
@@ -361,6 +363,7 @@ class TacticsService:
         *,
         now: Callable[[], datetime] = lambda: datetime.now(UTC),
         batches: tuple[TacticsBatch, ...] | None = None,
+        package: str | None = None,
     ) -> None:
         self.catalog = catalog
         self.repository = repository
@@ -368,15 +371,18 @@ class TacticsService:
         self.now = now
         self.batches = batches if batches is not None else compute_batches(catalog)
         self.batches_per_cycle = len(self.batches)
+        self.package = package or catalog.slug
 
     def _current_context(self) -> tuple[int, TacticsBatch, dict[str, int]]:
         """Return (cycle, current_batch, attempted_by_id) for the active batch."""
-        cycle = self.repository.current_cycle(self.batches_per_cycle)
-        done = self.repository.completed_batches(cycle)
+        cycle = self.repository.current_cycle(self.batches_per_cycle, package=self.package)
+        done = self.repository.completed_batches(cycle, package=self.package)
         for batch in self.batches:
             if batch.index in done:
                 continue
-            attempts = self.repository.solve_attempts_in_batch(batch.index, cycle)
+            attempts = self.repository.solve_attempts_in_batch(
+                batch.index, cycle, package=self.package
+            )
             attempted = {row["puzzle_id"]: int(row["wrong_moves"]) for row in attempts}
             return cycle, batch, attempted
         # Shouldn't get here — current_cycle() rolls forward once a cycle is done.
@@ -569,13 +575,16 @@ class TacticsService:
             "rules_version": RULES_VERSION,
             "batch_index": batch.index,
             "cycle": cycle,
+            "package": self.package,
         }
         batch_result: dict[str, Any] | None = None
         try:
             self.repository.commit_solve_attempt(attempt)
             attempted = {
                 row["puzzle_id"]: int(row["wrong_moves"])
-                for row in self.repository.solve_attempts_in_batch(batch.index, cycle)
+                for row in self.repository.solve_attempts_in_batch(
+                    batch.index, cycle, package=self.package
+                )
             }
             if len(attempted) >= TACTICS_BATCH_SIZE and set(attempted).issuperset(batch.puzzle_ids):
                 per_puzzle = [
@@ -593,6 +602,7 @@ class TacticsService:
                     "per_puzzle_points": per_puzzle,
                     "schema_version": SCHEMA_VERSION,
                     "rules_version": RULES_VERSION,
+                    "package": self.package,
                 }
                 self.repository.commit_tactics_batch(batch_row)
                 batch_result = {
@@ -603,8 +613,8 @@ class TacticsService:
                     "per_puzzle_points": per_puzzle,
                     "puzzle_ids": list(batch.puzzle_ids),
                 }
-            statistics = self.repository.solve_stats()
-            batch_stats = self.repository.tactics_batch_stats()
+            statistics = self.repository.solve_stats(package=self.package)
+            batch_stats = self.repository.tactics_batch_stats(package=self.package)
         except RepositoryError as exc:
             raise ApplicationError(
                 "persistence_failure",
@@ -630,6 +640,194 @@ class TacticsService:
         response["batch_completed"] = batch_result is not None
         response["batch_result"] = batch_result
         self.sessions.drop(session_id)
+
+
+class PreviewBatchStore:
+    """Process-local, expiring store of Lichess puzzle-row batches used by
+    the search builder's "Try these 10" flow. Each entry holds the puzzle
+    rows sampled from a SearchQuery so the play page can iterate through
+    them without re-hitting the index."""
+
+    def __init__(self, *, ttl_seconds: int = 7200, clock: Callable[[], float] = time.time) -> None:
+        self.ttl_seconds = ttl_seconds
+        self.clock = clock
+        self._batches: dict[str, tuple[list[dict[str, Any]], float]] = {}
+
+    def create(self, puzzle_rows: list[dict[str, Any]]) -> str:
+        now = self.clock()
+        self._purge(now)
+        identifier = secrets.token_urlsafe(24)
+        self._batches[identifier] = (list(puzzle_rows), now)
+        return identifier
+
+    def resolve(self, identifier: str) -> list[dict[str, Any]]:
+        now = self.clock()
+        entry = self._batches.get(identifier)
+        if entry is None or now - entry[1] > self.ttl_seconds:
+            self._batches.pop(identifier, None)
+            raise ApplicationError("stale_batch", "Preview batch is invalid or stale", status=404)
+        return entry[0]
+
+    def _purge(self, now: float) -> None:
+        stale = [
+            identifier
+            for identifier, (_, created) in self._batches.items()
+            if now - created > self.ttl_seconds
+        ]
+        for identifier in stale:
+            del self._batches[identifier]
+
+
+class TacticsPreviewService:
+    """Stateless preview: play a Lichess puzzle without touching the DB.
+
+    Used by the search builder so the user can try a couple of puzzles before
+    saving them as a package. No batches, no scoring, no persistence — sessions
+    are held in an in-memory SolveStore for their TTL.
+    """
+
+    def __init__(self, sessions: SolveStore) -> None:
+        self.sessions = sessions
+
+    def start(self, puzzle_row: dict[str, Any]) -> dict[str, Any]:
+        moves = str(puzzle_row.get("moves", "")).split()
+        if not moves:
+            raise ApplicationError("invalid_puzzle", "puzzle has no moves", status=400)
+        try:
+            board = chess.Board(str(puzzle_row["fen"]))
+            first = chess.Move.from_uci(moves[0])
+            if first not in board.legal_moves:
+                raise ApplicationError(
+                    "invalid_puzzle", "first move is not legal from source FEN", status=400
+                )
+            board.push(first)
+        except (KeyError, ValueError, chess.InvalidMoveError) as exc:
+            raise ApplicationError(
+                "invalid_puzzle", f"cannot start puzzle: {exc}", status=400
+            ) from exc
+        presented_fen = board.fen()
+        solution = moves[1:]
+        puzzle_id = str(puzzle_row.get("id") or puzzle_row.get("puzzle_id") or "preview")
+        session_id = self.sessions.create(puzzle_id, presented_fen, solution)
+        response = {
+            "session_id": session_id,
+            "puzzle_id": puzzle_id,
+            "presented_fen": presented_fen,
+            "side_to_move": "white" if board.turn == chess.WHITE else "black",
+            "rating": puzzle_row.get("rating"),
+            "themes": puzzle_row.get("themes") or [],
+            "source_url": puzzle_row.get("game_url") or f"https://lichess.org/training/{puzzle_id}",
+            "legal_targets": _legal_targets(presented_fen),
+            "remaining_plies": len(solution),
+        }
+        response.update(_fen_start_metadata(presented_fen))
+        return response
+
+    def submit_move(self, payload: dict[str, Any]) -> dict[str, Any]:
+        if not isinstance(payload, dict):
+            raise ApplicationError("invalid_request", "JSON object required")
+        session_id = payload.get("session_id")
+        uci = payload.get("uci")
+        if not isinstance(session_id, str) or not isinstance(uci, str):
+            raise ApplicationError("invalid_move", "session_id and uci are required strings")
+        session = self.sessions.resolve(session_id)
+        if not session.remaining_moves:
+            raise ApplicationError(
+                "already_completed", "This puzzle has already been solved", status=409
+            )
+        try:
+            board = chess.Board(session.board_fen)
+        except ValueError as exc:
+            raise ApplicationError(
+                "invalid_session_state", "Session board is corrupt", status=500
+            ) from exc
+        try:
+            move = chess.Move.from_uci(uci)
+        except (ValueError, chess.InvalidMoveError) as exc:
+            raise ApplicationError("illegal_move", "Not a valid move notation") from exc
+        if move not in board.legal_moves:
+            return {
+                "correct": False,
+                "reason": "illegal",
+                "retry": True,
+                "wrong_moves": session.wrong_moves,
+            }
+        expected_uci = session.remaining_moves[0]
+        if uci != expected_uci:
+            session.wrong_moves += 1
+            return {
+                "correct": False,
+                "reason": "wrong_move",
+                "retry": True,
+                "wrong_moves": session.wrong_moves,
+            }
+        user_san = board.san(move)
+        session.submitted_moves.append(uci)
+        session.remaining_moves.pop(0)
+        board.push(move)
+        fen_after_user = board.fen()
+        opponent_uci: str | None = None
+        opponent_san: str | None = None
+        fen_after_opponent: str | None = None
+        if session.remaining_moves:
+            opponent_uci = session.remaining_moves.pop(0)
+            try:
+                opponent_move = chess.Move.from_uci(opponent_uci)
+            except (ValueError, chess.InvalidMoveError) as exc:
+                raise ApplicationError(
+                    "invalid_solution", "Solution's opponent move is invalid", status=500
+                ) from exc
+            if opponent_move not in board.legal_moves:
+                raise ApplicationError(
+                    "invalid_solution",
+                    "Solution's opponent move is illegal from this position",
+                    status=500,
+                )
+            opponent_san = board.san(opponent_move)
+            board.push(opponent_move)
+            fen_after_opponent = board.fen()
+            session.submitted_moves.append(opponent_uci)
+        session.board_fen = board.fen()
+        completed = not session.remaining_moves
+        response: dict[str, Any] = {
+            "correct": True,
+            "user_move": uci,
+            "user_san": user_san,
+            "fen_after_user": fen_after_user,
+            "opponent_move": opponent_uci,
+            "opponent_san": opponent_san,
+            "fen_after_opponent": fen_after_opponent,
+            "presented_fen": session.board_fen,
+            "legal_targets": _legal_targets(session.board_fen) if not completed else {},
+            "completed": completed,
+            "wrong_moves": session.wrong_moves,
+        }
+        if completed:
+            self.sessions.drop(session_id)
+        return response
+
+    def reveal(self, payload: dict[str, Any]) -> dict[str, Any]:
+        if not isinstance(payload, dict):
+            raise ApplicationError("invalid_request", "JSON object required")
+        session_id = payload.get("session_id")
+        if not isinstance(session_id, str):
+            raise ApplicationError("invalid_move", "session_id is required")
+        session = self.sessions.resolve(session_id)
+        full_moves = list(session.submitted_moves) + list(session.remaining_moves)
+        starting_fen = session.starting_fen or session.board_fen
+        san, fen_sequence = _replay_solution(starting_fen, full_moves)
+        self.sessions.drop(session_id)
+        return {
+            "correct": False,
+            "completed": True,
+            "given_up": True,
+            "presented_fen": starting_fen,
+            "legal_targets": {},
+            "expected_moves": full_moves,
+            "expected_moves_san": san,
+            "fen_sequence": fen_sequence,
+            "wrong_moves": session.wrong_moves,
+        }
 
 
 def _legal_targets(fen: str) -> dict[str, list[dict[str, str | None]]]:

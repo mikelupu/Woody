@@ -15,7 +15,7 @@
     <script src="{{ url_for('static', filename='movesPanel.js') }}" defer></script>
     <script src="{{ url_for('static', filename='tactics.js') }}" defer></script>
   </head>
-  <body>
+  <body data-slug="{{ slug }}"{% if preview_id %} data-preview-id="{{ preview_id }}"{% endif %}{% if preview_batch %} data-preview-batch="{{ preview_batch }}"{% endif %}>
     <header class="site-header">
       <div>
         <h1>Tactics Trainer</h1>
@@ -24,7 +24,7 @@
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3 3 8l9 5 9-5-9-5zm0 7L3 15l9 5 9-5-9-5z"/></svg>
             Hanging trainer
           </a>
-          <a href="{{ url_for('tactics_page') }}" class="current" aria-current="page">
+          <a href="{{ url_for('tactics_packages_page') }}" class="current" aria-current="page">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6 6.6.6-5 4.4 1.5 6.5L12 16.9l-6 3.6 1.5-6.5-5-4.4L9.1 8z"/></svg>
             Tactics
           </a>
@@ -67,7 +67,11 @@
           <span class="icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h4v16H4zm6 6h4v10h-4zm6-4h4v14h-4z"/></svg>
           </span>
-          <div class="body"><a href="{{ url_for('tactics_stats_page') }}" class="stats-link">View →</a><span class="label">Stats</span></div>
+          <div class="body"><a href="{{ url_for('tactics_stats_page', slug=slug) }}" class="stats-link">View →</a><span class="label">Stats</span></div>
+        </div>
+        <div class="cell">
+          <a class="stats-link" href="{{ url_for('tactics_packages_page') }}" style="color:#fff;font:700 .9rem 'IBM Plex Mono',ui-monospace,monospace;text-decoration:none">← Packages</a>
+          <span class="label" style="opacity:0">.</span>
         </div>
       </div>
     </header>

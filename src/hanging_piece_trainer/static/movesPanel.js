@@ -132,15 +132,9 @@
           </table>
           <p class="moves-panel-empty" hidden>No moves yet.</p>
         </div>
-        <div class="moves-panel-live" hidden>
-          <span class="dot" aria-hidden="true"></span>
-          <span class="label">Viewing history</span>
-          <button type="button" data-action="jump-live">Jump to live</button>
-        </div>
       `;
       this.tbody = this.container.querySelector("tbody");
       this.emptyEl = this.container.querySelector(".moves-panel-empty");
-      this.liveEl = this.container.querySelector(".moves-panel-live");
       this.controls = this.container.querySelector(".moves-panel-controls");
       this.scroll = this.container.querySelector(".moves-panel-scroll");
       this.container.addEventListener("click", (event) => {
@@ -162,7 +156,6 @@
       else if (action === "prev") this.prev();
       else if (action === "next") this.next();
       else if (action === "last") this.last();
-      else if (action === "jump-live") this.last();
     }
 
     _render() {
@@ -204,9 +197,6 @@
       const isEmpty = this.history.length <= 1;
       this.emptyEl.hidden = !isEmpty;
       this.scroll.querySelector("table").hidden = isEmpty;
-      // Live vs history state.
-      const showingLive = this.isLive();
-      this.liveEl.hidden = showingLive;
       // Enable/disable nav buttons.
       const canPrev = this.viewIndex > 0;
       const canNext = this.viewIndex < this.history.length - 1;

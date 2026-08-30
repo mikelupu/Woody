@@ -115,36 +115,41 @@ def test_unknown_presentation_and_pagination_errors(client) -> None:
     assert client.get("/api/v1/attempts?limit=bad").status_code == 400
 
 
-def test_missing_catalog_reports_unavailable(tmp_path: Path) -> None:
+def test_missing_hanging_catalog_reports_unavailable(tmp_path: Path) -> None:
     app = create_app(
         {
             "TESTING": True,
             "DATABASE": str(tmp_path / "progress.sqlite3"),
             "CATALOG_PATH": str(tmp_path / "missing.json"),
-            "CATALOG_TACTICS_PATH": str(tmp_path / "missing-tactics.json"),
+            "CURATED_PACKAGES_DIR": str(tmp_path / "no-packages"),
+            "USER_PACKAGES_DIR": str(tmp_path / "user_packages"),
         }
     )
     client = app.test_client()
+    # No hanging catalog and no packages → health is 503.
     assert client.get("/api/v1/health").status_code == 503
     assert client.get("/api/v1/puzzles/next").status_code == 503
-    assert client.get("/api/v1/tactics/puzzles/next").status_code == 503
+    # Unknown tactics package returns 404 (not 503) — the registry is up but empty.
+    assert client.get("/api/v1/tactics/nope/puzzles/next").status_code == 404
 
 
-def test_hanging_endpoints_still_work_when_only_tactics_catalog_is_missing(tmp_path: Path) -> None:
+def test_hanging_endpoints_still_work_when_no_tactics_packages(tmp_path: Path) -> None:
     app = create_app(
         {
             "TESTING": True,
             "DATABASE": str(tmp_path / "progress.sqlite3"),
-            "CATALOG_TACTICS_PATH": str(tmp_path / "missing-tactics.json"),
+            "CURATED_PACKAGES_DIR": str(tmp_path / "no-packages"),
+            "USER_PACKAGES_DIR": str(tmp_path / "user_packages"),
         }
     )
     client = app.test_client()
     health = client.get("/api/v1/health")
     assert health.status_code == 200
     assert health.json["catalog"] == "ready"
-    assert health.json["catalog_tactics"] != "ready"
     assert client.get("/api/v1/puzzles/next").status_code == 200
-    assert client.get("/api/v1/tactics/puzzles/next").status_code == 503
+    # Tactics packages list is empty; individual slug lookups 404.
+    assert client.get("/api/v1/tactics/packages").json["packages"] == []
+    assert client.get("/api/v1/tactics/nope/puzzles/next").status_code == 404
 
 
 def test_not_found_is_stable_json(client) -> None:

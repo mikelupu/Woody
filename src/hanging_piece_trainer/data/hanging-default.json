@@ -1,5 +1,13 @@
 {
-  "catalog_checksum": "9bb9d7bf51daa8324073c87738c3637545eea4c9266c2c887f24045de4ab5c77",
+  "catalog_checksum": "4e5f8d191ccf425d6c07b05f50f2d18021af508453ad6f20c34714c8f72cbd1c",
+  "package": {
+    "created_at": "2026-08-27T00:00:00Z",
+    "description": "100 middlegame positions where the side to move has a hanging piece.",
+    "kind": "curated",
+    "query": null,
+    "slug": "hanging-default",
+    "title": "Hanging piece \u2014 Middlegame"
+  },
   "puzzles": [
     {
       "answers_by_color": {
@@ -4203,5 +4211,6 @@
     "name": "lichess_db_puzzle.csv.zst",
     "sha256": "a0ea9129c6b6434dfb34a9ac4ec660c9cfff22b2de465e01854f018fc847f073",
     "url": "https://database.lichess.org/lichess_db_puzzle.csv.zst"
-  }
+  },
+  "target_count": 100
 }

@@ -123,13 +123,19 @@ Dockerfile builder and points the health check at `/api/v1/health`, and setting
    railway link
    ```
 3. In the Railway dashboard, on the same service:
-   - **Volumes** → add a volume, mount path `/data`. This is where the SQLite
-     ledger (`progress.sqlite3`) lives so it survives redeploys.
+   - **Volumes** → add a volume, mount path `/data`. This is where all runtime
+     state lives so it survives redeploys: the SQLite ledger
+     (`/data/progress.sqlite3`), user-created tactics packages
+     (`/data/packages/*.json`), and the Lichess search index
+     (`/data/lichess_index.sqlite3`).
    - **Variables** → set:
      - `HPT_BASIC_USER` — a username you pick
      - `HPT_BASIC_PASS` — a strong password
-     - (optional) `HPT_INSTANCE_PATH=/data` — already the Dockerfile default; set
-       explicitly if you ever change the mount path.
+     - (optional) `HPT_INSTANCE_PATH=/data` — already the Dockerfile default;
+       controls where `progress.sqlite3` lands.
+     - (optional) `HPT_DATA_DIR=/data` — already the Dockerfile default;
+       controls where user packages and the Lichess index land. Override only
+       if you mount the volume somewhere other than `/data`.
      - (optional) `HPT_STOCKFISH_PATH=/usr/games/stockfish` — already the
        Dockerfile default.
 
@@ -160,7 +166,9 @@ browser will prompt for the username/password you set above.
   subprocess live in the worker process. Scaling out would need a real session
   store and per-worker engines.
 - The volume mount is important; without it every redeploy drops your tactics
-  batch history and hanging-piece attempts.
+  batch history, hanging-piece attempts, any packages you built with the search
+  builder, and the Lichess search index (which takes several minutes to
+  rebuild).
 - Basic auth protects all routes except `/api/v1/health` so Railway's health
   check keeps working. If you don't set `HPT_BASIC_USER` and `HPT_BASIC_PASS`,
   the app runs unauthenticated — fine locally, dangerous on a public URL.

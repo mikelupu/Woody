@@ -1,9 +1,12 @@
 "use strict";
 
+const SLUG = document.body?.dataset?.slug ?? "tri-band-tactics";
+const API_BASE = `/api/v1/tactics/${encodeURIComponent(SLUG)}`;
+
 const state = { batches: [], statistics: null };
 
 async function load() {
-  const response = await fetch("/api/v1/tactics/batches?limit=200");
+  const response = await fetch(`${API_BASE}/batches?limit=200`);
   if (!response.ok) return;
   const data = await response.json();
   state.batches = (data.batches ?? []).slice().reverse(); // oldest first for the chart

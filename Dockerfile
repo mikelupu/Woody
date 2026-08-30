@@ -4,7 +4,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     HPT_STOCKFISH_PATH=/usr/games/stockfish \
-    HPT_INSTANCE_PATH=/data
+    HPT_INSTANCE_PATH=/data \
+    HPT_DATA_DIR=/data
 
 # Stockfish + build tools for wheels that ship no arm64 slim wheel yet.
 RUN apt-get update \

@@ -96,32 +96,3 @@
   text-align: center;
 }
 
-.moves-panel-live {
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-  padding: .55rem .75rem;
-  border: 1px solid var(--line);
-  border-radius: .3rem;
-  background: rgb(215 169 40 / 12%);
-  color: var(--ink);
-  font-size: .85rem;
-}
-.moves-panel-live .dot {
-  width: .55rem;
-  height: .55rem;
-  border-radius: 50%;
-  background: var(--gold);
-  box-shadow: 0 0 0 3px rgb(215 169 40 / 25%);
-}
-.moves-panel-live .label { flex: 1; }
-.moves-panel-live button {
-  padding: .35rem .8rem;
-  border: 1px solid var(--forest-bright);
-  border-radius: .25rem;
-  color: #fff;
-  background: var(--forest-bright);
-  font: 700 .82rem Inter, sans-serif;
-  cursor: pointer;
-}
-.moves-panel-live button:hover { background: var(--forest); }

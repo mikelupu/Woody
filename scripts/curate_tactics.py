@@ -13,17 +13,19 @@ from __future__ import annotations
 
 import argparse
 import csv
-import hashlib
-import json
-import os
 import sys
-import tempfile
 from itertools import chain
 from pathlib import Path
 from typing import Any
 
 from hanging_piece_trainer.catalog import RULES_VERSION, SCHEMA_VERSION, checksum
-from hanging_piece_trainer.curation import LICHESS_FIELDS, open_source, source_checksum
+from hanging_piece_trainer.curation import (
+    LICHESS_FIELDS,
+    _atomic_write_catalog,
+    hash_rank,
+    open_source,
+    source_checksum,
+)
 from hanging_piece_trainer.domain import Color, DomainError, classify, reconstruct
 
 BANDS: tuple[tuple[str, int, int, int], ...] = (
@@ -104,10 +106,7 @@ def curate(
             band = band_for(rating)
             if band is None:
                 continue
-            selection_rank = int.from_bytes(
-                hashlib.blake2b(f"{seed}:{puzzle_id}".encode(), digest_size=8).digest(),
-                "big",
-            )
+            selection_rank = hash_rank(seed, puzzle_id)
             pool = pools[band]
             capacity = pool_sizes[band]
             worst_index: int | None = None
@@ -183,19 +182,7 @@ def curate(
         "puzzles": selected,
     }
     data["catalog_checksum"] = checksum(data)
-
-    output.parent.mkdir(parents=True, exist_ok=True)
-    handle, temporary_name = tempfile.mkstemp(prefix=f".{output.name}.", dir=output.parent)
-    try:
-        with os.fdopen(handle, "w", encoding="utf-8") as temporary:
-            json.dump(data, temporary, indent=2, sort_keys=True)
-            temporary.write("\n")
-            temporary.flush()
-            os.fsync(temporary.fileno())
-        os.replace(temporary_name, output)
-    except BaseException:
-        Path(temporary_name).unlink(missing_ok=True)
-        raise
+    _atomic_write_catalog(output, data)
     return data
 
 

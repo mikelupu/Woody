@@ -96,6 +96,8 @@ class ProgressRepository:
                 for ddl in (
                     "ALTER TABLE solve_attempts ADD COLUMN batch_index INTEGER",
                     "ALTER TABLE solve_attempts ADD COLUMN cycle INTEGER",
+                    "ALTER TABLE solve_attempts ADD COLUMN package TEXT NOT NULL "
+                    "DEFAULT 'tri-band-tactics'",
                 ):
                     with contextlib.suppress(sqlite3.OperationalError):
                         connection.execute(ddl)
@@ -113,9 +115,53 @@ class ProgressRepository:
                         per_puzzle_points TEXT NOT NULL,
                         schema_version INTEGER NOT NULL,
                         rules_version TEXT NOT NULL,
-                        UNIQUE (batch_index, cycle)
+                        package TEXT NOT NULL DEFAULT 'tri-band-tactics'
                     )
                     """
+                )
+                # Per-package migration: if the table was created before the
+                # `package` column existed, its schema still has the legacy
+                # UNIQUE(batch_index, cycle) constraint that would collide
+                # across packages. Rewrite the table to drop it.
+                legacy = connection.execute(
+                    "SELECT sql FROM sqlite_master WHERE type='table' AND name='tactics_batches'"
+                ).fetchone()
+                if legacy and "UNIQUE (batch_index, cycle)" in legacy["sql"]:
+                    connection.execute(
+                        "ALTER TABLE tactics_batches RENAME TO tactics_batches_legacy"
+                    )
+                    connection.execute(
+                        """
+                        CREATE TABLE tactics_batches (
+                            row_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                            batch_index INTEGER NOT NULL,
+                            cycle INTEGER NOT NULL,
+                            completed_at TEXT NOT NULL,
+                            points_earned INTEGER NOT NULL CHECK (points_earned >= 0),
+                            points_possible INTEGER NOT NULL CHECK (points_possible >= 0),
+                            puzzles_solved INTEGER NOT NULL CHECK (puzzles_solved >= 0),
+                            puzzle_ids TEXT NOT NULL,
+                            per_puzzle_points TEXT NOT NULL,
+                            schema_version INTEGER NOT NULL,
+                            rules_version TEXT NOT NULL,
+                            package TEXT NOT NULL DEFAULT 'tri-band-tactics'
+                        )
+                        """
+                    )
+                    connection.execute(
+                        "INSERT INTO tactics_batches "
+                        "(row_id, batch_index, cycle, completed_at, points_earned, "
+                        "points_possible, puzzles_solved, puzzle_ids, per_puzzle_points, "
+                        "schema_version, rules_version, package) "
+                        "SELECT row_id, batch_index, cycle, completed_at, points_earned, "
+                        "points_possible, puzzles_solved, puzzle_ids, per_puzzle_points, "
+                        "schema_version, rules_version, 'tri-band-tactics' "
+                        "FROM tactics_batches_legacy"
+                    )
+                    connection.execute("DROP TABLE tactics_batches_legacy")
+                connection.execute(
+                    "CREATE UNIQUE INDEX IF NOT EXISTS tactics_batches_pkg_cycle_idx "
+                    "ON tactics_batches(package, batch_index, cycle)"
                 )
                 connection.execute(
                     "CREATE INDEX IF NOT EXISTS tactics_batches_completed_at_idx "
@@ -239,11 +285,13 @@ class ProgressRepository:
             "rules_version",
             "batch_index",
             "cycle",
+            "package",
         )
         attempt = {
             **attempt,
             "batch_index": attempt.get("batch_index"),
             "cycle": attempt.get("cycle"),
+            "package": attempt.get("package", "tri-band-tactics"),
         }
         values = [
             json.dumps(attempt[name], sort_keys=True)
@@ -273,28 +321,49 @@ class ProgressRepository:
         except sqlite3.DatabaseError as exc:
             raise RepositoryError("unable to commit solve attempt") from exc
 
-    def solve_history(self, *, limit: int = 100, offset: int = 0) -> list[dict[str, Any]]:
+    def solve_history(
+        self,
+        *,
+        limit: int = 100,
+        offset: int = 0,
+        package: str | None = None,
+    ) -> list[dict[str, Any]]:
         if not 1 <= limit <= 500 or offset < 0:
             raise RepositoryError("invalid history bounds")
         try:
             with self._connect() as connection:
-                rows = connection.execute(
-                    "SELECT * FROM solve_attempts ORDER BY submitted_at DESC, attempt_id DESC "
-                    "LIMIT ? OFFSET ?",
-                    (limit, offset),
-                ).fetchall()
+                if package is None:
+                    rows = connection.execute(
+                        "SELECT * FROM solve_attempts "
+                        "ORDER BY submitted_at DESC, attempt_id DESC LIMIT ? OFFSET ?",
+                        (limit, offset),
+                    ).fetchall()
+                else:
+                    rows = connection.execute(
+                        "SELECT * FROM solve_attempts WHERE package = ? "
+                        "ORDER BY submitted_at DESC, attempt_id DESC LIMIT ? OFFSET ?",
+                        (package, limit, offset),
+                    ).fetchall()
             return [self._decode_solve(row) for row in rows]
         except sqlite3.DatabaseError as exc:
             raise RepositoryError("unable to read solve attempt history") from exc
 
-    def solve_stats(self) -> dict[str, int | float | None]:
+    def solve_stats(self, *, package: str | None = None) -> dict[str, int | float | None]:
         try:
             with self._connect() as connection:
-                rows = connection.execute(
-                    "SELECT point_awarded, completion_ms FROM solve_attempts "
-                    "WHERE completed = 1 "
-                    "ORDER BY submitted_at ASC, attempt_id ASC"
-                ).fetchall()
+                if package is None:
+                    rows = connection.execute(
+                        "SELECT point_awarded, completion_ms FROM solve_attempts "
+                        "WHERE completed = 1 "
+                        "ORDER BY submitted_at ASC, attempt_id ASC"
+                    ).fetchall()
+                else:
+                    rows = connection.execute(
+                        "SELECT point_awarded, completion_ms FROM solve_attempts "
+                        "WHERE completed = 1 AND package = ? "
+                        "ORDER BY submitted_at ASC, attempt_id ASC",
+                        (package,),
+                    ).fetchall()
         except sqlite3.DatabaseError as exc:
             raise RepositoryError("unable to derive solve statistics") from exc
         points = [int(row["point_awarded"]) for row in rows]
@@ -324,15 +393,17 @@ class ProgressRepository:
         result["point_awarded"] = bool(result["point_awarded"])
         return result
 
-    def solve_attempts_in_batch(self, batch_index: int, cycle: int) -> list[dict[str, Any]]:
+    def solve_attempts_in_batch(
+        self, batch_index: int, cycle: int, *, package: str = "tri-band-tactics"
+    ) -> list[dict[str, Any]]:
         """Return `(puzzle_id, wrong_moves)` rows for solves in this batch/cycle."""
         try:
             with self._connect() as connection:
                 rows = connection.execute(
                     "SELECT puzzle_id, wrong_moves, submitted_at FROM solve_attempts "
-                    "WHERE batch_index = ? AND cycle = ? AND completed = 1 "
+                    "WHERE batch_index = ? AND cycle = ? AND package = ? AND completed = 1 "
                     "ORDER BY submitted_at ASC",
-                    (batch_index, cycle),
+                    (batch_index, cycle, package),
                 ).fetchall()
             return [dict(row) for row in rows]
         except sqlite3.DatabaseError as exc:
@@ -350,7 +421,9 @@ class ProgressRepository:
             "per_puzzle_points",
             "schema_version",
             "rules_version",
+            "package",
         )
+        batch = {**batch, "package": batch.get("package", "tri-band-tactics")}
         values = [
             json.dumps(batch[name], sort_keys=True)
             if isinstance(batch[name], dict | list)
@@ -376,51 +449,73 @@ class ProgressRepository:
         except sqlite3.DatabaseError as exc:
             raise RepositoryError("unable to commit tactics batch") from exc
 
-    def tactics_batch_history(self, *, limit: int = 100, offset: int = 0) -> list[dict[str, Any]]:
+    def tactics_batch_history(
+        self,
+        *,
+        limit: int = 100,
+        offset: int = 0,
+        package: str | None = None,
+    ) -> list[dict[str, Any]]:
         if not 1 <= limit <= 500 or offset < 0:
             raise RepositoryError("invalid history bounds")
         try:
             with self._connect() as connection:
-                rows = connection.execute(
-                    "SELECT * FROM tactics_batches "
-                    "ORDER BY completed_at DESC, row_id DESC LIMIT ? OFFSET ?",
-                    (limit, offset),
-                ).fetchall()
+                if package is None:
+                    rows = connection.execute(
+                        "SELECT * FROM tactics_batches "
+                        "ORDER BY completed_at DESC, row_id DESC LIMIT ? OFFSET ?",
+                        (limit, offset),
+                    ).fetchall()
+                else:
+                    rows = connection.execute(
+                        "SELECT * FROM tactics_batches WHERE package = ? "
+                        "ORDER BY completed_at DESC, row_id DESC LIMIT ? OFFSET ?",
+                        (package, limit, offset),
+                    ).fetchall()
             return [self._decode_tactics_batch(row) for row in rows]
         except sqlite3.DatabaseError as exc:
             raise RepositoryError("unable to read tactics batch history") from exc
 
-    def completed_batches(self, cycle: int) -> set[int]:
+    def completed_batches(self, cycle: int, *, package: str = "tri-band-tactics") -> set[int]:
         try:
             with self._connect() as connection:
                 rows = connection.execute(
-                    "SELECT batch_index FROM tactics_batches WHERE cycle = ?", (cycle,)
+                    "SELECT batch_index FROM tactics_batches WHERE cycle = ? AND package = ?",
+                    (cycle, package),
                 ).fetchall()
             return {int(row["batch_index"]) for row in rows}
         except sqlite3.DatabaseError as exc:
             raise RepositoryError("unable to read completed batches") from exc
 
-    def current_cycle(self, batches_per_cycle: int) -> int:
+    def current_cycle(self, batches_per_cycle: int, *, package: str = "tri-band-tactics") -> int:
         try:
             with self._connect() as connection:
                 row = connection.execute(
-                    "SELECT MAX(cycle) AS max_cycle FROM tactics_batches"
+                    "SELECT MAX(cycle) AS max_cycle FROM tactics_batches WHERE package = ?",
+                    (package,),
                 ).fetchone()
             if row is None or row["max_cycle"] is None:
                 return 0
-            done = self.completed_batches(int(row["max_cycle"]))
+            done = self.completed_batches(int(row["max_cycle"]), package=package)
             if len(done) >= batches_per_cycle:
                 return int(row["max_cycle"]) + 1
             return int(row["max_cycle"])
         except sqlite3.DatabaseError as exc:
             raise RepositoryError("unable to determine current cycle") from exc
 
-    def tactics_batch_stats(self) -> dict[str, Any]:
+    def tactics_batch_stats(self, *, package: str | None = None) -> dict[str, Any]:
         try:
             with self._connect() as connection:
-                rows = connection.execute(
-                    "SELECT points_earned, points_possible FROM tactics_batches"
-                ).fetchall()
+                if package is None:
+                    rows = connection.execute(
+                        "SELECT points_earned, points_possible FROM tactics_batches"
+                    ).fetchall()
+                else:
+                    rows = connection.execute(
+                        "SELECT points_earned, points_possible FROM tactics_batches "
+                        "WHERE package = ?",
+                        (package,),
+                    ).fetchall()
         except sqlite3.DatabaseError as exc:
             raise RepositoryError("unable to derive tactics batch statistics") from exc
         earned = [int(row["points_earned"]) for row in rows]

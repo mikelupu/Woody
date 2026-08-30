@@ -6,10 +6,19 @@ import pytest
 
 from hanging_piece_trainer.app import create_app
 
+SLUG = "tri-band-tactics"
+BASE = f"/api/v1/tactics/{SLUG}"
+
 
 @pytest.fixture()
 def app(tmp_path: Path):
-    return create_app({"TESTING": True, "DATABASE": str(tmp_path / "progress.sqlite3")})
+    return create_app(
+        {
+            "TESTING": True,
+            "DATABASE": str(tmp_path / "progress.sqlite3"),
+            "USER_PACKAGES_DIR": str(tmp_path / "user_packages"),
+        }
+    )
 
 
 @pytest.fixture()
@@ -20,11 +29,14 @@ def client(app):
 HEADERS = {"Origin": "http://localhost"}
 
 
+def _catalog(app):
+    return app.extensions["package_registry"].get(SLUG)
+
+
 def next_puzzle(client, app):
     """Return a tactics puzzle payload + its expected solution moves."""
-    payload = client.get("/api/v1/tactics/puzzles/next").json
-    catalog = app.extensions["catalog_tactics"]
-    puzzle = catalog.get(payload["puzzle_id"])
+    payload = client.get(f"{BASE}/puzzles/next").json
+    puzzle = _catalog(app).get(payload["puzzle_id"])
     return payload, list(puzzle.solution_moves_uci)
 
 
@@ -43,7 +55,7 @@ def test_next_puzzle_is_playable_and_safe(client, app) -> None:
 def test_correct_move_returns_san_and_fen(client, app) -> None:
     payload, solution = next_puzzle(client, app)
     response = client.post(
-        "/api/v1/tactics/moves",
+        f"{BASE}/moves",
         json={"session_id": payload["session_id"], "uci": solution[0]},
         headers=HEADERS,
     )
@@ -60,7 +72,7 @@ def test_correct_move_returns_san_and_fen(client, app) -> None:
 def test_illegal_move_is_rejected_without_advancing(client, app) -> None:
     payload, _ = next_puzzle(client, app)
     response = client.post(
-        "/api/v1/tactics/moves",
+        f"{BASE}/moves",
         json={"session_id": payload["session_id"], "uci": "a1a8"},
         headers=HEADERS,
     )
@@ -82,7 +94,7 @@ def test_wrong_but_legal_move_is_rejected_and_counts(client, app) -> None:
     ]
     assert wrong_candidates, "expected at least one legal move that isn't the solution"
     response = client.post(
-        "/api/v1/tactics/moves",
+        f"{BASE}/moves",
         json={"session_id": payload["session_id"], "uci": wrong_candidates[0]},
         headers=HEADERS,
     )
@@ -98,7 +110,7 @@ def _play_full_solution(client, session_id: str, solution: list[str]) -> dict:
     last = None
     for user_move in solution[::2]:
         response = client.post(
-            "/api/v1/tactics/moves",
+            f"{BASE}/moves",
             json={"session_id": session_id, "uci": user_move},
             headers=HEADERS,
         )
@@ -118,7 +130,7 @@ def test_clean_solve_awards_point_and_persists(client, app) -> None:
     assert final["statistics"]["score"] == 1
     assert final["statistics"]["attempts"] == 1
     # History includes the completed attempt
-    history = client.get("/api/v1/tactics/attempts").json["attempts"]
+    history = client.get(f"{BASE}/attempts").json["attempts"]
     assert history[0]["completed"] is True
     assert history[0]["point_awarded"] is True
 
@@ -134,7 +146,7 @@ def test_solve_with_mistake_completes_without_point(client, app) -> None:
     )
     # One deliberate mistake
     client.post(
-        "/api/v1/tactics/moves",
+        f"{BASE}/moves",
         json={"session_id": payload["session_id"], "uci": wrong},
         headers=HEADERS,
     )
@@ -145,7 +157,7 @@ def test_solve_with_mistake_completes_without_point(client, app) -> None:
 
 def test_stale_session_returns_404(client) -> None:
     response = client.post(
-        "/api/v1/tactics/moves",
+        f"{BASE}/moves",
         json={"session_id": "not-a-real-session", "uci": "e2e4"},
         headers=HEADERS,
     )
@@ -154,9 +166,7 @@ def test_stale_session_returns_404(client) -> None:
 
 def test_tactics_endpoints_reject_cross_origin(client) -> None:
     assert (
-        client.post(
-            "/api/v1/tactics/moves", json={}, headers={"Origin": "https://x.com"}
-        ).status_code
+        client.post(f"{BASE}/moves", json={}, headers={"Origin": "https://x.com"}).status_code
         == 403
     )
 
@@ -166,6 +176,6 @@ def test_hanging_and_tactics_stats_are_independent(client, app) -> None:
     payload, solution = next_puzzle(client, app)
     _play_full_solution(client, payload["session_id"], solution)
     hanging_stats = client.get("/api/v1/stats").json
-    tactics_stats = client.get("/api/v1/tactics/stats").json
+    tactics_stats = client.get(f"{BASE}/stats").json
     assert hanging_stats["attempts"] == 0
     assert tactics_stats["attempts"] == 1

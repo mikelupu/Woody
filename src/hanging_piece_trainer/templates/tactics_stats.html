@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='tactics_stats.css') }}">
     <script src="{{ url_for('static', filename='tactics_stats.js') }}" defer></script>
   </head>
-  <body>
+  <body data-slug="{{ slug }}">
     <header class="site-header">
       <div>
         <h1>Tactics · Batch history</h1>
@@ -20,7 +20,7 @@
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3 3 8l9 5 9-5-9-5zm0 7L3 15l9 5 9-5-9-5z"/></svg>
             Hanging trainer
           </a>
-          <a href="{{ url_for('tactics_page') }}" class="current" aria-current="page">
+          <a href="{{ url_for('tactics_packages_page') }}" class="current" aria-current="page">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6 6.6.6-5 4.4 1.5 6.5L12 16.9l-6 3.6 1.5-6.5-5-4.4L9.1 8z"/></svg>
             Tactics
           </a>
@@ -60,7 +60,7 @@
           <div class="body"><span class="value" id="best-batch">0</span><span class="label">Best batch</span></div>
         </div>
         <div class="cell">
-          <a class="value stats-link" href="{{ url_for('tactics_page') }}" style="text-decoration:none;font:800 1.05rem/1 'IBM Plex Mono',ui-monospace,monospace;color:#fff">← Back</a>
+          <a class="value stats-link" href="{{ url_for('tactics_play_page', slug=slug) }}" style="text-decoration:none;font:800 1.05rem/1 'IBM Plex Mono',ui-monospace,monospace;color:#fff">← Back</a>
           <span class="label" style="opacity:0">.</span>
         </div>
       </div>
