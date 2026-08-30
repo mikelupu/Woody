@@ -1,0 +1,1216 @@
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 1"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 1"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/99NjpP3v"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "r6r/1pp3k1/1b6/p2P1p2/P1N1pn2/2P2PP1/BP5P/4RR1K b - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "10:56:19"]
+[ChapterMode "gamebook"]
+
+1... Rxh2+ 2. Kxh2 Rh8# *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 2"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 2"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/9Z9Qgi9M"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "rnb3kr/ppp4p/3b3B/3Pp2n/2BP4/3K1Rp1/PPP3q1/RN1Q4 w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "10:57:47"]
+[ChapterMode "gamebook"]
+
+1. Rf8+ Bxf8 2. d6+ Qd5 3. Bxd5+ Be6 4. Bxe6# *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 3"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 3"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/ur07f3wo"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "r2q1rk1/pppb1ppp/3b4/4p1P1/4Pn2/2N1B2P/PPPQBP2/2KR3R w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "11:06:09"]
+[ChapterMode "gamebook"]
+
+1. Bxf4 exf4 2. e5 Bxe5 3. Qxd7 Qxd7 4. Rxd7 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 4"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 4"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/B4Gek2vV"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "2kr4/1pp4p/1p1r4/5Pp1/1P2q3/2P1R2P/P3KP2/1Q1R4 b - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "11:08:15"]
+[ChapterMode "gamebook"]
+
+1... Rd2+ 2. Rxd2 Qxb1 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 5"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 5"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/IsiIXFCb"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "rn1qk2r/ppp2ppp/5n2/2b1p3/2B1P1b1/3P1N2/PPP3PP/RNBQK2R w KQkq - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "11:10:14"]
+[ChapterMode "gamebook"]
+
+1. Bxf7+ Kxf7 (1... Ke7 2. Bb3) 2. Nxe5+ Kf8 3. Nxg4 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 6"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 6"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/WgVp9yd4"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "r2k3r/pp1b3p/1qn1p1p1/1B1pPn2/Q7/P4N2/1P1BNPPP/2R3K1 w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "11:12:48"]
+[ChapterMode "gamebook"]
+
+1. Rxc6 Bxc6 (1... bxc6 2. Ba5) 2. Ba5 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 7"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 7"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/4OQ1Yu0P"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "2r1k2r/1b1p2q1/p4p2/4p3/PpB1Pp1p/7P/1PPRQPP1/4R1K1 b k - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "11:17:16"]
+[ChapterMode "gamebook"]
+
+1... f3 2. Qxf3 Rxc4 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 8"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 8"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/YM7wzLHk"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "r3k2r/p1ppbppp/1pn1q3/4P3/2BP2n1/5NB1/1PP1Q1PP/R4K1R b kq - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "11:20:56"]
+[ChapterMode "gamebook"]
+
+1... Qxc4 2. Qxc4 Ne3+ 3. Ke2 Nxc4 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 9"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 9"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/1x9MTrtI"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "1b6/3n1p2/r1k1p1pp/Pr2P3/1PK2P2/3R4/3B2PP/R7 w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "11:24:10"]
+[ChapterMode "gamebook"]
+
+1. Rxd7 Kxd7 (1... Rxb4+ 2. Kxb4 Kxd7) 2. Kxb5 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 10"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 10"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/2lX2lOy4"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "2b5/4Q1pp/pp3n1k/3p3q/P2P1P2/BP1B2P1/7P/6K1 w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "11:26:07"]
+[ChapterMode "gamebook"]
+
+1. Qxf6+ gxf6 (1... Qg6 2. Qd8 Qg4 3. Kf2) 2. Bf8# *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 11"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 11"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/TEn8qse9"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "rn1qk1nr/ppp2ppp/8/2b1p3/2B1P1b1/5N2/PPPP2PP/RNBQK2R w KQkq - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "11:38:12"]
+[ChapterMode "gamebook"]
+
+1. Bxf7+ Kxf7 2. Nxe5+ Ke8 3. Nxg4 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 12"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 12"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/gBWq3DC8"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "r1n5/pp2q1kp/2ppr1p1/4p1Q1/8/2N4R/PPP3PP/5RK1 w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "11:39:14"]
+[ChapterMode "gamebook"]
+
+1. Qh6+ Kg8 2. Rf8+ Qxf8 3. Qxh7# *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 13"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 13"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/zBZf2sBU"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "4rrk1/ppp3pp/3p2n1/3Ppqb1/nPP5/6P1/P1NBQP1P/2R1NRK1 b - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "11:40:59"]
+[ChapterMode "gamebook"]
+
+1... Nc3 2. Bxc3 Bxc1 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 14"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 14"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/9BpJI7MU"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "2kr3r/p4pp1/2p4p/4p3/2n4q/1NPPnP1P/PP2Q2P/R1K2B1R b - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "11:43:18"]
+[ChapterMode "gamebook"]
+
+1... Rxd3 2. Qxd3 (2. Kb1 Kc7 { [%csl Gb1][%cal Gh8b8,Gb8b1] }) 2... Qe1+ 3. Qd1 Qxd1# *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 15"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 15"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/2EUyzoOf"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "6k1/5pp1/p1n1r2p/2NQ4/1P1p4/P6P/1B1bqPP1/5RK1 b - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "11:45:56"]
+[ChapterMode "gamebook"]
+
+1... Qxf1+ 2. Kxf1 (2. Kh2 Bf4+ 3. g3 Qxf2+ 4. Qg2 Bxg3+ 5. Kh1 Re1+ 6. Qf1 Rxf1#) 2... Re1# *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 16"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 16"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/hmtEDb24"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "r1bqk1nr/pppp3p/2n2p2/b5p1/2BPPp1P/2P2N2/P5P1/RNBQK2R w KQkq - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "11:48:38"]
+[ChapterMode "gamebook"]
+
+1. Nxg5 fxg5 2. Qh5+ Ke7 3. Qxg5+ Ke8 4. Qh5+ Ke7 5. Qf7+ Kd6 6. Bxf4+ Ne5 7. dxe5+ Kc6 8. Qd5+ Kb6 9. Qb5# *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 17"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 17"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/VvvmyIoh"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "2kr1bnr/p1pp1p1p/bpn5/1N4p1/P2PPp2/5N2/1PP2KPP/R1BQ1B1R w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "11:51:18"]
+[ChapterMode "gamebook"]
+
+1. Nxa7+ Nxa7 2. Bxa6+ Kb8 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 18"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 18"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/byzpzwPt"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "rn1qk1nr/ppp2ppp/8/2b1p3/2B1P1b1/5N2/PPPP2PP/RNBQK2R w KQkq - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "11:54:33"]
+[ChapterMode "gamebook"]
+
+1. Bxf7+ Kxf7 2. Nxe5+ Ke8 3. Nxg4 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 19"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 19"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/gdc8oR6N"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "1k2r3/2p3p1/p4p2/1p3q1p/1n6/PQ2P3/1P2B2P/2KR4 b - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "14:36:17"]
+[ChapterMode "gamebook"]
+
+1... Rxe3 2. Qxe3 (2. Rd8+ Kb7 3. Qd1 Qe4) 2... Qc2# *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 20"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 20"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/kPyAiixc"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "r1bqkbnr/pppp3p/2n2p2/6p1/2BPPp2/5N2/PPP3PP/RNBQK2R w KQkq - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "14:38:38"]
+[ChapterMode "gamebook"]
+
+1. Nxg5 fxg5 (1... Nh6 2. Nc3 Nb4 3. Qh5+ Ke7 4. Bxf4) 2. Qh5+ Ke7 3. Qxg5+ Ke8 4. Qh5+ Ke7 5. Qf7+ Kd6 6. Bxf4+ Ne5 7. dxe5+ Kc5 8. Qd5+ Kb6 9. Qb5# *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 21"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 21"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/msVMK21Q"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "rnbqkbnr/pppp3p/5p2/6p1/4Pp1P/5N2/PPPP2P1/RNBQKB1R w KQkq - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "14:41:10"]
+[ChapterMode "gamebook"]
+
+1. Nxg5!! fxg5 2. Qh5+ Ke7 3. Qxg5+ Ke8 4. Qh5+ Ke7 5. Qe5+ Kf7 6. Bc4+ Kg6 7. Qf5+ Kg7 8. Qf7+ Kh6 9. d4 Bb4+ 10. c3 Ba5 11. Bxf4+ Qg5 12. hxg5# *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 22"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 22"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/WI8PlwZC"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "rnbqkb1r/pp1p2pp/2p2p2/4p3/2B5/2P2N2/PPP2PPP/R1BQ1RK1 w kq - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "14:45:02"]
+[ChapterMode "gamebook"]
+
+1. Nxe5!! fxe5 2. Qh5+ { [%csl Gh8][%cal Rg7g6,Gh5e5,Ge5h8] } 2... Ke7 3. Qxe5# *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 23"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 23"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/kQrf1nBm"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "2r3k1/p3qppp/2pr4/Q2b4/1P2p3/4P3/P3BPPP/2RR2K1 w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "14:48:17"]
+[ChapterMode "gamebook"]
+
+1. Rxd5!! Rxd5 2. Qxd5 cxd5 3. Rxc8+ Qf8 4. Rxf8+ Kxf8 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 24"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 24"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/5nYVyp7M"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "6k1/2p3pp/q3pn2/1pp1p3/4P3/1P1P1P2/rNP2P1P/1Q3RK1 w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "14:52:01"]
+[ChapterMode "gamebook"]
+
+1. Na4!! bxa4 (1... Ra3 2. Qb2 b4 3. Qxe5 Qd6 4. Qxc5) 2. Qxa2 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 25"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 25"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/eTkcv2wW"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "8/1p3q1k/2p3pp/4P1r1/8/4Q3/PP5P/3R3K b - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "14:56:59"]
+[ChapterMode "gamebook"]
+
+1... Rxe5 2. Qxe5 Qf3+ 3. Kg1 Qxd1+ *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 26"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 26"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/Z4vEm0Lf"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "r5k1/1b1n2r1/p3n2q/1p1pPRN1/2pP3P/2P3P1/PPBQ4/5R1K w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "15:00:00"]
+[ChapterMode "gamebook"]
+
+1. Rf6!! Nxf6 2. Rxf6 Qh8 3. Nxe6 Qh5 4. Nxg7 Kxg7 5. Bd1 Qh7 6. Qg5+ Kh8 7. Rh6 Qxh6 8. Qxh6+ Kg8 9. Qg6+ Kh8 10. Bc2 a5 11. Qh7# *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 27"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 27"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/k3bpExsV"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "r1b2rk1/p2p1p2/2p5/1p2PPqn/1b1p2N1/1B1P3Q/PPP3PP/R4RK1 w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "15:06:32"]
+[ChapterMode "gamebook"]
+
+1. Qxh5!! Qxh5 2. Nf6+ Kg7 3. Nxh5+ *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 28"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 28"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/AKkEuBst"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "r5r1/p1p1k3/3q3B/5p2/4p3/1P6/P1P1QPP1/R4RK1 b - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "15:08:18"]
+[ChapterMode "gamebook"]
+
+1... Rxg2+!! 2. Kxg2 Rg8+ 3. Kh3 Qxh6+ 4. Qh5 Qxh5# *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 29"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 29"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/yZO7Vt8f"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "6rk/p1q2p2/2p1rb1P/1p2pN2/4P1Q1/2PP4/PPB5/2K4R w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "15:10:27"]
+[ChapterMode "gamebook"]
+
+1. Qg7+ Rxg7 2. hxg7+ Kg8 3. Rh8# *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 30"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 30"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/OqEWP2dw"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "4q1k1/2r3pp/1p6/8/1b2N3/4R1P1/PP3P1P/R5K1 w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "15:12:35"]
+[ChapterMode "gamebook"]
+
+1. Nf6+!! gxf6 2. Rxe8+ *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 31"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 31"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/OT2GAXN7"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "4k3/1bp4r/p7/1p1P4/2P3pN/1P2r1P1/1BP2RPK/8 b - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "15:15:22"]
+[ChapterMode "gamebook"]
+
+1... Rxh4+!! 2. gxh4 g3+ 3. Kh3 gxf2+ *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 32"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 32"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/BdNEePue"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "2q4k/5Qp1/4B2p/p1p5/1P6/6PK/r4P1P/8 b - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "15:17:11"]
+[ChapterMode "gamebook"]
+
+1... Rxf2!! 2. Qxf2 Qxe6+ 3. Kg2 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 33"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 33"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/gto7kmbt"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "5Rnk/pp1q4/7p/3p2rN/3Pp1Q1/2P5/PP5P/6K1 w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "15:19:16"]
+[ChapterMode "gamebook"]
+
+1. Rxg8+!! Rxg8 2. Qxg8+ Kxg8 3. Nf6+ Kf8 4. Nxd7+ *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 34"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 34"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/CBoFF8l5"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "r1bq2k1/pp3rpp/2n2b2/3p1p2/3P4/BQPB1N2/P4PPP/R3R1K1 w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "15:21:26"]
+[ChapterMode "gamebook"]
+
+1. Qxd5!! Qxd5 2. Re8+ Rf8 3. Rxf8# *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 35"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 35"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/a0JblF15"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "2r3k1/pb2bp1p/1p2p1p1/8/q1NPP3/3B4/P3QPPP/3R2K1 b - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "15:24:38"]
+[ChapterMode "gamebook"]
+
+1... Bxe4! 2. Bxe4 Rxc4 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 36"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 36"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/Wc8Q4pEk"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "6r1/2r1k3/R3p3/p4pPp/1pPK1P2/1P3B2/P6P/8 w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "15:34:02"]
+[ChapterMode "gamebook"]
+
+1. Rxe6+!! Kxe6 2. Bd5+ Kd6 3. Bxg8 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 37"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 37"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/xJkJQyEm"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "r4r1k/pppqNppp/3p1B2/4p3/3nP3/3P1b2/PPPQ1PPP/R4RK1 w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "15:36:13"]
+[ChapterMode "gamebook"]
+
+1. Bxg7+ Kxg7 2. Qg5+ Kh8 3. Qf6# *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 38"]
+[Date "2026.08.05"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 38"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/JlnAX65e"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "3r2k1/2p2pp1/p1Q2n1p/7q/8/1P1N2P1/P1P2P2/R3K3 b Q - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.05"]
+[UTCTime "15:38:34"]
+[ChapterMode "gamebook"]
+
+1... Rxd3 2. cxd3 Qe5+ 3. Kd2 Qxa1 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 39"]
+[Date "2026.08.06"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 39"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/oJOkmS2a"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "r1b2rk1/pp3qpp/2p1p3/2Ppb1PP/5B2/3BP3/PP3Q2/2R1K2R w K - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.06"]
+[UTCTime "18:08:16"]
+[ChapterMode "gamebook"]
+
+1. Bxh7+ Kxh7 2. g6+ { [%csl Gh7,Gf7][%cal Gg6f7,Gg6h7] } 2... Kg8 3. gxf7+ *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 40"]
+[Date "2026.08.06"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 40"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/BWLxT4TO"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "2r2rk1/pQ1n1pp1/1p2p2p/3p4/P2P4/4P2P/1qB2PP1/2R2RK1 w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.06"]
+[UTCTime "18:10:16"]
+[ChapterMode "gamebook"]
+
+1. Bh7+ Kxh7 2. Rxc8 Rxc8 3. Qxc8 Nf6 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 41"]
+[Date "2026.08.06"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 41"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/CZKZF4hE"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "3k4/p1p2prr/1p5N/3PRPP1/b1P5/4B3/P4K2/8 w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.06"]
+[UTCTime "18:12:31"]
+[ChapterMode "gamebook"]
+
+1. f6 Rg6 2. Bf4 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 42"]
+[Date "2026.08.06"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 42"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/Osaf2cCr"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "r3k2r/pbp2qb1/1pn1p2p/3nP1pQ/3PNp2/2PB4/PP1N1BPP/R4RK1 w kq - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.06"]
+[UTCTime "18:18:04"]
+[ChapterMode "gamebook"]
+
+1. Nd6+ cxd6 2. Bg6 O-O 3. Bxf7+ *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 43"]
+[Date "2026.08.06"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 43"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/Qs5NRMBk"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "4k3/1r2r1pp/1nR2p2/pp1p4/1N1P2P1/1R2PP2/PP3K1P/8 w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.06"]
+[UTCTime "18:19:47"]
+[ChapterMode "gamebook"]
+
+1. Rxb6 Rxb6 2. Nxd5 { [%csl Ge7,Gb6][%cal Gd5b6,Gd5e7] } 2... Rb8 3. Nxe7 Kxe7 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 44"]
+[Date "2026.08.06"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 44"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/stcpvLgB"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "7r/1p3pp1/pn1kb2p/3p4/3N1P1P/PP1BP3/3K2P1/2R5 w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.06"]
+[UTCTime "18:22:36"]
+[ChapterMode "gamebook"]
+
+1. Bxa6 bxa6 2. Rc6+ Ke7 3. Rxb6 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 45"]
+[Date "2026.08.07"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 45"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/r1x2uLz8"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "r3nrk1/1bp2ppp/pp2p3/3q2N1/1b1PNP2/3B2P1/PP2QP1P/2RR2K1 w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.07"]
+[UTCTime "06:00:30"]
+[ChapterMode "gamebook"]
+
+1. Nxh7 Kxh7 2. Nf6+ Kh8 3. Nxd5 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 46"]
+[Date "2026.08.07"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 46"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/NOJvlCKd"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "r1b1k2r/2qp1ppp/ppnbpn2/8/2PNP3/P1N1BP2/1P4PP/2RQKB1R w Kkq - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.07"]
+[UTCTime "05:59:07"]
+[ChapterMode "gamebook"]
+
+1. Ndb5 axb5 2. Nxb5 Qb8 3. Nxd6+ *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 47"]
+[Date "2026.08.07"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 47"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/ie7qhQbT"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "4r1k1/6qp/pp4p1/2pP4/4Pp2/1P6/P1R3PP/4Q2K b - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.07"]
+[UTCTime "06:02:46"]
+[ChapterMode "gamebook"]
+
+1... Rxe4 2. Qxe4 Qa1+ 3. Rc1 Qxc1+ 4. Qe1 Qxe1# *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 48"]
+[Date "2026.08.07"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 48"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/ifUqlWHc"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "2bq1r2/4bpk1/4pp1N/7Q/1p1p4/3B4/PP3PPP/R5K1 w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.07"]
+[UTCTime "06:04:03"]
+[ChapterMode "gamebook"]
+
+1. Nxf7 Rxf7 2. Qh7+ Kf8 3. Qh8# *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 49"]
+[Date "2026.08.07"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 49"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/hUUCJhcn"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "r3r1k1/3b2pp/2p5/p1RpPp2/3Q1P2/1q2P1P1/6BP/R5K1 w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.07"]
+[UTCTime "06:05:31"]
+[ChapterMode "gamebook"]
+
+1. Rxd5 cxd5 2. Bxd5+ Qxd5 3. Qxd5+ *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 50"]
+[Date "2026.08.07"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 50"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/SdpE9g9i"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "r3br1k/pp5p/4B1p1/4NpP1/P2Pn3/q1PQ3R/7P/3R3K w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.07"]
+[UTCTime "06:07:22"]
+[ChapterMode "gamebook"]
+
+1. Rxh7+ Kxh7 2. Qh3+ Kg7 3. Qh6# *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 51"]
+[Date "2026.08.07"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 51"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/CtlHsQN2"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "5rk1/ppp2ppp/6q1/2b5/3r4/2N1BQ1b/PP3PPP/R3R1K1 b - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.07"]
+[UTCTime "06:09:10"]
+[ChapterMode "gamebook"]
+
+1... Bxg2 2. Qxg2 Rg4 3. Qxg4 Qxg4+ *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 52"]
+[Date "2026.08.07"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 52"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/kDLmPoAW"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "4r2k/ppp3pp/8/1PPb1p2/3P1P1b/P1Q2p1P/7R/R4KBq b - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.07"]
+[UTCTime "06:10:42"]
+[ChapterMode "gamebook"]
+
+1... Qg2+ 2. Rxg2 fxg2# *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 53"]
+[Date "2026.08.07"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 53"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/VjNDY3i8"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "3r1b1k/pp4p1/2p1Qp2/5N2/PP2Pp2/2Pq4/5PKP/5R2 b - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.07"]
+[UTCTime "06:13:11"]
+[ChapterMode "gamebook"]
+
+1... f3+ 2. Kg3 Qxf1 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 54"]
+[Date "2026.08.07"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 54"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/hWLOf8ia"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "r1b2rk1/pp4pp/2pb4/3p1pq1/2PP4/1N1BPR2/PPQ3PP/4R1K1 b - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.07"]
+[UTCTime "06:25:03"]
+[ChapterMode "gamebook"]
+
+1... Bxh2+ 2. Kxh2 Qh4+ 3. Rh3 Qxe1 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 55"]
+[Date "2026.08.07"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 55"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/5faVSere"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "q6r/1b4bp/4k1p1/1p2Pn2/2pPp1Q1/2P5/1P1N2PP/2B2RK1 w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.07"]
+[UTCTime "06:26:29"]
+[ChapterMode "gamebook"]
+
+1. Rxf5 gxf5 2. Qxg7 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 56"]
+[Date "2026.08.07"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 56"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/NGm2ASIH"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "5rk1/1b1p1ppp/1qr1p3/p2pP3/P4P2/Q2B4/1PP3PP/R4R1K w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.07"]
+[UTCTime "06:28:00"]
+[ChapterMode "gamebook"]
+
+1. Bxh7+ Kxh7 2. Qxf8 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 57"]
+[Date "2026.08.07"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 57"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/U6rsCv9S"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "5r1k/pp4pp/2p5/8/4n3/5NPQ/P3Bq1P/4R2K b - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.07"]
+[UTCTime "06:29:41"]
+[ChapterMode "gamebook"]
+
+1... Rxf3 2. Bxf3 Qxe1+ 3. Kg2 Qf2+ 4. Kh1 Qxf3+ *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 58"]
+[Date "2026.08.07"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 58"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/807cMznX"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "r4rk1/pp2bppp/1qp1p3/4Pb2/Q1P1nB2/2N5/PP1RBPPP/5RK1 w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.07"]
+[UTCTime "06:31:57"]
+[ChapterMode "gamebook"]
+
+1. Nxe4 Bxe4 2. c5 Qxc5 3. Qxe4 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 59"]
+[Date "2026.08.07"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 59"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/ItdFUEGm"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "2r5/pp1bkp1Q/2nbpq2/3p1p2/3P1Pr1/2NBP1N1/PP4PP/2R2RK1 w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.07"]
+[UTCTime "06:35:00"]
+[ChapterMode "gamebook"]
+
+1. Nxf5+ exf5 2. Nxd5+ Ke6 3. Nxf6 Kxf6 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 60"]
+[Date "2026.08.07"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 60"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/0z9mo48L"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "r1bqr1k1/1p1nbpp1/p1p3p1/3p4/3P1B2/2NBP2P/PP3PP1/2RQ1RK1 w - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.07"]
+[UTCTime "06:36:59"]
+[ChapterMode "gamebook"]
+
+1. Nxd5 cxd5 2. Bc7 Qxc7 3. Rxc7 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 61"]
+[Date "2026.08.07"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 61"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/f2pAcUl7"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "3r2k1/q1p1nppp/p3n3/1pb1p3/4P2N/1PP3PP/PBB1QPK1/7R b - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.07"]
+[UTCTime "06:38:40"]
+[ChapterMode "gamebook"]
+
+1... Bxf2 2. Qxf2 Qxf2+ 3. Kxf2 Rd2+ 4. Kg1 Rxc2 *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 62"]
+[Date "2026.08.07"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 62"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/koKp95jZ"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "1Q6/p4pkp/3p2p1/3P4/q7/P3rBbP/6P1/5R1K b - - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.07"]
+[UTCTime "07:00:23"]
+[ChapterMode "gamebook"]
+
+1... Rxf3 2. gxf3 Qc2 { [%csl Rh2][%cal Gc2h2] } *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 63"]
+[Date "2026.08.07"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 63"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/AYncrFGe"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "r1bqk2r/p1pn1pp1/1p2pn1p/8/3P4/B1PB4/P1P1QPPP/R3K1NR w KQkq - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.07"]
+[UTCTime "07:02:02"]
+[ChapterMode "gamebook"]
+
+1. Qxe6+ fxe6 2. Bg6# *
+
+
+[Event "Woodpecker Method Puzzles (1 - 64): Puzzle 64"]
+[Date "2026.08.07"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "?"]
+[Opening "?"]
+[StudyName "Woodpecker Method Puzzles (1 - 64)"]
+[ChapterName "Puzzle 64"]
+[ChapterURL "https://lichess.org/study/OavXzGxF/DCV7hlKv"]
+[Annotator "https://lichess.org/@/zozchess111"]
+[FEN "r2qk2r/1p1b1pp1/p1pBpn1p/2P1N3/1n1P4/3B4/PPQ2PPP/2KR3R w kq - 0 1"]
+[SetUp "1"]
+[UTCDate "2026.08.07"]
+[UTCTime "07:03:39"]
+[ChapterMode "gamebook"]
+
+1. Bg6 Nxc2 (1... fxg6 2. Qxg6#) 2. Bxf7# *
+
+

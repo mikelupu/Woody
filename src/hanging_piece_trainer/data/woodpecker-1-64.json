@@ -1,0 +1,1418 @@
+[
+  {
+    "chapter_name": "Puzzle 1",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/99NjpP3v",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 1",
+    "fen": "r6r/1pp3k1/1b6/p2P1p2/P1N1pn2/2P2PP1/BP5P/4RR1K b - - 0 1",
+    "side_to_move": "black",
+    "solution_san": [
+      "Rxh2+",
+      "Kxh2",
+      "Rh8#"
+    ],
+    "solution_uci": [
+      "h8h2",
+      "h1h2",
+      "a8h8"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 2",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/9Z9Qgi9M",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 2",
+    "fen": "rnb3kr/ppp4p/3b3B/3Pp2n/2BP4/3K1Rp1/PPP3q1/RN1Q4 w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Rf8+",
+      "Bxf8",
+      "d6+",
+      "Qd5",
+      "Bxd5+",
+      "Be6",
+      "Bxe6#"
+    ],
+    "solution_uci": [
+      "f3f8",
+      "d6f8",
+      "d5d6",
+      "g2d5",
+      "c4d5",
+      "c8e6",
+      "d5e6"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 3",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/ur07f3wo",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 3",
+    "fen": "r2q1rk1/pppb1ppp/3b4/4p1P1/4Pn2/2N1B2P/PPPQBP2/2KR3R w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Bxf4",
+      "exf4",
+      "e5",
+      "Bxe5",
+      "Qxd7",
+      "Qxd7",
+      "Rxd7"
+    ],
+    "solution_uci": [
+      "e3f4",
+      "e5f4",
+      "e4e5",
+      "d6e5",
+      "d2d7",
+      "d8d7",
+      "d1d7"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 4",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/B4Gek2vV",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 4",
+    "fen": "2kr4/1pp4p/1p1r4/5Pp1/1P2q3/2P1R2P/P3KP2/1Q1R4 b - - 0 1",
+    "side_to_move": "black",
+    "solution_san": [
+      "Rd2+",
+      "Rxd2",
+      "Qxb1"
+    ],
+    "solution_uci": [
+      "d6d2",
+      "d1d2",
+      "e4b1"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 5",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/IsiIXFCb",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 5",
+    "fen": "rn1qk2r/ppp2ppp/5n2/2b1p3/2B1P1b1/3P1N2/PPP3PP/RNBQK2R w KQkq - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Bxf7+",
+      "Kxf7",
+      "Nxe5+",
+      "Kf8",
+      "Nxg4"
+    ],
+    "solution_uci": [
+      "c4f7",
+      "e8f7",
+      "f3e5",
+      "f7f8",
+      "e5g4"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 6",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/WgVp9yd4",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 6",
+    "fen": "r2k3r/pp1b3p/1qn1p1p1/1B1pPn2/Q7/P4N2/1P1BNPPP/2R3K1 w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Rxc6",
+      "Bxc6",
+      "Ba5"
+    ],
+    "solution_uci": [
+      "c1c6",
+      "d7c6",
+      "d2a5"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 7",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/4OQ1Yu0P",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 7",
+    "fen": "2r1k2r/1b1p2q1/p4p2/4p3/PpB1Pp1p/7P/1PPRQPP1/4R1K1 b k - 0 1",
+    "side_to_move": "black",
+    "solution_san": [
+      "f3",
+      "Qxf3",
+      "Rxc4"
+    ],
+    "solution_uci": [
+      "f4f3",
+      "e2f3",
+      "c8c4"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 8",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/YM7wzLHk",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 8",
+    "fen": "r3k2r/p1ppbppp/1pn1q3/4P3/2BP2n1/5NB1/1PP1Q1PP/R4K1R b kq - 0 1",
+    "side_to_move": "black",
+    "solution_san": [
+      "Qxc4",
+      "Qxc4",
+      "Ne3+",
+      "Ke2",
+      "Nxc4"
+    ],
+    "solution_uci": [
+      "e6c4",
+      "e2c4",
+      "g4e3",
+      "f1e2",
+      "e3c4"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 9",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/1x9MTrtI",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 9",
+    "fen": "1b6/3n1p2/r1k1p1pp/Pr2P3/1PK2P2/3R4/3B2PP/R7 w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Rxd7",
+      "Kxd7",
+      "Kxb5"
+    ],
+    "solution_uci": [
+      "d3d7",
+      "c6d7",
+      "c4b5"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 10",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/2lX2lOy4",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 10",
+    "fen": "2b5/4Q1pp/pp3n1k/3p3q/P2P1P2/BP1B2P1/7P/6K1 w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Qxf6+",
+      "gxf6",
+      "Bf8#"
+    ],
+    "solution_uci": [
+      "e7f6",
+      "g7f6",
+      "a3f8"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 11",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/TEn8qse9",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 11",
+    "fen": "rn1qk1nr/ppp2ppp/8/2b1p3/2B1P1b1/5N2/PPPP2PP/RNBQK2R w KQkq - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Bxf7+",
+      "Kxf7",
+      "Nxe5+",
+      "Ke8",
+      "Nxg4"
+    ],
+    "solution_uci": [
+      "c4f7",
+      "e8f7",
+      "f3e5",
+      "f7e8",
+      "e5g4"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 12",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/gBWq3DC8",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 12",
+    "fen": "r1n5/pp2q1kp/2ppr1p1/4p1Q1/8/2N4R/PPP3PP/5RK1 w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Qh6+",
+      "Kg8",
+      "Rf8+",
+      "Qxf8",
+      "Qxh7#"
+    ],
+    "solution_uci": [
+      "g5h6",
+      "g7g8",
+      "f1f8",
+      "e7f8",
+      "h6h7"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 13",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/zBZf2sBU",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 13",
+    "fen": "4rrk1/ppp3pp/3p2n1/3Ppqb1/nPP5/6P1/P1NBQP1P/2R1NRK1 b - - 0 1",
+    "side_to_move": "black",
+    "solution_san": [
+      "Nc3",
+      "Bxc3",
+      "Bxc1"
+    ],
+    "solution_uci": [
+      "a4c3",
+      "d2c3",
+      "g5c1"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 14",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/9BpJI7MU",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 14",
+    "fen": "2kr3r/p4pp1/2p4p/4p3/2n4q/1NPPnP1P/PP2Q2P/R1K2B1R b - - 0 1",
+    "side_to_move": "black",
+    "solution_san": [
+      "Rxd3",
+      "Qxd3",
+      "Qe1+",
+      "Qd1",
+      "Qxd1#"
+    ],
+    "solution_uci": [
+      "d8d3",
+      "e2d3",
+      "h4e1",
+      "d3d1",
+      "e1d1"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 15",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/2EUyzoOf",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 15",
+    "fen": "6k1/5pp1/p1n1r2p/2NQ4/1P1p4/P6P/1B1bqPP1/5RK1 b - - 0 1",
+    "side_to_move": "black",
+    "solution_san": [
+      "Qxf1+",
+      "Kxf1",
+      "Re1#"
+    ],
+    "solution_uci": [
+      "e2f1",
+      "g1f1",
+      "e6e1"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 16",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/hmtEDb24",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 16",
+    "fen": "r1bqk1nr/pppp3p/2n2p2/b5p1/2BPPp1P/2P2N2/P5P1/RNBQK2R w KQkq - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Nxg5",
+      "fxg5",
+      "Qh5+",
+      "Ke7",
+      "Qxg5+",
+      "Ke8",
+      "Qh5+",
+      "Ke7",
+      "Qf7+",
+      "Kd6",
+      "Bxf4+",
+      "Ne5",
+      "dxe5+",
+      "Kc6",
+      "Qd5+",
+      "Kb6",
+      "Qb5#"
+    ],
+    "solution_uci": [
+      "f3g5",
+      "f6g5",
+      "d1h5",
+      "e8e7",
+      "h5g5",
+      "e7e8",
+      "g5h5",
+      "e8e7",
+      "h5f7",
+      "e7d6",
+      "c1f4",
+      "c6e5",
+      "d4e5",
+      "d6c6",
+      "f7d5",
+      "c6b6",
+      "d5b5"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 17",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/VvvmyIoh",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 17",
+    "fen": "2kr1bnr/p1pp1p1p/bpn5/1N4p1/P2PPp2/5N2/1PP2KPP/R1BQ1B1R w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Nxa7+",
+      "Nxa7",
+      "Bxa6+",
+      "Kb8"
+    ],
+    "solution_uci": [
+      "b5a7",
+      "c6a7",
+      "f1a6",
+      "c8b8"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 18",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/byzpzwPt",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 18",
+    "fen": "rn1qk1nr/ppp2ppp/8/2b1p3/2B1P1b1/5N2/PPPP2PP/RNBQK2R w KQkq - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Bxf7+",
+      "Kxf7",
+      "Nxe5+",
+      "Ke8",
+      "Nxg4"
+    ],
+    "solution_uci": [
+      "c4f7",
+      "e8f7",
+      "f3e5",
+      "f7e8",
+      "e5g4"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 19",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/gdc8oR6N",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 19",
+    "fen": "1k2r3/2p3p1/p4p2/1p3q1p/1n6/PQ2P3/1P2B2P/2KR4 b - - 0 1",
+    "side_to_move": "black",
+    "solution_san": [
+      "Rxe3",
+      "Qxe3",
+      "Qc2#"
+    ],
+    "solution_uci": [
+      "e8e3",
+      "b3e3",
+      "f5c2"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 20",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/kPyAiixc",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 20",
+    "fen": "r1bqkbnr/pppp3p/2n2p2/6p1/2BPPp2/5N2/PPP3PP/RNBQK2R w KQkq - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Nxg5",
+      "fxg5",
+      "Qh5+",
+      "Ke7",
+      "Qxg5+",
+      "Ke8",
+      "Qh5+",
+      "Ke7",
+      "Qf7+",
+      "Kd6",
+      "Bxf4+",
+      "Ne5",
+      "dxe5+",
+      "Kc5",
+      "Qd5+",
+      "Kb6",
+      "Qb5#"
+    ],
+    "solution_uci": [
+      "f3g5",
+      "f6g5",
+      "d1h5",
+      "e8e7",
+      "h5g5",
+      "e7e8",
+      "g5h5",
+      "e8e7",
+      "h5f7",
+      "e7d6",
+      "c1f4",
+      "c6e5",
+      "d4e5",
+      "d6c5",
+      "f7d5",
+      "c5b6",
+      "d5b5"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 21",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/msVMK21Q",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 21",
+    "fen": "rnbqkbnr/pppp3p/5p2/6p1/4Pp1P/5N2/PPPP2P1/RNBQKB1R w KQkq - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Nxg5",
+      "fxg5",
+      "Qh5+",
+      "Ke7",
+      "Qxg5+",
+      "Ke8",
+      "Qh5+",
+      "Ke7",
+      "Qe5+",
+      "Kf7",
+      "Bc4+",
+      "Kg6",
+      "Qf5+",
+      "Kg7",
+      "Qf7+",
+      "Kh6",
+      "d4",
+      "Bb4+",
+      "c3",
+      "Ba5",
+      "Bxf4+",
+      "Qg5",
+      "hxg5#"
+    ],
+    "solution_uci": [
+      "f3g5",
+      "f6g5",
+      "d1h5",
+      "e8e7",
+      "h5g5",
+      "e7e8",
+      "g5h5",
+      "e8e7",
+      "h5e5",
+      "e7f7",
+      "f1c4",
+      "f7g6",
+      "e5f5",
+      "g6g7",
+      "f5f7",
+      "g7h6",
+      "d2d4",
+      "f8b4",
+      "c2c3",
+      "b4a5",
+      "c1f4",
+      "d8g5",
+      "h4g5"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 22",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/WI8PlwZC",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 22",
+    "fen": "rnbqkb1r/pp1p2pp/2p2p2/4p3/2B5/2P2N2/PPP2PPP/R1BQ1RK1 w kq - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Nxe5",
+      "fxe5",
+      "Qh5+",
+      "Ke7",
+      "Qxe5#"
+    ],
+    "solution_uci": [
+      "f3e5",
+      "f6e5",
+      "d1h5",
+      "e8e7",
+      "h5e5"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 23",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/kQrf1nBm",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 23",
+    "fen": "2r3k1/p3qppp/2pr4/Q2b4/1P2p3/4P3/P3BPPP/2RR2K1 w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Rxd5",
+      "Rxd5",
+      "Qxd5",
+      "cxd5",
+      "Rxc8+",
+      "Qf8",
+      "Rxf8+",
+      "Kxf8"
+    ],
+    "solution_uci": [
+      "d1d5",
+      "d6d5",
+      "a5d5",
+      "c6d5",
+      "c1c8",
+      "e7f8",
+      "c8f8",
+      "g8f8"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 24",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/5nYVyp7M",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 24",
+    "fen": "6k1/2p3pp/q3pn2/1pp1p3/4P3/1P1P1P2/rNP2P1P/1Q3RK1 w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Na4",
+      "bxa4",
+      "Qxa2"
+    ],
+    "solution_uci": [
+      "b2a4",
+      "b5a4",
+      "b1a2"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 25",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/eTkcv2wW",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 25",
+    "fen": "8/1p3q1k/2p3pp/4P1r1/8/4Q3/PP5P/3R3K b - - 0 1",
+    "side_to_move": "black",
+    "solution_san": [
+      "Rxe5",
+      "Qxe5",
+      "Qf3+",
+      "Kg1",
+      "Qxd1+"
+    ],
+    "solution_uci": [
+      "g5e5",
+      "e3e5",
+      "f7f3",
+      "h1g1",
+      "f3d1"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 26",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/Z4vEm0Lf",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 26",
+    "fen": "r5k1/1b1n2r1/p3n2q/1p1pPRN1/2pP3P/2P3P1/PPBQ4/5R1K w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Rf6",
+      "Nxf6",
+      "Rxf6",
+      "Qh8",
+      "Nxe6",
+      "Qh5",
+      "Nxg7",
+      "Kxg7",
+      "Bd1",
+      "Qh7",
+      "Qg5+",
+      "Kh8",
+      "Rh6",
+      "Qxh6",
+      "Qxh6+",
+      "Kg8",
+      "Qg6+",
+      "Kh8",
+      "Bc2",
+      "a5",
+      "Qh7#"
+    ],
+    "solution_uci": [
+      "f5f6",
+      "d7f6",
+      "f1f6",
+      "h6h8",
+      "g5e6",
+      "h8h5",
+      "e6g7",
+      "g8g7",
+      "c2d1",
+      "h5h7",
+      "d2g5",
+      "g7h8",
+      "f6h6",
+      "h7h6",
+      "g5h6",
+      "h8g8",
+      "h6g6",
+      "g8h8",
+      "d1c2",
+      "a6a5",
+      "g6h7"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 27",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/k3bpExsV",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 27",
+    "fen": "r1b2rk1/p2p1p2/2p5/1p2PPqn/1b1p2N1/1B1P3Q/PPP3PP/R4RK1 w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Qxh5",
+      "Qxh5",
+      "Nf6+",
+      "Kg7",
+      "Nxh5+"
+    ],
+    "solution_uci": [
+      "h3h5",
+      "g5h5",
+      "g4f6",
+      "g8g7",
+      "f6h5"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 28",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/AKkEuBst",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 28",
+    "fen": "r5r1/p1p1k3/3q3B/5p2/4p3/1P6/P1P1QPP1/R4RK1 b - - 0 1",
+    "side_to_move": "black",
+    "solution_san": [
+      "Rxg2+",
+      "Kxg2",
+      "Rg8+",
+      "Kh3",
+      "Qxh6+",
+      "Qh5",
+      "Qxh5#"
+    ],
+    "solution_uci": [
+      "g8g2",
+      "g1g2",
+      "a8g8",
+      "g2h3",
+      "d6h6",
+      "e2h5",
+      "h6h5"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 29",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/yZO7Vt8f",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 29",
+    "fen": "6rk/p1q2p2/2p1rb1P/1p2pN2/4P1Q1/2PP4/PPB5/2K4R w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Qg7+",
+      "Rxg7",
+      "hxg7+",
+      "Kg8",
+      "Rh8#"
+    ],
+    "solution_uci": [
+      "g4g7",
+      "g8g7",
+      "h6g7",
+      "h8g8",
+      "h1h8"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 30",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/OqEWP2dw",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 30",
+    "fen": "4q1k1/2r3pp/1p6/8/1b2N3/4R1P1/PP3P1P/R5K1 w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Nf6+",
+      "gxf6",
+      "Rxe8+"
+    ],
+    "solution_uci": [
+      "e4f6",
+      "g7f6",
+      "e3e8"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 31",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/OT2GAXN7",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 31",
+    "fen": "4k3/1bp4r/p7/1p1P4/2P3pN/1P2r1P1/1BP2RPK/8 b - - 0 1",
+    "side_to_move": "black",
+    "solution_san": [
+      "Rxh4+",
+      "gxh4",
+      "g3+",
+      "Kh3",
+      "gxf2+"
+    ],
+    "solution_uci": [
+      "h7h4",
+      "g3h4",
+      "g4g3",
+      "h2h3",
+      "g3f2"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 32",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/BdNEePue",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 32",
+    "fen": "2q4k/5Qp1/4B2p/p1p5/1P6/6PK/r4P1P/8 b - - 0 1",
+    "side_to_move": "black",
+    "solution_san": [
+      "Rxf2",
+      "Qxf2",
+      "Qxe6+",
+      "Kg2"
+    ],
+    "solution_uci": [
+      "a2f2",
+      "f7f2",
+      "c8e6",
+      "h3g2"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 33",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/gto7kmbt",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 33",
+    "fen": "5Rnk/pp1q4/7p/3p2rN/3Pp1Q1/2P5/PP5P/6K1 w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Rxg8+",
+      "Rxg8",
+      "Qxg8+",
+      "Kxg8",
+      "Nf6+",
+      "Kf8",
+      "Nxd7+"
+    ],
+    "solution_uci": [
+      "f8g8",
+      "g5g8",
+      "g4g8",
+      "h8g8",
+      "h5f6",
+      "g8f8",
+      "f6d7"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 34",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/CBoFF8l5",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 34",
+    "fen": "r1bq2k1/pp3rpp/2n2b2/3p1p2/3P4/BQPB1N2/P4PPP/R3R1K1 w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Qxd5",
+      "Qxd5",
+      "Re8+",
+      "Rf8",
+      "Rxf8#"
+    ],
+    "solution_uci": [
+      "b3d5",
+      "d8d5",
+      "e1e8",
+      "f7f8",
+      "e8f8"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 35",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/a0JblF15",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 35",
+    "fen": "2r3k1/pb2bp1p/1p2p1p1/8/q1NPP3/3B4/P3QPPP/3R2K1 b - - 0 1",
+    "side_to_move": "black",
+    "solution_san": [
+      "Bxe4",
+      "Bxe4",
+      "Rxc4"
+    ],
+    "solution_uci": [
+      "b7e4",
+      "d3e4",
+      "c8c4"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 36",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/Wc8Q4pEk",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 36",
+    "fen": "6r1/2r1k3/R3p3/p4pPp/1pPK1P2/1P3B2/P6P/8 w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Rxe6+",
+      "Kxe6",
+      "Bd5+",
+      "Kd6",
+      "Bxg8"
+    ],
+    "solution_uci": [
+      "a6e6",
+      "e7e6",
+      "f3d5",
+      "e6d6",
+      "d5g8"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 37",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/xJkJQyEm",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 37",
+    "fen": "r4r1k/pppqNppp/3p1B2/4p3/3nP3/3P1b2/PPPQ1PPP/R4RK1 w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Bxg7+",
+      "Kxg7",
+      "Qg5+",
+      "Kh8",
+      "Qf6#"
+    ],
+    "solution_uci": [
+      "f6g7",
+      "h8g7",
+      "d2g5",
+      "g7h8",
+      "g5f6"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 38",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/JlnAX65e",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 38",
+    "fen": "3r2k1/2p2pp1/p1Q2n1p/7q/8/1P1N2P1/P1P2P2/R3K3 b Q - 0 1",
+    "side_to_move": "black",
+    "solution_san": [
+      "Rxd3",
+      "cxd3",
+      "Qe5+",
+      "Kd2",
+      "Qxa1"
+    ],
+    "solution_uci": [
+      "d8d3",
+      "c2d3",
+      "h5e5",
+      "e1d2",
+      "e5a1"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 39",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/oJOkmS2a",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 39",
+    "fen": "r1b2rk1/pp3qpp/2p1p3/2Ppb1PP/5B2/3BP3/PP3Q2/2R1K2R w K - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Bxh7+",
+      "Kxh7",
+      "g6+",
+      "Kg8",
+      "gxf7+"
+    ],
+    "solution_uci": [
+      "d3h7",
+      "g8h7",
+      "g5g6",
+      "h7g8",
+      "g6f7"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 40",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/BWLxT4TO",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 40",
+    "fen": "2r2rk1/pQ1n1pp1/1p2p2p/3p4/P2P4/4P2P/1qB2PP1/2R2RK1 w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Bh7+",
+      "Kxh7",
+      "Rxc8",
+      "Rxc8",
+      "Qxc8",
+      "Nf6"
+    ],
+    "solution_uci": [
+      "c2h7",
+      "g8h7",
+      "c1c8",
+      "f8c8",
+      "b7c8",
+      "d7f6"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 41",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/CZKZF4hE",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 41",
+    "fen": "3k4/p1p2prr/1p5N/3PRPP1/b1P5/4B3/P4K2/8 w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "f6",
+      "Rg6",
+      "Bf4"
+    ],
+    "solution_uci": [
+      "f5f6",
+      "g7g6",
+      "e3f4"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 42",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/Osaf2cCr",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 42",
+    "fen": "r3k2r/pbp2qb1/1pn1p2p/3nP1pQ/3PNp2/2PB4/PP1N1BPP/R4RK1 w kq - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Nd6+",
+      "cxd6",
+      "Bg6",
+      "O-O",
+      "Bxf7+"
+    ],
+    "solution_uci": [
+      "e4d6",
+      "c7d6",
+      "d3g6",
+      "e8g8",
+      "g6f7"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 43",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/Qs5NRMBk",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 43",
+    "fen": "4k3/1r2r1pp/1nR2p2/pp1p4/1N1P2P1/1R2PP2/PP3K1P/8 w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Rxb6",
+      "Rxb6",
+      "Nxd5",
+      "Rb8",
+      "Nxe7",
+      "Kxe7"
+    ],
+    "solution_uci": [
+      "c6b6",
+      "b7b6",
+      "b4d5",
+      "b6b8",
+      "d5e7",
+      "e8e7"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 44",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/stcpvLgB",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 44",
+    "fen": "7r/1p3pp1/pn1kb2p/3p4/3N1P1P/PP1BP3/3K2P1/2R5 w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Bxa6",
+      "bxa6",
+      "Rc6+",
+      "Ke7",
+      "Rxb6"
+    ],
+    "solution_uci": [
+      "d3a6",
+      "b7a6",
+      "c1c6",
+      "d6e7",
+      "c6b6"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 45",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/r1x2uLz8",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 45",
+    "fen": "r3nrk1/1bp2ppp/pp2p3/3q2N1/1b1PNP2/3B2P1/PP2QP1P/2RR2K1 w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Nxh7",
+      "Kxh7",
+      "Nf6+",
+      "Kh8",
+      "Nxd5"
+    ],
+    "solution_uci": [
+      "g5h7",
+      "g8h7",
+      "e4f6",
+      "h7h8",
+      "f6d5"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 46",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/NOJvlCKd",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 46",
+    "fen": "r1b1k2r/2qp1ppp/ppnbpn2/8/2PNP3/P1N1BP2/1P4PP/2RQKB1R w Kkq - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Ndb5",
+      "axb5",
+      "Nxb5",
+      "Qb8",
+      "Nxd6+"
+    ],
+    "solution_uci": [
+      "d4b5",
+      "a6b5",
+      "c3b5",
+      "c7b8",
+      "b5d6"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 47",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/ie7qhQbT",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 47",
+    "fen": "4r1k1/6qp/pp4p1/2pP4/4Pp2/1P6/P1R3PP/4Q2K b - - 0 1",
+    "side_to_move": "black",
+    "solution_san": [
+      "Rxe4",
+      "Qxe4",
+      "Qa1+",
+      "Rc1",
+      "Qxc1+",
+      "Qe1",
+      "Qxe1#"
+    ],
+    "solution_uci": [
+      "e8e4",
+      "e1e4",
+      "g7a1",
+      "c2c1",
+      "a1c1",
+      "e4e1",
+      "c1e1"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 48",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/ifUqlWHc",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 48",
+    "fen": "2bq1r2/4bpk1/4pp1N/7Q/1p1p4/3B4/PP3PPP/R5K1 w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Nxf7",
+      "Rxf7",
+      "Qh7+",
+      "Kf8",
+      "Qh8#"
+    ],
+    "solution_uci": [
+      "h6f7",
+      "f8f7",
+      "h5h7",
+      "g7f8",
+      "h7h8"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 49",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/hUUCJhcn",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 49",
+    "fen": "r3r1k1/3b2pp/2p5/p1RpPp2/3Q1P2/1q2P1P1/6BP/R5K1 w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Rxd5",
+      "cxd5",
+      "Bxd5+",
+      "Qxd5",
+      "Qxd5+"
+    ],
+    "solution_uci": [
+      "c5d5",
+      "c6d5",
+      "g2d5",
+      "b3d5",
+      "d4d5"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 50",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/SdpE9g9i",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 50",
+    "fen": "r3br1k/pp5p/4B1p1/4NpP1/P2Pn3/q1PQ3R/7P/3R3K w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Rxh7+",
+      "Kxh7",
+      "Qh3+",
+      "Kg7",
+      "Qh6#"
+    ],
+    "solution_uci": [
+      "h3h7",
+      "h8h7",
+      "d3h3",
+      "h7g7",
+      "h3h6"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 51",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/CtlHsQN2",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 51",
+    "fen": "5rk1/ppp2ppp/6q1/2b5/3r4/2N1BQ1b/PP3PPP/R3R1K1 b - - 0 1",
+    "side_to_move": "black",
+    "solution_san": [
+      "Bxg2",
+      "Qxg2",
+      "Rg4",
+      "Qxg4",
+      "Qxg4+"
+    ],
+    "solution_uci": [
+      "h3g2",
+      "f3g2",
+      "d4g4",
+      "g2g4",
+      "g6g4"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 52",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/kDLmPoAW",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 52",
+    "fen": "4r2k/ppp3pp/8/1PPb1p2/3P1P1b/P1Q2p1P/7R/R4KBq b - - 0 1",
+    "side_to_move": "black",
+    "solution_san": [
+      "Qg2+",
+      "Rxg2",
+      "fxg2#"
+    ],
+    "solution_uci": [
+      "h1g2",
+      "h2g2",
+      "f3g2"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 53",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/VjNDY3i8",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 53",
+    "fen": "3r1b1k/pp4p1/2p1Qp2/5N2/PP2Pp2/2Pq4/5PKP/5R2 b - - 0 1",
+    "side_to_move": "black",
+    "solution_san": [
+      "f3+",
+      "Kg3",
+      "Qxf1"
+    ],
+    "solution_uci": [
+      "f4f3",
+      "g2g3",
+      "d3f1"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 54",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/hWLOf8ia",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 54",
+    "fen": "r1b2rk1/pp4pp/2pb4/3p1pq1/2PP4/1N1BPR2/PPQ3PP/4R1K1 b - - 0 1",
+    "side_to_move": "black",
+    "solution_san": [
+      "Bxh2+",
+      "Kxh2",
+      "Qh4+",
+      "Rh3",
+      "Qxe1"
+    ],
+    "solution_uci": [
+      "d6h2",
+      "g1h2",
+      "g5h4",
+      "f3h3",
+      "h4e1"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 55",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/5faVSere",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 55",
+    "fen": "q6r/1b4bp/4k1p1/1p2Pn2/2pPp1Q1/2P5/1P1N2PP/2B2RK1 w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Rxf5",
+      "gxf5",
+      "Qxg7"
+    ],
+    "solution_uci": [
+      "f1f5",
+      "g6f5",
+      "g4g7"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 56",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/NGm2ASIH",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 56",
+    "fen": "5rk1/1b1p1ppp/1qr1p3/p2pP3/P4P2/Q2B4/1PP3PP/R4R1K w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Bxh7+",
+      "Kxh7",
+      "Qxf8"
+    ],
+    "solution_uci": [
+      "d3h7",
+      "g8h7",
+      "a3f8"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 57",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/U6rsCv9S",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 57",
+    "fen": "5r1k/pp4pp/2p5/8/4n3/5NPQ/P3Bq1P/4R2K b - - 0 1",
+    "side_to_move": "black",
+    "solution_san": [
+      "Rxf3",
+      "Bxf3",
+      "Qxe1+",
+      "Kg2",
+      "Qf2+",
+      "Kh1",
+      "Qxf3+"
+    ],
+    "solution_uci": [
+      "f8f3",
+      "e2f3",
+      "f2e1",
+      "h1g2",
+      "e1f2",
+      "g2h1",
+      "f2f3"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 58",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/807cMznX",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 58",
+    "fen": "r4rk1/pp2bppp/1qp1p3/4Pb2/Q1P1nB2/2N5/PP1RBPPP/5RK1 w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Nxe4",
+      "Bxe4",
+      "c5",
+      "Qxc5",
+      "Qxe4"
+    ],
+    "solution_uci": [
+      "c3e4",
+      "f5e4",
+      "c4c5",
+      "b6c5",
+      "a4e4"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 59",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/ItdFUEGm",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 59",
+    "fen": "2r5/pp1bkp1Q/2nbpq2/3p1p2/3P1Pr1/2NBP1N1/PP4PP/2R2RK1 w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Nxf5+",
+      "exf5",
+      "Nxd5+",
+      "Ke6",
+      "Nxf6",
+      "Kxf6"
+    ],
+    "solution_uci": [
+      "g3f5",
+      "e6f5",
+      "c3d5",
+      "e7e6",
+      "d5f6",
+      "e6f6"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 60",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/0z9mo48L",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 60",
+    "fen": "r1bqr1k1/1p1nbpp1/p1p3p1/3p4/3P1B2/2NBP2P/PP3PP1/2RQ1RK1 w - - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Nxd5",
+      "cxd5",
+      "Bc7",
+      "Qxc7",
+      "Rxc7"
+    ],
+    "solution_uci": [
+      "c3d5",
+      "c6d5",
+      "f4c7",
+      "d8c7",
+      "c1c7"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 61",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/f2pAcUl7",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 61",
+    "fen": "3r2k1/q1p1nppp/p3n3/1pb1p3/4P2N/1PP3PP/PBB1QPK1/7R b - - 0 1",
+    "side_to_move": "black",
+    "solution_san": [
+      "Bxf2",
+      "Qxf2",
+      "Qxf2+",
+      "Kxf2",
+      "Rd2+",
+      "Kg1",
+      "Rxc2"
+    ],
+    "solution_uci": [
+      "c5f2",
+      "e2f2",
+      "a7f2",
+      "g2f2",
+      "d8d2",
+      "f2g1",
+      "d2c2"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 62",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/koKp95jZ",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 62",
+    "fen": "1Q6/p4pkp/3p2p1/3P4/q7/P3rBbP/6P1/5R1K b - - 0 1",
+    "side_to_move": "black",
+    "solution_san": [
+      "Rxf3",
+      "gxf3",
+      "Qc2"
+    ],
+    "solution_uci": [
+      "e3f3",
+      "g2f3",
+      "a4c2"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 63",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/AYncrFGe",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 63",
+    "fen": "r1bqk2r/p1pn1pp1/1p2pn1p/8/3P4/B1PB4/P1P1QPPP/R3K1NR w KQkq - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Qxe6+",
+      "fxe6",
+      "Bg6#"
+    ],
+    "solution_uci": [
+      "e2e6",
+      "f7e6",
+      "d3g6"
+    ]
+  },
+  {
+    "chapter_name": "Puzzle 64",
+    "chapter_url": "https://lichess.org/study/OavXzGxF/DCV7hlKv",
+    "event": "Woodpecker Method Puzzles (1 - 64): Puzzle 64",
+    "fen": "r2qk2r/1p1b1pp1/p1pBpn1p/2P1N3/1n1P4/3B4/PPQ2PPP/2KR3R w kq - 0 1",
+    "side_to_move": "white",
+    "solution_san": [
+      "Bg6",
+      "Nxc2",
+      "Bxf7#"
+    ],
+    "solution_uci": [
+      "d3g6",
+      "b4c2",
+      "g6f7"
+    ]
+  }
+]

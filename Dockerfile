@@ -22,8 +22,9 @@ WORKDIR /app
 COPY pyproject.toml README.md ./
 COPY src/ ./src/
 
-# Runtime deps only (no dev tools, no browser tests, no zstandard).
-RUN pip install --no-cache-dir .
+# Runtime deps + `curation` extra so the /api/v1/tactics/index/build endpoint
+# can read the Lichess .csv.zst dump on the volume.
+RUN pip install --no-cache-dir '.[curation]'
 
 # Persistent progress DB will be mounted here at runtime.
 RUN mkdir -p /data
