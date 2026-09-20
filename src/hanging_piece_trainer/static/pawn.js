@@ -11,8 +11,8 @@ const state = {
   legalTargets: {},
   humanColor: "white",
   sideToMove: "white",
-  variant: "kingless",
-  elo: 1500,
+  variant: "with_kings",
+  elo: 2500,
   selected: null,
   lastMove: null,
   locked: true,
@@ -20,9 +20,9 @@ const state = {
 };
 
 const settings = {
-  variant: "kingless",
+  variant: "with_kings",
   side: "white",
-  elo: 1500,
+  elo: 2500,
 };
 
 const boardEl = document.querySelector("#board");

@@ -20,6 +20,7 @@ const state = {
   durationMs: 120000,
   timerId: null,
   aiTimeoutId: null,
+  extraPieceTimerId: null,
 };
 
 const boardEl = document.querySelector("#board");
@@ -30,10 +31,11 @@ const scoreBlackEl = document.querySelector("#score-black");
 const bestScoreEl = document.querySelector("#best-score");
 const startBtn = document.querySelector("#start");
 const durationEl = document.querySelector("#duration");
+const extraPieceIntervalEl = document.querySelector("#extra-piece-interval");
 const configDialog = document.querySelector("#config-dialog");
 const configOpenBtn = document.querySelector("#config-open");
 const configCancelBtn = document.querySelector("#config-cancel");
-let durationBeforeEdit = durationEl.value;
+let configBeforeEdit = { duration: durationEl.value, extra: extraPieceIntervalEl.value };
 
 function isWhite(symbol) { return symbol === symbol.toUpperCase(); }
 function sameColor(a, b) { return isWhite(a) === isWhite(b); }
@@ -106,6 +108,7 @@ function pick(list) { return list[Math.floor(Math.random() * list.length)]; }
 
 function initGame() {
   clearInterval(state.timerId);
+  clearInterval(state.extraPieceTimerId);
   clearTimeout(state.aiTimeoutId);
   state.pieces = new Map();
   state.turn = "w";
@@ -130,6 +133,14 @@ function initGame() {
   state.active = true;
   state.startedAt = performance.now();
   state.timerId = setInterval(tick, 100);
+  const extraSecs = Number(extraPieceIntervalEl.value);
+  if (extraSecs > 0) {
+    state.extraPieceTimerId = setInterval(() => {
+      if (!state.active) return;
+      spawnPiece(Math.random() < 0.5 ? "w" : "b");
+      render();
+    }, extraSecs * 1000);
+  }
   startBtn.textContent = "Restart";
   statusEl.textContent = "Your move. Click a white piece to see legal targets.";
   render();
@@ -148,6 +159,7 @@ function tick() {
 function endGame() {
   state.active = false;
   clearInterval(state.timerId);
+  clearInterval(state.extraPieceTimerId);
   clearTimeout(state.aiTimeoutId);
   state.selected = null;
   state.legalTargets = [];
@@ -177,10 +189,22 @@ function applyMove(from, to) {
 }
 
 function spawnPiece(color) {
-  const sq = randomEmptySquare(state.pieces, "12345678");
-  if (!sq) return;
-  const kind = pick(spawnKinds);
-  state.pieces.set(sq, color === "w" ? kind : kind.toLowerCase());
+  const empties = [];
+  for (const f of FILES) for (const r of "12345678") {
+    const sq = `${f}${r}`;
+    if (!state.pieces.has(sq)) empties.push(sq);
+  }
+  if (!empties.length) return;
+  const kindUpper = pick(spawnKinds);
+  const symbol = color === "w" ? kindUpper : kindUpper.toLowerCase();
+  const safe = empties.filter((sq) => {
+    for (const target of legalMoves(state.pieces, sq, symbol)) {
+      if (state.pieces.has(target)) return false;
+    }
+    return true;
+  });
+  const sq = pick(safe.length ? safe : empties);
+  state.pieces.set(sq, symbol);
 }
 
 function handleSquareClick(sq) {
@@ -282,13 +306,14 @@ function updateScore() {
 startBtn.addEventListener("click", initGame);
 
 configOpenBtn.addEventListener("click", () => {
-  durationBeforeEdit = durationEl.value;
+  configBeforeEdit = { duration: durationEl.value, extra: extraPieceIntervalEl.value };
   configDialog.showModal();
 });
 configCancelBtn.addEventListener("click", () => configDialog.close("cancel"));
 configDialog.addEventListener("close", () => {
   if (configDialog.returnValue !== "save") {
-    durationEl.value = durationBeforeEdit;
+    durationEl.value = configBeforeEdit.duration;
+    extraPieceIntervalEl.value = configBeforeEdit.extra;
   }
   showConfiguredTime();
 });

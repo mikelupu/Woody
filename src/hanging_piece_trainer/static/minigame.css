@@ -9,6 +9,7 @@
   border: 0;
 }
 
+.trainer { grid-template-columns: minmax(320px, 680px); justify-content: center; }
 .board-column { display: flex; flex-direction: column; gap: 1rem; }
 
 .game-panel {
@@ -75,9 +76,6 @@
   cursor: pointer;
 }
 .icon-button:hover { background: rgb(255 255 255 / 18%); }
-
-.rules { padding-left: 1.15rem; line-height: 1.5; color: var(--ink); }
-.rules li { margin-bottom: .35rem; }
 
 #board-status.status {
   display: -webkit-box;

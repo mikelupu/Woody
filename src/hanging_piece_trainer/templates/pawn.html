@@ -49,8 +49,8 @@
               <div><dt>White</dt><dd id="white-material">8</dd></div>
               <div><dt>Black</dt><dd id="black-material">8</dd></div>
               <div><dt>Turn</dt><dd id="turn-indicator">—</dd></div>
-              <div><dt>Elo</dt><dd id="elo-badge">1500</dd></div>
-              <div><dt>Variant</dt><dd id="variant-badge">Kingless</dd></div>
+              <div><dt>Elo</dt><dd id="elo-badge">2500</dd></div>
+              <div><dt>Variant</dt><dd id="variant-badge">With kings</dd></div>
             </dl>
             <div class="panel-actions">
               <button id="start" class="start-btn" type="button">Start game</button>
@@ -62,7 +62,7 @@
             </div>
           </div>
           <div id="board" class="board" role="grid" aria-label="Chess position"></div>
-          <div id="board-status" class="status" role="status" aria-live="polite">Click Start game to begin. Default: kingless mode vs Stockfish 1500.</div>
+          <div id="board-status" class="status" role="status" aria-live="polite">Click Start game to begin. Default: with kings vs Stockfish 2500.</div>
         </div>
 
         <aside class="controls" aria-label="Moves">
@@ -77,8 +77,8 @@
 
         <fieldset class="config-field">
           <legend>Variant</legend>
-          <label><input type="radio" name="variant" value="kingless" checked> Kingless (default)</label>
-          <label><input type="radio" name="variant" value="with_kings"> With kings</label>
+          <label><input type="radio" name="variant" value="kingless"> Kingless</label>
+          <label><input type="radio" name="variant" value="with_kings" checked> With kings (default)</label>
         </fieldset>
 
         <fieldset class="config-field">
@@ -89,8 +89,8 @@
         </fieldset>
 
         <label class="config-field">
-          <span>Stockfish Elo <output id="elo-out">1500</output></span>
-          <input type="range" id="elo-slider" min="400" max="2850" step="50" value="1500">
+          <span>Stockfish Elo <output id="elo-out">2500</output></span>
+          <input type="range" id="elo-slider" min="400" max="2850" step="50" value="2500">
           <span class="range-hint muted">
             Below ~1320 Stockfish plays via Skill Level + depth cap — expect it to hang pieces.
           </span>

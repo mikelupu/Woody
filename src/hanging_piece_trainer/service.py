@@ -1109,10 +1109,10 @@ class PawnGameService:
     def new_game(self, payload: dict[str, Any]) -> dict[str, Any]:
         if not isinstance(payload, dict):
             raise ApplicationError("invalid_request", "JSON object required")
-        variant = payload.get("variant", "kingless")
+        variant = payload.get("variant", "with_kings")
         if variant not in PAWN_VARIANTS:
             raise ApplicationError("invalid_variant", "variant must be kingless or with_kings")
-        elo = payload.get("elo", 1500)
+        elo = payload.get("elo", 2500)
         if not isinstance(elo, int) or isinstance(elo, bool):
             raise ApplicationError("invalid_elo", "elo must be an integer")
         if not PAWN_ELO_MIN <= elo <= PAWN_ELO_MAX:
