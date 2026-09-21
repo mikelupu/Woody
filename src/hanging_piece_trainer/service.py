@@ -215,6 +215,8 @@ class SolveSession:
     created_at: float
     started_at: float
     starting_fen: str = ""
+    hints_used: int = 0
+    piece_hint: bool = False
 
 
 class SolveStore:
@@ -342,14 +344,26 @@ def _fen_start_metadata(fen: str) -> dict[str, Any]:
     }
 
 
-def _score_for_puzzle(rating: int, wrong_moves: int) -> int:
-    """Points earned for a puzzle given its rating and how many wrong moves were made."""
+def _score_for_puzzle(
+    rating: int,
+    wrong_moves: int,
+    hints_used: int = 0,
+    piece_hint: bool = False,
+) -> int:
+    """Points earned for a puzzle given its rating, mistakes, and hint usage.
+
+    Hints reduce the base score: -1 per theme hint, -2 for the piece hint.
+    Total score is floored at 0.
+    """
     full = round((rating or 0) / 100)
     if wrong_moves == 0:
-        return full
-    if wrong_moves == 1:
-        return round((rating or 0) / 200)
-    return 0
+        base = full
+    elif wrong_moves == 1:
+        base = round((rating or 0) / 200)
+    else:
+        base = 0
+    penalty = max(0, hints_used) + (2 if piece_hint else 0)
+    return max(0, base - penalty)
 
 
 class TacticsService:
@@ -373,8 +387,12 @@ class TacticsService:
         self.batches_per_cycle = len(self.batches)
         self.package = package or catalog.slug
 
-    def _current_context(self) -> tuple[int, TacticsBatch, dict[str, int]]:
-        """Return (cycle, current_batch, attempted_by_id) for the active batch."""
+    def _current_context(self) -> tuple[int, TacticsBatch, dict[str, dict[str, int]]]:
+        """Return (cycle, current_batch, attempted_by_id) for the active batch.
+
+        Each value in `attempted_by_id` is a dict with keys `wrong_moves`,
+        `hints_used`, and `piece_hint`.
+        """
         cycle = self.repository.current_cycle(self.batches_per_cycle, package=self.package)
         done = self.repository.completed_batches(cycle, package=self.package)
         for batch in self.batches:
@@ -383,17 +401,29 @@ class TacticsService:
             attempts = self.repository.solve_attempts_in_batch(
                 batch.index, cycle, package=self.package
             )
-            attempted = {row["puzzle_id"]: int(row["wrong_moves"]) for row in attempts}
+            attempted = {
+                row["puzzle_id"]: {
+                    "wrong_moves": int(row["wrong_moves"]),
+                    "hints_used": int(row.get("hints_used", 0) or 0),
+                    "piece_hint": bool(row.get("piece_hint", 0) or 0),
+                }
+                for row in attempts
+            }
             return cycle, batch, attempted
         # Shouldn't get here — current_cycle() rolls forward once a cycle is done.
         return cycle, self.batches[0], {}
 
     def _batch_view(
-        self, cycle: int, batch: TacticsBatch, attempted: dict[str, int]
+        self, cycle: int, batch: TacticsBatch, attempted: dict[str, dict[str, int]]
     ) -> dict[str, Any]:
         earned = sum(
-            _score_for_puzzle(self.catalog.get(pid).rating or 0, wrong)
-            for pid, wrong in attempted.items()
+            _score_for_puzzle(
+                self.catalog.get(pid).rating or 0,
+                info["wrong_moves"],
+                hints_used=info.get("hints_used", 0),
+                piece_hint=info.get("piece_hint", False),
+            )
+            for pid, info in attempted.items()
         )
         position = len(attempted) + 1
         return {
@@ -592,6 +622,43 @@ class TacticsService:
         self._finalize_completion(session_id, session, response, given_up=True)
         return response
 
+    def hint(self, payload: dict[str, Any]) -> dict[str, Any]:
+        """Track a hint the user consumed. `type` is "theme" (-1 pt) or "piece" (-2 pt).
+
+        Returns the puzzle's themes / piece-hint square (once) plus updated counters.
+        Frontend uses this both to persist state (survives refresh) and to fetch the
+        piece-hint square without the client having to compute it.
+        """
+        if not isinstance(payload, dict):
+            raise ApplicationError("invalid_request", "JSON object required")
+        session_id = payload.get("session_id")
+        hint_type = payload.get("type")
+        if not isinstance(session_id, str) or hint_type not in ("theme", "piece"):
+            raise ApplicationError(
+                "invalid_hint", "session_id and type ('theme' or 'piece') are required"
+            )
+        session = self.sessions.resolve(session_id)
+        try:
+            puzzle = self.catalog.get(session.puzzle_id)
+        except CatalogError as exc:
+            raise ApplicationError(
+                "catalog_error", "Puzzle vanished mid-session", status=409
+            ) from exc
+        if hint_type == "theme":
+            if session.hints_used < len(puzzle.themes):
+                session.hints_used += 1
+        else:  # "piece"
+            session.piece_hint = True
+        piece_square: str | None = None
+        if session.piece_hint and puzzle.solution_moves_uci:
+            piece_square = puzzle.solution_moves_uci[0][:2]
+        return {
+            "hints_used": session.hints_used,
+            "piece_hint": session.piece_hint,
+            "themes": list(puzzle.themes),
+            "piece_square": piece_square,
+        }
+
     def _finalize_completion(
         self,
         session_id: str,
@@ -607,7 +674,12 @@ class TacticsService:
                 "catalog_error", "Puzzle vanished mid-session", status=409
             ) from exc
         cycle, batch, attempted = self._current_context()
-        puzzle_points = _score_for_puzzle(puzzle.rating or 0, session.wrong_moves)
+        puzzle_points = _score_for_puzzle(
+            puzzle.rating or 0,
+            session.wrong_moves,
+            hints_used=session.hints_used,
+            piece_hint=session.piece_hint,
+        )
         point = session.wrong_moves == 0 and not given_up
         completion_ms = int((self.sessions.clock() - session.started_at) * 1000)
         attempt = {
@@ -626,19 +698,30 @@ class TacticsService:
             "batch_index": batch.index,
             "cycle": cycle,
             "package": self.package,
+            "hints_used": session.hints_used,
+            "piece_hint": session.piece_hint,
         }
         batch_result: dict[str, Any] | None = None
         try:
             self.repository.commit_solve_attempt(attempt)
             attempted = {
-                row["puzzle_id"]: int(row["wrong_moves"])
+                row["puzzle_id"]: {
+                    "wrong_moves": int(row["wrong_moves"]),
+                    "hints_used": int(row.get("hints_used", 0) or 0),
+                    "piece_hint": bool(row.get("piece_hint", 0) or 0),
+                }
                 for row in self.repository.solve_attempts_in_batch(
                     batch.index, cycle, package=self.package
                 )
             }
             if len(attempted) >= TACTICS_BATCH_SIZE and set(attempted).issuperset(batch.puzzle_ids):
                 per_puzzle = [
-                    _score_for_puzzle(self.catalog.get(pid).rating or 0, attempted[pid])
+                    _score_for_puzzle(
+                        self.catalog.get(pid).rating or 0,
+                        attempted[pid]["wrong_moves"],
+                        hints_used=attempted[pid]["hints_used"],
+                        piece_hint=attempted[pid]["piece_hint"],
+                    )
                     for pid in batch.puzzle_ids
                 ]
                 batch_row = {

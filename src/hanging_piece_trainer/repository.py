@@ -98,6 +98,8 @@ class ProgressRepository:
                     "ALTER TABLE solve_attempts ADD COLUMN cycle INTEGER",
                     "ALTER TABLE solve_attempts ADD COLUMN package TEXT NOT NULL "
                     "DEFAULT 'tri-band-tactics'",
+                    "ALTER TABLE solve_attempts ADD COLUMN hints_used INTEGER NOT NULL DEFAULT 0",
+                    "ALTER TABLE solve_attempts ADD COLUMN piece_hint INTEGER NOT NULL DEFAULT 0",
                 ):
                     with contextlib.suppress(sqlite3.OperationalError):
                         connection.execute(ddl)
@@ -286,12 +288,16 @@ class ProgressRepository:
             "batch_index",
             "cycle",
             "package",
+            "hints_used",
+            "piece_hint",
         )
         attempt = {
             **attempt,
             "batch_index": attempt.get("batch_index"),
             "cycle": attempt.get("cycle"),
             "package": attempt.get("package", "tri-band-tactics"),
+            "hints_used": int(attempt.get("hints_used", 0)),
+            "piece_hint": 1 if attempt.get("piece_hint") else 0,
         }
         values = [
             json.dumps(attempt[name], sort_keys=True)
@@ -419,11 +425,12 @@ class ProgressRepository:
     def solve_attempts_in_batch(
         self, batch_index: int, cycle: int, *, package: str = "tri-band-tactics"
     ) -> list[dict[str, Any]]:
-        """Return `(puzzle_id, wrong_moves)` rows for solves in this batch/cycle."""
+        """Solve rows in this batch/cycle: puzzle_id, wrong_moves, hints_used, piece_hint."""
         try:
             with self._connect() as connection:
                 rows = connection.execute(
-                    "SELECT puzzle_id, wrong_moves, submitted_at FROM solve_attempts "
+                    "SELECT puzzle_id, wrong_moves, hints_used, piece_hint, submitted_at "
+                    "FROM solve_attempts "
                     "WHERE batch_index = ? AND cycle = ? AND package = ? AND completed = 1 "
                     "ORDER BY submitted_at ASC",
                     (batch_index, cycle, package),

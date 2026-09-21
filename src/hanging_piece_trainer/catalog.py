@@ -48,6 +48,7 @@ class Puzzle:
     themes: tuple[str, ...]
     answers: dict[Color, Classification]
     solution_moves_uci: tuple[str, ...]
+    opening: str | None = None
 
     def public_dict(self) -> dict[str, Any]:
         return {
@@ -57,6 +58,7 @@ class Puzzle:
             "side_to_move": self.side_to_move.value,
             "rating": self.rating,
             "themes": list(self.themes),
+            "opening": self.opening,
         }
 
 
@@ -79,6 +81,7 @@ def _parse_puzzle(raw: dict[str, Any]) -> Puzzle:
             )
             for color in Color
         }
+        opening_raw = raw.get("opening")
         puzzle = Puzzle(
             puzzle_id=str(raw["puzzle_id"]),
             source_url=str(raw["source_url"]),
@@ -90,6 +93,7 @@ def _parse_puzzle(raw: dict[str, Any]) -> Puzzle:
             themes=tuple(str(theme) for theme in raw["themes"]),
             answers=answers,
             solution_moves_uci=tuple(str(move) for move in raw["solution_moves_uci"]),
+            opening=str(opening_raw) if opening_raw else None,
         )
     except (KeyError, TypeError, ValueError, DomainError) as exc:
         raise CatalogError("invalid puzzle record") from exc
