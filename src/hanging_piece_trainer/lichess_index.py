@@ -50,8 +50,7 @@ class SearchQuery:
 @dataclass(slots=True)
 class SearchPreview:
     count: int
-    sample: list[dict[str, Any]] = field(default_factory=list)
-    rating_histogram: list[int] = field(default_factory=lambda: [0] * 10)
+    rows: list[dict[str, Any]] = field(default_factory=list)
 
 
 def _derive_phase(themes: Iterable[str]) -> str | None:
@@ -343,7 +342,7 @@ class LichessIndex:
         where = " AND ".join(clauses) if clauses else "1 = 1"
         return where, params
 
-    def preview(self, query: SearchQuery, *, sample_size: int = 10) -> SearchPreview:
+    def preview(self, query: SearchQuery, *, limit: int = 100) -> SearchPreview:
         where, params = self._where(query)
         with self._connect() as connection:
             self._create_schema(connection)
@@ -351,54 +350,36 @@ class LichessIndex:
                 f"SELECT COUNT(*) FROM puzzles WHERE {where}",
                 params,
             ).fetchone()[0]
-            sample_rows = connection.execute(
-                f"SELECT id, fen, rating, themes, opening_tags, solution_plies "
-                f"FROM puzzles WHERE {where} ORDER BY rating ASC LIMIT ?",
-                (*params, sample_size),
+            result_rows = connection.execute(
+                f"SELECT id, rating, phase, solution_plies, themes, popularity, "
+                f"opening_tags, game_url FROM puzzles WHERE {where} LIMIT ?",
+                (*params, int(limit)),
             ).fetchall()
-            hist_rows = connection.execute(
-                f"SELECT MIN(rating), MAX(rating) FROM puzzles WHERE {where}",
-                params,
-            ).fetchone()
         preview = SearchPreview(count=count)
-        for row in sample_rows:
-            preview.sample.append(
+        for row in result_rows:
+            preview.rows.append(
                 {
                     "id": row["id"],
-                    "fen": row["fen"],
                     "rating": row["rating"],
-                    "themes": row["themes"].split(),
-                    "opening_tags": row["opening_tags"].split() if row["opening_tags"] else [],
+                    "phase": row["phase"],
                     "solution_plies": row["solution_plies"],
+                    "themes": row["themes"].split() if row["themes"] else [],
+                    "popularity": row["popularity"],
+                    "opening_tags": row["opening_tags"].split() if row["opening_tags"] else [],
+                    "game_url": row["game_url"],
                 }
             )
-        preview.rating_histogram = self._histogram(where, params, hist_rows)
         return preview
 
-    def _histogram(
-        self,
-        where: str,
-        params: list[Any],
-        bounds: sqlite3.Row | None,
-    ) -> list[int]:
-        buckets = [0] * 10
-        if bounds is None or bounds[0] is None or bounds[1] is None:
-            return buckets
-        lo, hi = int(bounds[0]), int(bounds[1])
-        if hi <= lo:
-            hi = lo + 1
-        step = (hi - lo) / 10.0
+    def get_puzzle(self, puzzle_id: str) -> dict[str, Any] | None:
+        """Fetch a single puzzle by id (uses the PRIMARY KEY)."""
         with self._connect() as connection:
-            for i in range(10):
-                b_lo = lo + step * i
-                b_hi = hi if i == 9 else lo + step * (i + 1)
-                row = connection.execute(
-                    f"SELECT COUNT(*) FROM puzzles WHERE {where} "
-                    f"AND rating >= ? AND rating {'<=' if i == 9 else '<'} ?",
-                    (*params, b_lo, b_hi),
-                ).fetchone()
-                buckets[i] = int(row[0])
-        return buckets
+            self._create_schema(connection)
+            row = connection.execute(
+                "SELECT id, fen, moves, rating, themes, game_url FROM puzzles WHERE id = ?",
+                (puzzle_id,),
+            ).fetchone()
+        return dict(row) if row else None
 
     def opening_tags(self) -> list[str]:
         """Return the sorted, distinct list of opening tags in the index.

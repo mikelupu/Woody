@@ -1,7 +1,7 @@
 "use strict";
 
 const HEADERS = { "Content-Type": "application/json" };
-const DEBOUNCE_MS = 250;
+const TIMER_TICK_MS = 100;
 
 const els = {
   splash: document.querySelector("#index-splash"),
@@ -13,12 +13,22 @@ const els = {
   splashBuild: document.querySelector("#splash-build"),
   builder: document.querySelector("#builder"),
   filters: document.querySelector("#filters"),
+  searchBtn: document.querySelector("#search-btn"),
+  searchDialog: document.querySelector("#search-dialog"),
+  searchTimerValue: document.querySelector("#search-timer-value"),
+  searchCancel: document.querySelector("#search-cancel"),
   matchCount: document.querySelector("#match-count"),
-  histogram: document.querySelector("#rating-histogram"),
-  sampleList: document.querySelector("#sample-list"),
+  matchSummary: document.querySelector("#match-summary"),
+  resultsTable: document.querySelector("#results-table"),
+  resultsTbody: document.querySelector("#results-tbody"),
+  pagination: document.querySelector("#pagination"),
+  pagePrev: document.querySelector("#page-prev"),
+  pageNext: document.querySelector("#page-next"),
+  pageLabel: document.querySelector("#page-label"),
+  pageSize: document.querySelector("#page-size"),
+  saveForm: document.querySelector("#save-form"),
   saveBtn: document.querySelector("#pkg-save"),
   saveStatus: document.querySelector("#save-status"),
-  tryBatch: document.querySelector("#try-batch"),
   pkgTitle: document.querySelector("#pkg-title"),
   pkgSlug: document.querySelector("#pkg-slug"),
   pkgDescription: document.querySelector("#pkg-description"),
@@ -35,11 +45,16 @@ const els = {
   filterOpening: document.querySelector("#filter-opening"),
 };
 
-let debounceTimer = null;
 let lastPreview = null;
 let statusPollTimer = null;
 let themeList = [];
 let openingTagList = null;   // null = not yet loaded; array = loaded
+let searchController = null;
+let searchTimerHandle = null;
+let filtersDirty = false;
+let allRows = [];
+let pageSize = 20;
+let pageIndex = 0;
 
 async function init() {
   await refreshIndexStatus();
@@ -65,22 +80,55 @@ async function loadThemes() {
 }
 
 function wire() {
-  els.filters.addEventListener("input", scheduleRefresh);
-  els.filters.addEventListener("change", scheduleRefresh);
+  els.filters.addEventListener("submit", (event) => {
+    event.preventDefault();
+    runSearch();
+  });
+  els.filters.addEventListener("input", markFiltersDirty);
+  els.filters.addEventListener("change", markFiltersDirty);
+  els.searchCancel?.addEventListener("click", cancelSearch);
   els.pkgTitle.addEventListener("input", () => {
     if (!els.pkgSlug.dataset.userset) {
       els.pkgSlug.value = slugify(els.pkgTitle.value);
     }
+    if (lastPreview && !filtersDirty) updateSaveState(lastPreview);
   });
   els.pkgSlug.addEventListener("input", () => {
     els.pkgSlug.dataset.userset = "1";
+    if (lastPreview && !filtersDirty) updateSaveState(lastPreview);
   });
   els.saveBtn.addEventListener("click", onSave);
-  els.tryBatch?.addEventListener("click", onTryBatch);
   els.showThemes.addEventListener("click", () => els.themesDialog.showModal());
   els.showOpeningTags?.addEventListener("click", openOpeningTagsDialog);
   els.openingTagsFilter?.addEventListener("input", renderOpeningTagsList);
   els.splashBuild.addEventListener("click", onBuild);
+  els.pagePrev.addEventListener("click", () => {
+    if (pageIndex > 0) { pageIndex--; renderPage(); }
+  });
+  els.pageNext.addEventListener("click", () => {
+    if ((pageIndex + 1) * pageSize < allRows.length) { pageIndex++; renderPage(); }
+  });
+  els.pageSize.addEventListener("change", () => {
+    const n = Math.max(1, Math.min(100, Number.parseInt(els.pageSize.value, 10) || 20));
+    els.pageSize.value = String(n);
+    pageSize = n;
+    pageIndex = 0;
+    renderPage();
+  });
+  els.resultsTbody.addEventListener("click", (event) => {
+    const btn = event.target.closest(".try-row");
+    if (btn && btn.dataset.puzzleId) onTryRow(btn.dataset.puzzleId, btn);
+  });
+}
+
+function markFiltersDirty() {
+  if (!lastPreview) return;
+  if (filtersDirty) return;
+  filtersDirty = true;
+  els.matchCount.classList.add("stale");
+  els.resultsTable.classList.add("stale");
+  els.saveBtn.disabled = true;
+  els.saveStatus.textContent = "Filters changed — click Search to refresh.";
 }
 
 async function openOpeningTagsDialog() {
@@ -155,11 +203,6 @@ function slugify(value) {
     .slice(0, 40);
 }
 
-function scheduleRefresh() {
-  if (debounceTimer) clearTimeout(debounceTimer);
-  debounceTimer = setTimeout(refreshPreview, DEBOUNCE_MS);
-}
-
 function readQuery() {
   const q = {
     required_themes: strList("#filter-required"),
@@ -197,85 +240,145 @@ function strOrNull(sel) {
   return raw === "" ? null : raw;
 }
 
-async function refreshPreview() {
+async function runSearch() {
+  if (searchController) return;   // already searching
+  const query = readQuery();
+  searchController = new AbortController();
+  openSearchDialog();
+  els.searchBtn.disabled = true;
   try {
-    const query = readQuery();
     const r = await fetch("/api/v1/tactics/search/preview", {
       method: "POST",
       headers: { ...HEADERS, Origin: window.location.origin },
       body: JSON.stringify(query),
+      signal: searchController.signal,
     });
     if (!r.ok) {
       const err = await r.json().catch(() => ({}));
       els.matchCount.textContent = "?";
-      showSample([]);
-      els.saveBtn.disabled = true;
+      els.matchCount.classList.remove("stale");
       els.saveStatus.textContent = err?.error?.message ?? "Preview failed.";
+      lastPreview = null;
+      filtersDirty = false;
       return;
     }
     const data = await r.json();
     lastPreview = data;
+    filtersDirty = false;
+    els.matchCount.classList.remove("stale");
+    els.resultsTable.classList.remove("stale");
     els.matchCount.textContent = data.count.toLocaleString();
-    renderHistogram(data.rating_histogram ?? []);
-    showSample(data.sample ?? []);
+    renderResults(data.rows ?? [], data.count);
+    els.saveForm.hidden = false;
     updateSaveState(data);
   } catch (err) {
+    if (err?.name === "AbortError") {
+      els.saveStatus.textContent = "Search cancelled.";
+      return;
+    }
     console.error(err);
     els.saveStatus.textContent = "Preview failed (network).";
+  } finally {
+    closeSearchDialog();
+    searchController = null;
+    els.searchBtn.disabled = false;
   }
 }
 
-function renderHistogram(bins) {
-  const max = Math.max(1, ...bins);
-  els.histogram.replaceChildren(
-    ...bins.map((count) => {
-      const bar = document.createElement("span");
-      bar.style.height = `${Math.max(2, (count / max) * 60)}px`;
-      bar.title = `${count.toLocaleString()} puzzles`;
-      return bar;
-    })
-  );
+function openSearchDialog() {
+  const startedAt = performance.now();
+  els.searchTimerValue.textContent = "0.0";
+  if (typeof els.searchDialog.showModal === "function") {
+    els.searchDialog.showModal();
+  } else {
+    els.searchDialog.setAttribute("open", "");
+  }
+  if (searchTimerHandle) clearInterval(searchTimerHandle);
+  searchTimerHandle = setInterval(() => {
+    const elapsed = (performance.now() - startedAt) / 1000;
+    els.searchTimerValue.textContent = elapsed.toFixed(1);
+  }, TIMER_TICK_MS);
 }
 
-function showSample(rows) {
-  els.sampleList.replaceChildren();
+function closeSearchDialog() {
+  if (searchTimerHandle) {
+    clearInterval(searchTimerHandle);
+    searchTimerHandle = null;
+  }
+  if (els.searchDialog.open) els.searchDialog.close();
+}
+
+function cancelSearch() {
+  if (searchController) searchController.abort();
+}
+
+function renderResults(rows, totalCount) {
+  allRows = rows;
+  pageIndex = 0;
+  els.matchSummary.textContent = rows.length
+    ? `${totalCount.toLocaleString()} matches (showing first ${rows.length}).`
+    : `${totalCount.toLocaleString()} matches.`;
   if (!rows.length) {
-    const li = document.createElement("li");
-    li.className = "muted";
-    li.textContent = "No matches yet.";
-    els.sampleList.append(li);
+    els.resultsTable.hidden = true;
+    els.pagination.hidden = true;
     return;
   }
-  for (const row of rows) {
-    const li = document.createElement("li");
-    li.innerHTML = `<span class="badge">${row.rating}</span> ${row.id} · ${row.themes.slice(0, 3).join(" ")}`;
-    els.sampleList.append(li);
-  }
+  els.resultsTable.hidden = false;
+  els.pagination.hidden = false;
+  renderPage();
 }
 
-async function onTryBatch() {
-  const query = readQuery();
-  els.tryBatch.disabled = true;
-  els.saveStatus.textContent = "Building preview batch…";
+function renderPage() {
+  const start = pageIndex * pageSize;
+  const slice = allRows.slice(start, start + pageSize);
+  els.resultsTbody.replaceChildren(...slice.map(rowToTr));
+  const totalPages = Math.max(1, Math.ceil(allRows.length / pageSize));
+  els.pageLabel.textContent = `Page ${pageIndex + 1} of ${totalPages}`;
+  els.pagePrev.disabled = pageIndex === 0;
+  els.pageNext.disabled = pageIndex >= totalPages - 1;
+}
+
+function rowToTr(row) {
+  const tr = document.createElement("tr");
+  const themesText = Array.isArray(row.themes) ? row.themes.join(" ") : (row.themes ?? "");
+  const openingText = Array.isArray(row.opening_tags)
+    ? row.opening_tags.join(" ")
+    : (row.opening_tags ?? "");
+  const gameHtml = row.game_url
+    ? `<a href="${escapeHtml(row.game_url)}" target="_blank" rel="noopener">↗</a>`
+    : "";
+  tr.innerHTML =
+    `<td><button type="button" class="try-row" data-puzzle-id="${escapeHtml(row.id)}">Try</button></td>` +
+    `<td>${escapeHtml(row.id)}</td>` +
+    `<td>${row.rating ?? ""}</td>` +
+    `<td>${escapeHtml(row.phase ?? "")}</td>` +
+    `<td>${row.solution_plies ?? ""}</td>` +
+    `<td class="themes">${escapeHtml(themesText)}</td>` +
+    `<td>${row.popularity ?? ""}</td>` +
+    `<td class="opening-tags">${escapeHtml(openingText)}</td>` +
+    `<td>${gameHtml}</td>`;
+  return tr;
+}
+
+async function onTryRow(puzzleId, button) {
+  button.disabled = true;
   try {
     const r = await fetch("/api/v1/tactics/preview/batch", {
       method: "POST",
       headers: { ...HEADERS, Origin: window.location.origin },
-      body: JSON.stringify(query),
+      body: JSON.stringify({ puzzle_ids: [puzzleId] }),
     });
     const body = await r.json().catch(() => ({}));
     if (!r.ok) {
-      els.saveStatus.textContent = body?.error?.message ?? "Could not start preview.";
-      els.tryBatch.disabled = false;
+      els.saveStatus.textContent = body?.error?.message ?? "Could not open puzzle.";
       return;
     }
     window.open(`/tactics/preview/batch/${encodeURIComponent(body.batch_id)}`, "_blank");
-    els.saveStatus.textContent = `Opened preview with ${body.count} puzzles.`;
-    els.tryBatch.disabled = false;
   } catch (err) {
     console.error(err);
-    els.saveStatus.textContent = "Preview failed (network).";
-    els.tryBatch.disabled = false;
+    els.saveStatus.textContent = "Could not open puzzle (network).";
+  } finally {
+    button.disabled = false;
   }
 }
 
@@ -286,18 +389,10 @@ function updateSaveState(preview) {
   const title = els.pkgTitle.value.trim();
   const canSave = count >= 5 && slug.length >= 3 && title.length > 0;
   els.saveBtn.disabled = !canSave;
-  const canTry = count >= 1;
-  if (els.tryBatch) {
-    els.tryBatch.disabled = !canTry;
-    const sampleCount = Math.min(10, count);
-    els.tryBatch.textContent = canTry
-      ? `Try these ${sampleCount} ▸`
-      : "Try these 10 ▸";
-  }
   if (!canSave) {
     els.saveStatus.textContent = count < 5
       ? "Loosen filters until you have at least 5 matches."
-      : "Set a package name and slug.";
+      : "";
   } else if (count < target) {
     els.saveStatus.textContent = `Only ${count} matches; package will contain ${Math.floor(count / 5) * 5}.`;
   } else {
@@ -356,7 +451,6 @@ function updateSplash(status) {
     els.builder.hidden = false;
     if (statusPollTimer) clearInterval(statusPollTimer);
     statusPollTimer = null;
-    scheduleRefresh();
     return;
   }
   els.builder.hidden = true;

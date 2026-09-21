@@ -130,18 +130,43 @@
               <p class="hint muted">Matches any substring. See <button type="button" id="show-opening-tags" class="linky">opening tag list</button>.</p>
             </label>
           </fieldset>
+          <div class="search-actions">
+            <button type="submit" id="search-btn" class="primary">Search</button>
+          </div>
         </form>
 
         <aside class="preview">
-          <div class="preview-header">
-            <div><span class="metric-label">Sample</span></div>
+          <div class="results-toolbar">
+            <span id="match-summary" class="muted">Click Search to see results.</span>
+            <label class="page-size-field">
+              <span class="field-label">Rows / page</span>
+              <input type="number" id="page-size" min="1" max="100" value="20">
+            </label>
           </div>
-          <div id="rating-histogram" class="histogram" aria-label="Rating distribution"></div>
-          <ol id="sample-list" class="sample-list">
-            <li class="muted">Adjust filters to see puzzles.</li>
-          </ol>
-          <button type="button" id="try-batch" class="try-batch" disabled>Try these 10 ▸</button>
-          <section class="save-form">
+          <div class="results-table-wrap">
+            <table id="results-table" class="results-table" hidden>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>id</th>
+                  <th>rating</th>
+                  <th>phase</th>
+                  <th>plies</th>
+                  <th>themes</th>
+                  <th>popularity</th>
+                  <th>opening_tags</th>
+                  <th>game</th>
+                </tr>
+              </thead>
+              <tbody id="results-tbody"></tbody>
+            </table>
+          </div>
+          <nav id="pagination" class="pagination" hidden aria-label="Results pagination">
+            <button type="button" id="page-prev">‹ Prev</button>
+            <span id="page-label">Page 1 of 1</span>
+            <button type="button" id="page-next">Next ›</button>
+          </nav>
+          <section id="save-form" class="save-form" hidden>
             <h2>Save as package</h2>
             <label class="field">
               <span class="field-label">Package name</span>
@@ -176,6 +201,19 @@
           </section>
         </aside>
       </section>
+
+      <dialog id="search-dialog" class="search-dialog">
+        <div class="search-dialog-body">
+          <h2>Searching puzzles…</h2>
+          <p class="muted">Querying the local index. Broad filters can take a few seconds.</p>
+          <div class="search-timer" aria-live="polite">
+            <span id="search-timer-value">0.0</span><span class="unit">s</span>
+          </div>
+          <div class="dialog-actions">
+            <button type="button" id="search-cancel" class="dialog-btn">Cancel</button>
+          </div>
+        </div>
+      </dialog>
 
       <dialog id="themes-dialog">
         <form method="dialog">
