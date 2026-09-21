@@ -59,12 +59,11 @@ h2 { font-family: Georgia, serif; }
 /* Header folder-tab navigation */
 .nav-tabs {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: .35rem;
   margin: 1.25rem 0 0;
   padding: 0;
   list-style: none;
-  overflow-x: auto;
   position: relative;
   z-index: 1;
 }
