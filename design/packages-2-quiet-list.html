@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Packages · Quiet list</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #18201b;
+        --muted: #667069;
+        --paper: #f4f1e8;
+        --panel: #fffdf7;
+        --line: #d5d0c3;
+        --forest: #234b3a;
+        --forest-bright: #2d6a4f;
+        --gold: #d7a928;
+        --danger: #a33a32;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 10% 0%, rgb(215 169 40 / 10%), transparent 30rem),
+          var(--paper);
+      }
+      main { padding: 2rem clamp(1rem, 4vw, 4rem) 4rem; max-width: 1200px; margin: 0 auto; }
+      .intro { max-width: 62ch; margin: 0 0 2rem; color: var(--muted); line-height: 1.55; }
+      .toolbar {
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 1rem; margin-bottom: 1.25rem;
+      }
+      .toolbar h2 { margin: 0; font: 800 1.4rem Georgia, serif; }
+      .toolbar .count { color: var(--muted); font: 700 .75rem "IBM Plex Mono", ui-monospace, monospace; letter-spacing: .12em; text-transform: uppercase; }
+      .cta {
+        display: inline-flex; align-items: center; gap: .5rem;
+        padding: .55rem .9rem;
+        border: 2px solid var(--gold); border-radius: .3rem;
+        color: var(--gold); font: 700 .88rem "IBM Plex Mono", ui-monospace, monospace;
+        background: transparent; text-decoration: none; cursor: pointer;
+      }
+      .cta:hover { background: var(--gold); color: #1b1200; }
+
+      /* Section groupings keep density down */
+      .section-head {
+        margin: 2rem 0 .75rem;
+        display: flex; align-items: baseline; gap: .75rem;
+        color: var(--muted);
+        font: 700 .72rem "IBM Plex Mono", ui-monospace, monospace;
+        letter-spacing: .16em; text-transform: uppercase;
+      }
+      .section-head::after {
+        content: ""; flex: 1;
+        border-top: 1px dashed var(--line);
+        transform: translateY(-3px);
+      }
+
+      /* List rows — full width, single line of primary content, generous padding */
+      .list { display: flex; flex-direction: column; gap: .6rem; }
+      .row {
+        display: grid;
+        grid-template-columns: 1fr auto auto auto;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 1.1rem 1.4rem;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: .4rem;
+        box-shadow: 0 1px 3px rgb(24 32 27 / 3%);
+        transition: box-shadow .15s, transform .15s;
+      }
+      .row:hover { box-shadow: 0 4px 12px rgb(24 32 27 / 8%); transform: translateY(-1px); }
+      .row.system { border-left: 4px solid #b5580c; }
+
+      /* Left: title + tagline stacked, badge inline */
+      .primary { min-width: 0; display: flex; flex-direction: column; gap: .3rem; }
+      .titleRow {
+        display: flex; align-items: center; gap: .75rem; flex-wrap: wrap;
+      }
+      .title {
+        margin: 0;
+        font: 800 1.15rem Georgia, serif;
+        color: var(--ink);
+        letter-spacing: -.01em;
+        line-height: 1.15;
+      }
+      .system .title::before {
+        content: "";
+        display: inline-block;
+        width: .8rem; height: .8rem;
+        margin-right: .5rem;
+        vertical-align: -1px;
+        background: #b5580c;
+        clip-path: polygon(15% 0, 85% 0, 85% 100%, 50% 78%, 15% 100%);
+      }
+      .badge {
+        padding: .18rem .55rem;
+        border-radius: 999px;
+        font: 700 .58rem "IBM Plex Mono", ui-monospace, monospace;
+        text-transform: uppercase; letter-spacing: .12em;
+        white-space: nowrap;
+      }
+      .badge-curated { color: #235c3e; background: #d7ecd4; }
+      .badge-user    { color: #6a4a00; background: #f4e2b0; }
+      .badge-system  { color: #7a2c00; background: #ffe1c9; }
+      .desc {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.4;
+        font-size: .85rem;
+      }
+
+      /* Middle: progress column — linear bar with metric */
+      .progress {
+        display: flex; flex-direction: column;
+        align-items: flex-end; gap: .35rem;
+        min-width: 180px;
+      }
+      .progress .label {
+        display: flex; gap: .6rem; align-items: baseline;
+        font: 700 .72rem "IBM Plex Mono", ui-monospace, monospace;
+        color: var(--muted); text-transform: uppercase; letter-spacing: .1em;
+      }
+      .progress .label b {
+        color: var(--forest);
+        font: 800 .95rem "IBM Plex Mono", ui-monospace, monospace;
+        text-transform: none; letter-spacing: -.01em;
+      }
+      .bar {
+        position: relative;
+        width: 180px; height: 8px;
+        background: #e2ddce;
+        border-radius: 999px;
+        overflow: hidden;
+      }
+      .bar > span {
+        display: block; height: 100%;
+        background: var(--forest-bright);
+        border-radius: 999px;
+        transition: width .3s;
+      }
+
+      /* Right: puzzle count + actions */
+      .meta {
+        display: flex; flex-direction: column; align-items: flex-end; gap: .1rem;
+        min-width: 78px;
+        font: 700 .72rem "IBM Plex Mono", ui-monospace, monospace;
+        color: var(--muted); text-transform: uppercase; letter-spacing: .1em;
+      }
+      .meta b {
+        color: var(--ink);
+        font: 800 1.35rem "IBM Plex Mono", ui-monospace, monospace;
+        letter-spacing: -.02em;
+      }
+
+      .actions { display: flex; gap: .5rem; align-items: center; }
+      .btn {
+        display: inline-flex; align-items: center; gap: .35rem;
+        padding: .55rem 1.05rem;
+        border: 0; border-radius: .25rem;
+        color: #fff; background: var(--forest-bright);
+        font: 700 .85rem "IBM Plex Mono", ui-monospace, monospace;
+        text-decoration: none; cursor: pointer;
+      }
+      .btn:hover { background: var(--forest); }
+      .btn-outline {
+        color: var(--forest); background: transparent;
+        border: 1.5px solid var(--forest);
+      }
+      .btn-outline:hover { background: var(--forest); color: #fff; }
+      .icon-btn {
+        display: inline-grid; place-items: center;
+        width: 34px; height: 34px;
+        border: 1px solid var(--line); border-radius: .25rem;
+        color: #8b4a41; background: #fff; cursor: pointer;
+      }
+      .icon-btn:hover { color: #fff; background: var(--danger); border-color: var(--danger); }
+      .icon-btn svg { width: 16px; height: 16px; }
+
+      .stats-link {
+        color: var(--muted);
+        font: 700 .78rem "IBM Plex Mono", ui-monospace, monospace;
+        text-decoration: none;
+        padding: .35rem .55rem;
+      }
+      .stats-link:hover { color: var(--forest-bright); text-decoration: underline; }
+
+      @media (max-width: 900px) {
+        .row {
+          grid-template-columns: 1fr auto;
+          gap: 1rem;
+          padding: 1rem 1.1rem;
+        }
+        .progress { grid-column: 1 / -1; align-items: stretch; }
+        .bar { width: 100%; }
+        .meta { grid-column: 1; align-items: flex-start; flex-direction: row; align-items: baseline; gap: .5rem; }
+        .actions { grid-column: 2; grid-row: 1; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="intro">
+        Each package is an independent set of tactics puzzles with its own batches,
+        cycles, and score history. Curated packages ship with the app; you can
+        build your own by searching the Lichess puzzle database.
+      </p>
+
+      <div class="toolbar">
+        <div>
+          <h2>Your packages</h2>
+          <div class="count">7 packages · 280 puzzles</div>
+        </div>
+        <button class="cta">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+          Build a new package
+        </button>
+      </div>
+
+      <div class="section-head">Pinned</div>
+      <div class="list">
+        <article class="row system">
+          <div class="primary">
+            <div class="titleRow">
+              <h3 class="title">Bookmarked</h3>
+              <span class="badge badge-system">System</span>
+            </div>
+            <p class="desc">Puzzles you've flagged during training.</p>
+          </div>
+          <div class="progress">
+            <div class="label"><span>Empty</span></div>
+            <div class="bar"><span style="width: 0%"></span></div>
+          </div>
+          <div class="meta"><b>0</b>Puzzles</div>
+          <div class="actions">
+            <a href="#" class="btn btn-outline">Open →</a>
+          </div>
+        </article>
+      </div>
+
+      <div class="section-head">Curated</div>
+      <div class="list">
+        <article class="row">
+          <div class="primary">
+            <div class="titleRow">
+              <h3 class="title">Fork / Pin / Skewer — Tri-band</h3>
+              <span class="badge badge-curated">Curated</span>
+            </div>
+            <p class="desc">34 easy / 33 medium / 33 hard fork, pin, and skewer puzzles.</p>
+          </div>
+          <div class="progress">
+            <div class="label"><span>Cycle</span><b>3 / 20</b></div>
+            <div class="bar"><span style="width: 15%"></span></div>
+          </div>
+          <div class="meta"><b>100</b>Puzzles</div>
+          <div class="actions">
+            <a href="#" class="stats-link">Stats →</a>
+            <a href="#" class="btn">Play ▶</a>
+          </div>
+        </article>
+
+        <article class="row">
+          <div class="primary">
+            <div class="titleRow">
+              <h3 class="title">Woodpecker Method — Puzzles 1-60</h3>
+              <span class="badge badge-curated">Curated</span>
+            </div>
+            <p class="desc">First 60 puzzles from the Lichess study "Woodpecker Method Puzzles (1–64)" by zozchess111.</p>
+          </div>
+          <div class="progress">
+            <div class="label"><span>Cycle</span><b>0 / 12</b></div>
+            <div class="bar"><span style="width: 0%"></span></div>
+          </div>
+          <div class="meta"><b>60</b>Puzzles</div>
+          <div class="actions">
+            <a href="#" class="stats-link">Stats →</a>
+            <a href="#" class="btn">Play ▶</a>
+          </div>
+        </article>
+      </div>
+
+      <div class="section-head">Built by you</div>
+      <div class="list">
+        <article class="row">
+          <div class="primary">
+            <div class="titleRow">
+              <h3 class="title">Easy Mate in 1</h3>
+              <span class="badge badge-user">You built this</span>
+            </div>
+          </div>
+          <div class="progress">
+            <div class="label"><span>Cycle</span><b>0 / 2</b></div>
+            <div class="bar"><span style="width: 0%"></span></div>
+          </div>
+          <div class="meta"><b>10</b>Puzzles</div>
+          <div class="actions">
+            <a href="#" class="stats-link">Stats →</a>
+            <button class="icon-btn" aria-label="Delete package">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 3h6l1 2h4v2H4V5h4l1-2zm-3 6h12l-1 12H7L6 9z"/></svg>
+            </button>
+            <a href="#" class="btn">Play ▶</a>
+          </div>
+        </article>
+
+        <article class="row">
+          <div class="primary">
+            <div class="titleRow">
+              <h3 class="title">Open Ruy Lopez</h3>
+              <span class="badge badge-user">You built this</span>
+            </div>
+          </div>
+          <div class="progress">
+            <div class="label"><span>Cycle</span><b>0 / 2</b></div>
+            <div class="bar"><span style="width: 0%"></span></div>
+          </div>
+          <div class="meta"><b>10</b>Puzzles</div>
+          <div class="actions">
+            <a href="#" class="stats-link">Stats →</a>
+            <button class="icon-btn" aria-label="Delete package">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 3h6l1 2h4v2H4V5h4l1-2zm-3 6h12l-1 12H7L6 9z"/></svg>
+            </button>
+            <a href="#" class="btn">Play ▶</a>
+          </div>
+        </article>
+
+        <article class="row">
+          <div class="primary">
+            <div class="titleRow">
+              <h3 class="title">Ruy_Middle</h3>
+              <span class="badge badge-user">You built this</span>
+            </div>
+          </div>
+          <div class="progress">
+            <div class="label"><span>Cycle</span><b>1 / 10</b></div>
+            <div class="bar"><span style="width: 10%"></span></div>
+          </div>
+          <div class="meta"><b>50</b>Puzzles</div>
+          <div class="actions">
+            <a href="#" class="stats-link">Stats →</a>
+            <button class="icon-btn" aria-label="Delete package">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 3h6l1 2h4v2H4V5h4l1-2zm-3 6h12l-1 12H7L6 9z"/></svg>
+            </button>
+            <a href="#" class="btn">Play ▶</a>
+          </div>
+        </article>
+
+        <article class="row">
+          <div class="primary">
+            <div class="titleRow">
+              <h3 class="title">Scandinavian-Opening-Long</h3>
+              <span class="badge badge-user">You built this</span>
+            </div>
+          </div>
+          <div class="progress">
+            <div class="label"><span>Cycle</span><b>0 / 10</b></div>
+            <div class="bar"><span style="width: 0%"></span></div>
+          </div>
+          <div class="meta"><b>50</b>Puzzles</div>
+          <div class="actions">
+            <a href="#" class="stats-link">Stats →</a>
+            <button class="icon-btn" aria-label="Delete package">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 3h6l1 2h4v2H4V5h4l1-2zm-3 6h12l-1 12H7L6 9z"/></svg>
+            </button>
+            <a href="#" class="btn">Play ▶</a>
+          </div>
+        </article>
+      </div>
+
+    </main>
+  </body>
+</html>

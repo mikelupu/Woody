@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Packages · Airy landscape</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #18201b;
+        --muted: #667069;
+        --paper: #f4f1e8;
+        --panel: #fffdf7;
+        --line: #d5d0c3;
+        --forest: #234b3a;
+        --forest-bright: #2d6a4f;
+        --gold: #d7a928;
+        --danger: #a33a32;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 10% 0%, rgb(215 169 40 / 10%), transparent 30rem),
+          var(--paper);
+      }
+      main { padding: 2rem clamp(1rem, 4vw, 4rem) 4rem; max-width: 1400px; margin: 0 auto; }
+      .intro { max-width: 62ch; margin: 0 0 2rem; color: var(--muted); line-height: 1.55; }
+      .toolbar {
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 1rem; margin-bottom: 1.5rem;
+      }
+      .toolbar h2 { margin: 0; font: 800 1.4rem Georgia, serif; }
+      .toolbar .count { color: var(--muted); font: 700 .75rem "IBM Plex Mono", ui-monospace, monospace; letter-spacing: .12em; text-transform: uppercase; }
+      .cta {
+        display: inline-flex; align-items: center; gap: .5rem;
+        padding: .55rem .9rem;
+        border: 2px solid var(--gold); border-radius: .3rem;
+        color: var(--gold); font: 700 .88rem "IBM Plex Mono", ui-monospace, monospace;
+        background: transparent; text-decoration: none; cursor: pointer;
+      }
+      .cta:hover { background: var(--gold); color: #1b1200; }
+
+      /* Two-up landscape grid — each card is wider and shorter, breathing room */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(460px, 1fr));
+        gap: 1.25rem;
+      }
+
+      .card {
+        display: grid;
+        grid-template-columns: 96px 1fr;
+        gap: 1.25rem;
+        padding: 1.4rem 1.5rem;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: .45rem;
+        box-shadow: 0 2px 6px rgb(24 32 27 / 4%);
+        position: relative;
+      }
+      .card.system { border-left: 5px solid #b5580c; padding-left: calc(1.5rem - 4px); }
+
+      /* Left: big progress ring, quiet and calm */
+      .ring {
+        position: relative;
+        width: 96px; height: 96px;
+        align-self: center;
+      }
+      .ring svg { transform: rotate(-90deg); width: 100%; height: 100%; }
+      .ring circle { fill: none; stroke-width: 8; }
+      .ring .track { stroke: #e2ddce; }
+      .ring .fill  { stroke: var(--forest-bright); stroke-linecap: round; transition: stroke-dashoffset .3s; }
+      .ring .num {
+        position: absolute; inset: 0;
+        display: flex; flex-direction: column;
+        justify-content: center; align-items: center;
+        font: 800 1.1rem "IBM Plex Mono", ui-monospace, monospace;
+        color: var(--forest);
+        line-height: 1;
+      }
+      .ring .num small {
+        display: block; margin-top: .2rem;
+        font: 700 .55rem "IBM Plex Mono", ui-monospace, monospace;
+        letter-spacing: .14em; color: var(--muted); text-transform: uppercase;
+      }
+      .ring.empty .num { color: var(--muted); }
+
+      .bookmark-icon {
+        display: grid; place-items: center;
+        width: 96px; height: 96px; align-self: center;
+        color: #b5580c;
+      }
+      .bookmark-icon svg { width: 44px; height: 44px; }
+
+      /* Right: title + meta + description + actions stacked with air */
+      .body { display: flex; flex-direction: column; gap: .55rem; min-width: 0; }
+      .titleRow {
+        display: flex; align-items: flex-start; justify-content: space-between;
+        gap: .75rem;
+      }
+      .title {
+        margin: 0;
+        font: 800 1.2rem Georgia, serif;
+        color: var(--ink);
+        letter-spacing: -.01em;
+        line-height: 1.2;
+      }
+      .badge {
+        flex-shrink: 0;
+        padding: .18rem .55rem;
+        border-radius: 999px;
+        font: 700 .58rem "IBM Plex Mono", ui-monospace, monospace;
+        text-transform: uppercase; letter-spacing: .12em;
+        white-space: nowrap;
+      }
+      .badge-curated { color: #235c3e; background: #d7ecd4; }
+      .badge-user    { color: #6a4a00; background: #f4e2b0; }
+      .badge-system  { color: #7a2c00; background: #ffe1c9; }
+
+      .desc {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.45;
+        font-size: .88rem;
+      }
+
+      /* Meta strip: inline pills, only shows the "puzzles" count as ambient */
+      .meta {
+        display: flex; align-items: center; gap: 1.2rem;
+        margin-top: .1rem;
+        font: 700 .74rem "IBM Plex Mono", ui-monospace, monospace;
+        color: var(--muted); text-transform: uppercase; letter-spacing: .1em;
+      }
+      .meta span strong {
+        margin-left: .35rem;
+        color: var(--forest); font-size: .95rem;
+        text-transform: none; letter-spacing: -.01em;
+      }
+
+      .actions {
+        display: flex; align-items: center; gap: .5rem;
+        margin-top: .8rem;
+        padding-top: .8rem;
+        border-top: 1px dashed var(--line);
+      }
+      .actions .stats {
+        margin-right: auto;
+        color: var(--muted);
+        font: 700 .8rem "IBM Plex Mono", ui-monospace, monospace;
+        text-decoration: none;
+      }
+      .actions .stats:hover { color: var(--forest-bright); text-decoration: underline; }
+      .btn {
+        display: inline-flex; align-items: center; gap: .35rem;
+        padding: .55rem 1.1rem;
+        border: 0; border-radius: .25rem;
+        color: #fff; background: var(--forest-bright);
+        font: 700 .88rem "IBM Plex Mono", ui-monospace, monospace;
+        text-decoration: none; cursor: pointer;
+      }
+      .btn:hover { background: var(--forest); }
+      .btn-outline {
+        color: var(--forest); background: transparent;
+        border: 1.5px solid var(--forest);
+      }
+      .btn-outline:hover { background: var(--forest); color: #fff; }
+      .icon-btn {
+        display: inline-grid; place-items: center;
+        width: 34px; height: 34px;
+        border: 1px solid var(--line); border-radius: .25rem;
+        color: #8b4a41; background: #fff; cursor: pointer;
+      }
+      .icon-btn:hover { color: #fff; background: var(--danger); border-color: var(--danger); }
+      .icon-btn svg { width: 16px; height: 16px; }
+
+      @media (max-width: 500px) {
+        .grid { grid-template-columns: 1fr; }
+        .card { grid-template-columns: 72px 1fr; padding: 1.1rem 1.15rem; gap: 1rem; }
+        .ring, .bookmark-icon { width: 72px; height: 72px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="intro">
+        Each package is an independent set of tactics puzzles with its own batches,
+        cycles, and score history. Curated packages ship with the app; you can
+        build your own by searching the Lichess puzzle database.
+      </p>
+
+      <div class="toolbar">
+        <div>
+          <h2>Your packages</h2>
+          <div class="count">7 packages</div>
+        </div>
+        <button class="cta">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+          Build a new package
+        </button>
+      </div>
+
+      <div class="grid">
+
+        <!-- Bookmarked (system) -->
+        <article class="card system">
+          <div class="bookmark-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 3h12v18l-6-4-6 4z"/></svg>
+          </div>
+          <div class="body">
+            <div class="titleRow">
+              <h3 class="title">Bookmarked</h3>
+              <span class="badge badge-system">System</span>
+            </div>
+            <p class="desc">Puzzles you've flagged during training. Revisit anything that stumped you across every package.</p>
+            <div class="meta"><span>Puzzles <strong>0</strong></span></div>
+            <div class="actions">
+              <a href="#" class="stats">Empty for now</a>
+              <a href="#" class="btn btn-outline">Open →</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Fork/Pin/Skewer (curated) -->
+        <article class="card">
+          <div class="ring" aria-label="3 of 20 in current cycle">
+            <svg viewBox="0 0 100 100">
+              <circle class="track" cx="50" cy="50" r="42"/>
+              <circle class="fill" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="224.3"/>
+            </svg>
+            <div class="num">3/20<small>Cycle</small></div>
+          </div>
+          <div class="body">
+            <div class="titleRow">
+              <h3 class="title">Fork / Pin / Skewer — Tri-band</h3>
+              <span class="badge badge-curated">Curated</span>
+            </div>
+            <p class="desc">34 easy / 33 medium / 33 hard fork, pin, and skewer puzzles.</p>
+            <div class="meta"><span>Puzzles <strong>100</strong></span> <span>Cycle <strong>0</strong></span></div>
+            <div class="actions">
+              <a href="#" class="stats">Stats →</a>
+              <a href="#" class="btn">Play ▶</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Woodpecker (curated) -->
+        <article class="card">
+          <div class="ring empty" aria-label="0 of 12 in current cycle">
+            <svg viewBox="0 0 100 100">
+              <circle class="track" cx="50" cy="50" r="42"/>
+              <circle class="fill" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="263.9"/>
+            </svg>
+            <div class="num">0/12<small>Cycle</small></div>
+          </div>
+          <div class="body">
+            <div class="titleRow">
+              <h3 class="title">Woodpecker Method — Puzzles 1-60</h3>
+              <span class="badge badge-curated">Curated</span>
+            </div>
+            <p class="desc">First 60 puzzles from the Lichess study "Woodpecker Method Puzzles (1–64)" by zozchess111.</p>
+            <div class="meta"><span>Puzzles <strong>60</strong></span> <span>Cycle <strong>0</strong></span></div>
+            <div class="actions">
+              <a href="#" class="stats">Stats →</a>
+              <a href="#" class="btn">Play ▶</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Easy Mate in 1 -->
+        <article class="card">
+          <div class="ring empty" aria-label="0 of 2 in current cycle">
+            <svg viewBox="0 0 100 100">
+              <circle class="track" cx="50" cy="50" r="42"/>
+              <circle class="fill" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="263.9"/>
+            </svg>
+            <div class="num">0/2<small>Cycle</small></div>
+          </div>
+          <div class="body">
+            <div class="titleRow">
+              <h3 class="title">Easy Mate in 1</h3>
+              <span class="badge badge-user">You built this</span>
+            </div>
+            <div class="meta"><span>Puzzles <strong>10</strong></span> <span>Cycle <strong>1</strong></span></div>
+            <div class="actions">
+              <a href="#" class="stats">Stats →</a>
+              <button class="icon-btn" aria-label="Delete package">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 3h6l1 2h4v2H4V5h4l1-2zm-3 6h12l-1 12H7L6 9z"/></svg>
+              </button>
+              <a href="#" class="btn">Play ▶</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Open Ruy Lopez -->
+        <article class="card">
+          <div class="ring empty" aria-label="0 of 2 in current cycle">
+            <svg viewBox="0 0 100 100">
+              <circle class="track" cx="50" cy="50" r="42"/>
+              <circle class="fill" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="263.9"/>
+            </svg>
+            <div class="num">0/2<small>Cycle</small></div>
+          </div>
+          <div class="body">
+            <div class="titleRow">
+              <h3 class="title">Open Ruy Lopez</h3>
+              <span class="badge badge-user">You built this</span>
+            </div>
+            <div class="meta"><span>Puzzles <strong>10</strong></span> <span>Cycle <strong>0</strong></span></div>
+            <div class="actions">
+              <a href="#" class="stats">Stats →</a>
+              <button class="icon-btn" aria-label="Delete package">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 3h6l1 2h4v2H4V5h4l1-2zm-3 6h12l-1 12H7L6 9z"/></svg>
+              </button>
+              <a href="#" class="btn">Play ▶</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Ruy Middle -->
+        <article class="card">
+          <div class="ring" aria-label="1 of 10 in current cycle">
+            <svg viewBox="0 0 100 100">
+              <circle class="track" cx="50" cy="50" r="42"/>
+              <circle class="fill" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="237.5"/>
+            </svg>
+            <div class="num">1/10<small>Cycle</small></div>
+          </div>
+          <div class="body">
+            <div class="titleRow">
+              <h3 class="title">Ruy_Middle</h3>
+              <span class="badge badge-user">You built this</span>
+            </div>
+            <div class="meta"><span>Puzzles <strong>50</strong></span> <span>Cycle <strong>0</strong></span></div>
+            <div class="actions">
+              <a href="#" class="stats">Stats →</a>
+              <button class="icon-btn" aria-label="Delete package">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 3h6l1 2h4v2H4V5h4l1-2zm-3 6h12l-1 12H7L6 9z"/></svg>
+              </button>
+              <a href="#" class="btn">Play ▶</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Scandinavian Long -->
+        <article class="card">
+          <div class="ring empty" aria-label="0 of 10 in current cycle">
+            <svg viewBox="0 0 100 100">
+              <circle class="track" cx="50" cy="50" r="42"/>
+              <circle class="fill" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="263.9"/>
+            </svg>
+            <div class="num">0/10<small>Cycle</small></div>
+          </div>
+          <div class="body">
+            <div class="titleRow">
+              <h3 class="title">Scandinavian-Opening-Long</h3>
+              <span class="badge badge-user">You built this</span>
+            </div>
+            <div class="meta"><span>Puzzles <strong>50</strong></span> <span>Cycle <strong>0</strong></span></div>
+            <div class="actions">
+              <a href="#" class="stats">Stats →</a>
+              <button class="icon-btn" aria-label="Delete package">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 3h6l1 2h4v2H4V5h4l1-2zm-3 6h12l-1 12H7L6 9z"/></svg>
+              </button>
+              <a href="#" class="btn">Play ▶</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </main>
+  </body>
+</html>
