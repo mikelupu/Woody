@@ -43,6 +43,7 @@
 }
 
 .heading-actions { display: flex; align-items: center; gap: .5rem; }
+.stats .cell[hidden] { display: none; }
 .icon-button-heading {
   display: inline-grid;
   place-items: center;
@@ -56,6 +57,25 @@
   cursor: pointer;
 }
 .icon-button-heading:hover { background: var(--light-square); }
+.icon-button-heading:disabled { opacity: .5; cursor: not-allowed; }
+.icon-button-heading:disabled:hover { background: #fff; }
+
+.bookmark-btn .bookmark-filled { display: none; }
+.bookmark-btn .bookmark-outline { display: inline-block; }
+.bookmark-btn.is-bookmarked { color: #b5580c; border-color: #b5580c; background: #fff5eb; opacity: 1; }
+.bookmark-btn.is-bookmarked .bookmark-filled { display: inline-block; }
+.bookmark-btn.is-bookmarked .bookmark-outline { display: none; }
+.bookmark-btn.is-bookmarked:disabled { opacity: 1; }
+
+.bookmark-dialog .bookmark-field { display: flex; flex-direction: column; gap: .35rem; margin: .5rem 0; }
+.bookmark-dialog .bookmark-field span { font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.bookmark-dialog .bookmark-field input {
+  padding: .55rem .7rem;
+  border: 1px solid var(--line);
+  border-radius: .35rem;
+  font: inherit;
+}
+.bookmark-dialog .bookmark-error { color: #b0201d; font-size: .85rem; margin: .3rem 0 0; }
 
 .puzzle-details { margin-bottom: 1.25rem; }
 .detail-list {

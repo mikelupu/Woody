@@ -147,8 +147,10 @@ def test_hanging_endpoints_still_work_when_no_tactics_packages(tmp_path: Path) -
     assert health.status_code == 200
     assert health.json["catalog"] == "ready"
     assert client.get("/api/v1/puzzles/next").status_code == 200
-    # Tactics packages list is empty; individual slug lookups 404.
-    assert client.get("/api/v1/tactics/packages").json["packages"] == []
+    # Only the system Bookmarked entry ships when no curated/user packages exist.
+    packages = client.get("/api/v1/tactics/packages").json["packages"]
+    assert [p["slug"] for p in packages] == ["bookmarked"]
+    assert packages[0]["kind"] == "system"
     assert client.get("/api/v1/tactics/nope/puzzles/next").status_code == 404
 
 

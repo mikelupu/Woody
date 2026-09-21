@@ -25,7 +25,9 @@ from .lichess_themes import CANONICAL_THEMES
 from .repository import ProgressRepository, RepositoryError
 from .search import ALLOWED_COUNTS, SearchError, query_from_payload, save_search_as_package
 from .service import (
+    BOOKMARKED_SLUG,
     ApplicationError,
+    BookmarkService,
     EngineHost,
     PawnGameService,
     PawnSessionStore,
@@ -160,6 +162,17 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
             tactics_services[slug] = service
         return service
 
+    bookmark_service = (
+        BookmarkService(repository, package_registry)
+        if package_registry is not None and database_error is None
+        else None
+    )
+
+    def require_bookmarks() -> BookmarkService:
+        if bookmark_service is None:
+            raise ApplicationError("not_ready", "Bookmarks are unavailable", status=503)
+        return bookmark_service
+
     app.extensions["catalog"] = catalog
     app.extensions["repository"] = repository
     app.extensions["training_service"] = training_service
@@ -170,6 +183,7 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
     app.extensions["lichess_index"] = lichess_index
     app.extensions["preview_service"] = preview_service
     app.extensions["preview_batch_store"] = preview_batch_store
+    app.extensions["bookmark_service"] = bookmark_service
 
     def require_training() -> TrainingService:
         current = app.extensions["training_service"]
@@ -280,6 +294,32 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
     def tactics_packages_new_page():
         return render_template("search_builder.html")
 
+    @app.get("/tactics/bookmarks")
+    def tactics_bookmarks_page():
+        return render_template("tactics_bookmarks.html")
+
+    @app.get("/tactics/preview/puzzle/<slug>/<puzzle_id>")
+    def tactics_preview_puzzle_page(slug: str, puzzle_id: str):
+        if package_registry is None or slug not in package_registry.slugs():
+            return redirect(url_for("tactics_bookmarks_page"))
+        return render_template(
+            "tactics.html",
+            slug=slug,
+            preview_id=puzzle_id,
+            back_url=url_for("tactics_bookmarks_page"),
+        )
+
+    @app.get("/tactics/preview/puzzle/<slug>/<puzzle_id>/mobile")
+    def tactics_preview_puzzle_mobile_page(slug: str, puzzle_id: str):
+        if package_registry is None or slug not in package_registry.slugs():
+            return redirect(url_for("tactics_bookmarks_page"))
+        return render_template(
+            "tactics_mobile.html",
+            slug=slug,
+            preview_id=puzzle_id,
+            back_url=url_for("tactics_bookmarks_page"),
+        )
+
     @app.get("/tactics/preview/batch/<batch_id>")
     def tactics_preview_batch_page(batch_id: str):
         return render_template(
@@ -383,6 +423,27 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
         if package_registry is None:
             raise ApplicationError("not_ready", "Tactics packages are unavailable", status=503)
         rows: list[dict[str, Any]] = []
+        bookmark_count = bookmark_service.count() if bookmark_service is not None else 0
+        rows.append(
+            {
+                "slug": BOOKMARKED_SLUG,
+                "title": "Bookmarked",
+                "description": "Puzzles you've flagged during training.",
+                "kind": "system",
+                "count": bookmark_count,
+                "path": None,
+                "created_at": None,
+                "query": None,
+                "progress": {
+                    "cycle": 0,
+                    "batches_completed_in_cycle": 0,
+                    "batches_per_cycle": 0,
+                    "batches_completed_total": 0,
+                    "points_earned": 0,
+                    "points_possible": 0,
+                },
+            }
+        )
         for slug in package_registry.slugs():
             meta = dict(package_registry.metadata(slug))
             try:
@@ -406,6 +467,53 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
             }
             rows.append(meta)
         return jsonify({"packages": rows})
+
+    @app.get("/api/v1/bookmarks")
+    def bookmarks_list():
+        service = require_bookmarks()
+        tag = request.args.get("tag")
+        if tag is not None:
+            tag = tag.strip() or None
+        return jsonify({"bookmarks": service.list(tag=tag)})
+
+    @app.post("/api/v1/bookmarks")
+    def bookmarks_create():
+        _require_same_origin_json()
+        service = require_bookmarks()
+        payload = request.get_json(silent=True)
+        if payload is None:
+            raise ApplicationError("invalid_json", "A JSON request body is required")
+        return jsonify(service.create(payload)), 201
+
+    @app.patch("/api/v1/bookmarks/<int:bookmark_id>")
+    def bookmarks_update(bookmark_id: int):
+        _require_same_origin_json()
+        service = require_bookmarks()
+        payload = request.get_json(silent=True)
+        if payload is None:
+            raise ApplicationError("invalid_json", "A JSON request body is required")
+        return jsonify(service.update(bookmark_id, payload))
+
+    @app.delete("/api/v1/bookmarks/<int:bookmark_id>")
+    def bookmarks_delete(bookmark_id: int):
+        _require_same_origin_json_delete()
+        service = require_bookmarks()
+        service.delete(bookmark_id)
+        return ("", 204)
+
+    @app.get("/api/v1/bookmarks/status")
+    def bookmarks_status():
+        service = require_bookmarks()
+        source_package = (request.args.get("source_package") or "").strip()
+        puzzle_id = (request.args.get("puzzle_id") or "").strip()
+        if not source_package or not puzzle_id:
+            raise ApplicationError("invalid_request", "source_package and puzzle_id are required")
+        return jsonify(service.status(source_package, puzzle_id))
+
+    @app.get("/api/v1/tactics/<slug>/puzzle/<puzzle_id>")
+    def tactic_puzzle_detail(slug: str, puzzle_id: str):
+        service = require_bookmarks()
+        return jsonify(service.get_puzzle(slug, puzzle_id))
 
     @app.get("/api/v1/tactics/<slug>/puzzles/next")
     def next_tactic(slug: str):
@@ -668,6 +776,12 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
         pkg_meta = payload.get("package") or {}
         query_payload = payload.get("query") or {}
         slug = str(pkg_meta.get("slug", "")).strip()
+        if slug == BOOKMARKED_SLUG:
+            raise ApplicationError(
+                "slug_reserved",
+                f"slug {slug!r} is reserved by the system",
+                status=409,
+            )
         title = str(pkg_meta.get("title") or slug).strip()
         description = str(pkg_meta.get("description") or "").strip()
         try:

@@ -31,14 +31,20 @@ async function loadPackages() {
 function renderTile(pkg) {
   const tile = document.createElement("article");
   tile.className = "package-tile";
+  if (pkg.kind === "system") tile.classList.add("package-tile-system");
   tile.dataset.slug = pkg.slug;
 
   const header = document.createElement("header");
   const title = document.createElement("h3");
   title.textContent = pkg.title;
   const badge = document.createElement("span");
-  badge.className = `badge badge-${pkg.kind === "user" ? "user" : "curated"}`;
-  badge.textContent = pkg.kind === "user" ? "You built this" : "Curated";
+  const badgeKind = pkg.kind === "system" ? "system" : pkg.kind === "user" ? "user" : "curated";
+  badge.className = `badge badge-${badgeKind}`;
+  badge.textContent = badgeKind === "system"
+    ? "System"
+    : badgeKind === "user"
+      ? "You built this"
+      : "Curated";
   header.append(title, badge);
   tile.append(header);
 
@@ -47,6 +53,29 @@ function renderTile(pkg) {
     desc.className = "desc";
     desc.textContent = pkg.description;
     tile.append(desc);
+  }
+
+  if (pkg.kind === "system" && pkg.slug === "bookmarked") {
+    const info = document.createElement("dl");
+    info.className = "pkg-progress";
+    const stack = document.createElement("div");
+    stack.style.display = "grid";
+    stack.style.gap = ".2rem";
+    stack.innerHTML = `
+      <div><dt>Puzzles</dt><dd>${pkg.count ?? 0}</dd></div>
+    `;
+    info.append(stack);
+    tile.append(info);
+
+    const actions = document.createElement("div");
+    actions.className = "pkg-actions";
+    const open = document.createElement("a");
+    open.href = "/tactics/bookmarks";
+    open.className = "play-btn";
+    open.textContent = "Open ▸";
+    actions.append(open);
+    tile.append(actions);
+    return tile;
   }
 
   const progress = pkg.progress ?? {};

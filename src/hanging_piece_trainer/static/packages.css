@@ -58,6 +58,19 @@
 }
 .badge-curated { color: #235c3e; background: #d7ecd4; }
 .badge-user    { color: #6a4a00; background: #f4e2b0; }
+.badge-system  { color: #7a2c00; background: #ffe1c9; }
+
+.package-tile-system { border-left: 4px solid #b5580c; }
+.package-tile-system h3::before {
+  content: "";
+  display: inline-block;
+  width: .8rem;
+  height: .8rem;
+  margin-right: .35rem;
+  vertical-align: -1px;
+  background: #b5580c;
+  clip-path: polygon(15% 0, 85% 0, 85% 100%, 50% 78%, 15% 100%);
+}
 
 .package-tile p.desc {
   margin: 0;

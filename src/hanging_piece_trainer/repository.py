@@ -169,6 +169,22 @@ class ProgressRepository:
                     "CREATE INDEX IF NOT EXISTS tactics_batches_completed_at_idx "
                     "ON tactics_batches(completed_at DESC, row_id DESC)"
                 )
+                connection.execute(
+                    """
+                    CREATE TABLE IF NOT EXISTS bookmarks (
+                        bookmark_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        puzzle_id TEXT NOT NULL,
+                        source_package TEXT NOT NULL,
+                        tags TEXT NOT NULL,
+                        bookmarked_at TEXT NOT NULL,
+                        UNIQUE(source_package, puzzle_id)
+                    )
+                    """
+                )
+                connection.execute(
+                    "CREATE INDEX IF NOT EXISTS bookmarks_created_at_idx "
+                    "ON bookmarks(bookmarked_at DESC, bookmark_id DESC)"
+                )
         except sqlite3.DatabaseError as exc:
             raise RepositoryError("unable to initialize progress database") from exc
 
@@ -580,4 +596,109 @@ class ProgressRepository:
             result[name] = json.loads(result[name])
         result["correct"] = bool(result["correct"])
         result["point_awarded"] = bool(result["point_awarded"])
+        return result
+
+    def add_bookmark(
+        self,
+        *,
+        source_package: str,
+        puzzle_id: str,
+        tags: list[str],
+        bookmarked_at: str,
+    ) -> dict[str, Any]:
+        try:
+            with self._connect() as connection:
+                try:
+                    cursor = connection.execute(
+                        "INSERT INTO bookmarks "
+                        "(puzzle_id, source_package, tags, bookmarked_at) "
+                        "VALUES (?, ?, ?, ?)",
+                        (puzzle_id, source_package, json.dumps(list(tags)), bookmarked_at),
+                    )
+                except sqlite3.IntegrityError as exc:
+                    raise RepositoryError("bookmark already exists") from exc
+                row = connection.execute(
+                    "SELECT * FROM bookmarks WHERE bookmark_id = ?", (cursor.lastrowid,)
+                ).fetchone()
+                if row is None:
+                    raise RepositoryError("bookmark disappeared after insert")
+                return self._decode_bookmark(row)
+        except sqlite3.DatabaseError as exc:
+            raise RepositoryError("unable to add bookmark") from exc
+
+    def list_bookmarks(self, *, tag: str | None = None) -> list[dict[str, Any]]:
+        try:
+            with self._connect() as connection:
+                rows = connection.execute(
+                    "SELECT * FROM bookmarks ORDER BY bookmarked_at DESC, bookmark_id DESC"
+                ).fetchall()
+        except sqlite3.DatabaseError as exc:
+            raise RepositoryError("unable to read bookmarks") from exc
+        decoded = [self._decode_bookmark(row) for row in rows]
+        if tag is not None:
+            needle = tag.strip().lower()
+            decoded = [b for b in decoded if needle in b["tags"]]
+        return decoded
+
+    def get_bookmark(self, bookmark_id: int) -> dict[str, Any] | None:
+        try:
+            with self._connect() as connection:
+                row = connection.execute(
+                    "SELECT * FROM bookmarks WHERE bookmark_id = ?", (bookmark_id,)
+                ).fetchone()
+        except sqlite3.DatabaseError as exc:
+            raise RepositoryError("unable to read bookmark") from exc
+        return self._decode_bookmark(row) if row is not None else None
+
+    def get_bookmark_by_puzzle(self, source_package: str, puzzle_id: str) -> dict[str, Any] | None:
+        try:
+            with self._connect() as connection:
+                row = connection.execute(
+                    "SELECT * FROM bookmarks WHERE source_package = ? AND puzzle_id = ?",
+                    (source_package, puzzle_id),
+                ).fetchone()
+        except sqlite3.DatabaseError as exc:
+            raise RepositoryError("unable to read bookmark") from exc
+        return self._decode_bookmark(row) if row is not None else None
+
+    def update_bookmark_tags(self, bookmark_id: int, tags: list[str]) -> dict[str, Any]:
+        try:
+            with self._connect() as connection:
+                cursor = connection.execute(
+                    "UPDATE bookmarks SET tags = ? WHERE bookmark_id = ?",
+                    (json.dumps(list(tags)), bookmark_id),
+                )
+                if cursor.rowcount == 0:
+                    raise RepositoryError("bookmark not found")
+                row = connection.execute(
+                    "SELECT * FROM bookmarks WHERE bookmark_id = ?", (bookmark_id,)
+                ).fetchone()
+                if row is None:
+                    raise RepositoryError("bookmark disappeared after update")
+                return self._decode_bookmark(row)
+        except sqlite3.DatabaseError as exc:
+            raise RepositoryError("unable to update bookmark") from exc
+
+    def delete_bookmark(self, bookmark_id: int) -> bool:
+        try:
+            with self._connect() as connection:
+                cursor = connection.execute(
+                    "DELETE FROM bookmarks WHERE bookmark_id = ?", (bookmark_id,)
+                )
+                return cursor.rowcount > 0
+        except sqlite3.DatabaseError as exc:
+            raise RepositoryError("unable to delete bookmark") from exc
+
+    def count_bookmarks(self) -> int:
+        try:
+            with self._connect() as connection:
+                row = connection.execute("SELECT COUNT(*) AS n FROM bookmarks").fetchone()
+        except sqlite3.DatabaseError as exc:
+            raise RepositoryError("unable to count bookmarks") from exc
+        return int(row["n"]) if row is not None else 0
+
+    @staticmethod
+    def _decode_bookmark(row: sqlite3.Row) -> dict[str, Any]:
+        result = dict(row)
+        result["tags"] = json.loads(result["tags"])
         return result

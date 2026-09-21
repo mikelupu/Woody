@@ -30,6 +30,7 @@ CATALOG_SIZE = 100
 
 SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9-]{2,39}$")
 PACKAGE_KINDS = ("curated", "user")
+RESERVED_SLUGS = frozenset({"bookmarked"})
 
 
 class CatalogError(RuntimeError):
@@ -130,6 +131,8 @@ def _parse_package_block(raw: dict[str, Any] | None, *, fallback_slug: str) -> d
     slug = str(raw.get("slug", "")).strip()
     if not SLUG_RE.match(slug):
         raise CatalogError(f"invalid package slug: {slug!r}")
+    if slug in RESERVED_SLUGS:
+        raise CatalogError(f"package slug is reserved: {slug!r}")
     kind = raw.get("kind", "curated")
     if kind not in PACKAGE_KINDS:
         raise CatalogError(f"invalid package kind: {kind!r}")

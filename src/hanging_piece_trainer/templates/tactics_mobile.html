@@ -12,7 +12,7 @@
     <script src="{{ url_for('static', filename='pieces.js') }}" defer></script>
     <script src="{{ url_for('static', filename='tactics_mobile.js') }}" defer></script>
   </head>
-  <body{% if slug %} data-slug="{{ slug }}"{% endif %}{% if preview_batch %} data-preview-batch="{{ preview_batch }}"{% endif %} data-back-url="{{ back_url }}">
+  <body{% if slug %} data-slug="{{ slug }}"{% endif %}{% if preview_id %} data-preview-id="{{ preview_id }}"{% endif %}{% if preview_batch %} data-preview-batch="{{ preview_batch }}"{% endif %} data-back-url="{{ back_url }}">
     <div class="screen" id="screen">
 
       <!-- top bar -->
@@ -24,7 +24,13 @@
           <span id="puzzle-position">1</span>/<span id="puzzle-total">5</span><span class="sep">·</span>Batch <span id="batch-position">1</span>/<span id="batch-total">20</span>
         </div>
         <div class="right">
-          <button id="more-btn" class="more-btn" type="button" aria-label="Settings">···</button>
+          <button id="more-btn" class="more-btn" type="button" aria-label="More options" aria-haspopup="menu" aria-expanded="false">···</button>
+          <div id="more-menu" class="more-menu" role="menu" hidden>
+            <button type="button" id="menu-bookmark" role="menuitem" disabled>
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M6 3h12v18l-6-4-6 4z"/></svg>
+              <span id="menu-bookmark-label">Bookmark this puzzle</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -122,6 +128,22 @@
         </div>
       </div>
     </div>
+
+    <dialog id="bookmark-dialog" class="bookmark-dialog-mobile" aria-labelledby="bookmark-title">
+      <form method="dialog">
+        <h2 id="bookmark-title">Bookmark puzzle</h2>
+        <label class="bookmark-field">
+          <span>Tags</span>
+          <input type="text" id="bookmark-tags" autocomplete="off" spellcheck="false" placeholder="endgame rook trap">
+        </label>
+        <p class="hint">Space-separated. Optional.</p>
+        <p id="bookmark-error" class="bookmark-error" role="alert" hidden></p>
+        <div class="dialog-actions">
+          <button type="button" id="bookmark-cancel">Cancel</button>
+          <button type="submit" id="bookmark-save" class="primary">Save</button>
+        </div>
+      </form>
+    </dialog>
 
     <dialog id="promotion-dialog" class="promotion-dialog" aria-labelledby="promotion-title">
       <form method="dialog">

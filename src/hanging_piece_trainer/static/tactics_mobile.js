@@ -1,9 +1,12 @@
 "use strict";
 
 const SLUG = document.body.dataset.slug || null;
+const PREVIEW_ID = document.body.dataset.previewId || null;
 const PREVIEW_BATCH = document.body.dataset.previewBatch || null;
 const BACK_URL = document.body.dataset.backUrl || "/tactics/packages";
 const IS_PREVIEW_BATCH = PREVIEW_BATCH !== null;
+const IS_BOOKMARK_REVIEW = PREVIEW_ID !== null && SLUG !== "__preview__";
+const IS_PREVIEW = IS_PREVIEW_BATCH || IS_BOOKMARK_REVIEW;
 const API_BASE = IS_PREVIEW_BATCH
   ? "/api/v1/tactics/preview"
   : `/api/v1/tactics/${encodeURIComponent(SLUG)}`;
@@ -314,6 +317,11 @@ async function loadPuzzle() {
   showAnswerLabel.textContent = "Show answer";
   screenEl.classList.remove("details-open");
   showStatus("Loading puzzle…");
+  resetBookmarkUi();
+  if (IS_BOOKMARK_REVIEW) {
+    await loadBookmarkReviewPuzzle();
+    return;
+  }
   try {
     let response;
     if (IS_PREVIEW_BATCH) {
@@ -357,6 +365,7 @@ async function loadPuzzle() {
     renderMovesTable([], null);
     clearStatus();
     renderBoard();
+    refreshBookmarkStatus(data.puzzle_id);
   } catch (error) {
     showStatus(`Could not load a puzzle: ${error.message}`);
   }
@@ -409,6 +418,7 @@ function completePuzzle(data) {
   if (!IS_PREVIEW_BATCH && data.batch_completed && data.batch_result) {
     showCelebration(data.batch_result);
   }
+  applyBookmarkButtonState();
 }
 
 // ---------- solution navigation (post-completion) ----------
@@ -737,6 +747,10 @@ function hideCelebration() { celebrateEl.classList.remove("show"); }
 
 function onNextClick() {
   hideCelebration();
+  if (IS_BOOKMARK_REVIEW) {
+    window.location.href = BACK_URL || "/tactics/bookmarks";
+    return;
+  }
   if (IS_PREVIEW_BATCH) {
     batchState.index += 1;
     if (batchState.index >= batchState.total) {
@@ -777,9 +791,185 @@ nextBtn.addEventListener("click", onNextClick);
 prevBtn.addEventListener("click", () => { /* review-mode not yet supported on this page */ });
 celebrateNextBtn.addEventListener("click", onNextClick);
 celebrateDismissBtn.addEventListener("click", hideCelebration);
-document.querySelector("#more-btn").addEventListener("click", () => {
-  window.location.href = BACK_URL;
+// ---------- more menu ----------
+const moreBtn = document.querySelector("#more-btn");
+const moreMenu = document.querySelector("#more-menu");
+const menuBookmarkBtn = document.querySelector("#menu-bookmark");
+const menuBookmarkLabel = document.querySelector("#menu-bookmark-label");
+
+function openMoreMenu() {
+  if (!moreMenu) return;
+  moreMenu.hidden = false;
+  moreBtn?.setAttribute("aria-expanded", "true");
+  document.addEventListener("click", onDocClickForMenu, true);
+  document.addEventListener("keydown", onEscForMenu, true);
+}
+function closeMoreMenu() {
+  if (!moreMenu) return;
+  moreMenu.hidden = true;
+  moreBtn?.setAttribute("aria-expanded", "false");
+  document.removeEventListener("click", onDocClickForMenu, true);
+  document.removeEventListener("keydown", onEscForMenu, true);
+}
+function onDocClickForMenu(event) {
+  if (moreMenu.contains(event.target) || moreBtn.contains(event.target)) return;
+  closeMoreMenu();
+}
+function onEscForMenu(event) {
+  if (event.key === "Escape") closeMoreMenu();
+}
+
+moreBtn?.addEventListener("click", (event) => {
+  event.stopPropagation();
+  if (moreMenu?.hidden) openMoreMenu();
+  else closeMoreMenu();
 });
+
+// ---------- bookmark ----------
+const bookmarkDialog = document.querySelector("#bookmark-dialog");
+const bookmarkTagsInput = document.querySelector("#bookmark-tags");
+const bookmarkCancelBtn = document.querySelector("#bookmark-cancel");
+const bookmarkErrorEl = document.querySelector("#bookmark-error");
+const bookmarkForm = bookmarkDialog?.querySelector("form");
+const canBookmark = !IS_PREVIEW && !!menuBookmarkBtn && !!bookmarkDialog && !!SLUG;
+const bookmarkState = { bookmarkId: null, bookmarked: false, puzzleId: null };
+
+function resetBookmarkUi() {
+  if (!menuBookmarkBtn) return;
+  bookmarkState.bookmarkId = null;
+  bookmarkState.bookmarked = false;
+  bookmarkState.puzzleId = null;
+  menuBookmarkBtn.disabled = true;
+  menuBookmarkBtn.classList.remove("is-bookmarked");
+  if (menuBookmarkLabel) menuBookmarkLabel.textContent = "Bookmark this puzzle";
+}
+
+async function refreshBookmarkStatus(puzzleId) {
+  if (!canBookmark || !puzzleId) return;
+  bookmarkState.puzzleId = puzzleId;
+  try {
+    const response = await fetch(
+      `/api/v1/bookmarks/status?source_package=${encodeURIComponent(SLUG)}&puzzle_id=${encodeURIComponent(puzzleId)}`,
+    );
+    if (!response.ok) return;
+    const data = await response.json();
+    if (bookmarkState.puzzleId !== puzzleId) return;
+    bookmarkState.bookmarked = !!data.bookmarked;
+    bookmarkState.bookmarkId = data.bookmark_id ?? null;
+    applyBookmarkButtonState();
+  } catch (_error) { /* silent */ }
+}
+
+function applyBookmarkButtonState() {
+  if (!canBookmark) return;
+  if (bookmarkState.bookmarked) {
+    menuBookmarkBtn.disabled = true;
+    menuBookmarkBtn.classList.add("is-bookmarked");
+    if (menuBookmarkLabel) menuBookmarkLabel.textContent = "Bookmarked";
+  } else if (state.completed) {
+    menuBookmarkBtn.disabled = false;
+    menuBookmarkBtn.classList.remove("is-bookmarked");
+    if (menuBookmarkLabel) menuBookmarkLabel.textContent = "Bookmark this puzzle";
+  } else {
+    menuBookmarkBtn.disabled = true;
+    menuBookmarkBtn.classList.remove("is-bookmarked");
+  }
+}
+
+function openBookmarkDialog() {
+  if (!canBookmark || !bookmarkState.puzzleId) return;
+  if (bookmarkErrorEl) {
+    bookmarkErrorEl.textContent = "";
+    bookmarkErrorEl.hidden = true;
+  }
+  if (bookmarkTagsInput) bookmarkTagsInput.value = "";
+  bookmarkDialog.showModal();
+  bookmarkTagsInput?.focus();
+}
+
+async function submitBookmark(event) {
+  event.preventDefault();
+  if (!canBookmark || !bookmarkState.puzzleId) return;
+  try {
+    const response = await fetch("/api/v1/bookmarks", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        source_package: SLUG,
+        puzzle_id: bookmarkState.puzzleId,
+        tags: bookmarkTagsInput?.value ?? "",
+      }),
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      if (bookmarkErrorEl) {
+        bookmarkErrorEl.textContent = data?.error?.message ?? "Could not save bookmark.";
+        bookmarkErrorEl.hidden = false;
+      }
+      return;
+    }
+    bookmarkState.bookmarked = true;
+    bookmarkState.bookmarkId = data.bookmark_id ?? null;
+    applyBookmarkButtonState();
+    bookmarkDialog.close();
+  } catch (error) {
+    if (bookmarkErrorEl) {
+      bookmarkErrorEl.textContent = `Network error: ${error.message}`;
+      bookmarkErrorEl.hidden = false;
+    }
+  }
+}
+
+if (canBookmark) {
+  menuBookmarkBtn.addEventListener("click", () => {
+    closeMoreMenu();
+    openBookmarkDialog();
+  });
+  bookmarkForm?.addEventListener("submit", submitBookmark);
+  bookmarkCancelBtn?.addEventListener("click", () => bookmarkDialog.close());
+}
+
+// ---------- bookmark review single-puzzle mode ----------
+async function loadBookmarkReviewPuzzle() {
+  try {
+    const response = await fetch(
+      `/api/v1/tactics/${encodeURIComponent(SLUG)}/puzzle/${encodeURIComponent(PREVIEW_ID)}`,
+    );
+    if (!response.ok) throw new Error(await errorMessage(response));
+    const data = await response.json();
+    state.puzzle = data;
+    state.pieces = parseFen(data.presented_fen);
+    state.sessionId = null;
+    state.legalTargets = {};
+    state.startingFullmove = data.starting_fullmove ?? 1;
+    state.startingTurn = data.starting_turn ?? data.side_to_move ?? "white";
+    state.locked = true;
+    populateDetailsChips(data);
+    renderTurnStrip();
+    renderThemeChips();
+    renderOpening();
+    clearStatus();
+    // Present as already-completed so the solution + navigation are available.
+    completePuzzle({
+      ...data,
+      wrong_moves: 0,
+      given_up: false,
+      point_awarded: false,
+      puzzle_points: 0,
+      batch: null,
+    });
+    // Repurpose the top bar for review mode.
+    if (puzzlePosEl) puzzlePosEl.textContent = data.puzzle_id ?? "•";
+    if (puzzleTotalEl) puzzleTotalEl.textContent = "bookmarked";
+    if (batchPosEl) batchPosEl.textContent = "";
+    if (batchTotalEl) batchTotalEl.textContent = "";
+    nextBtn.textContent = "Back";
+    hintBtn.disabled = true;
+  } catch (error) {
+    showStatus(`Could not load puzzle: ${error.message}`);
+  }
+}
+
 
 // Move-navigation buttons + click-to-jump on ply cells.
 navFirstBtn.addEventListener("click", () => jumpToIndex(0));

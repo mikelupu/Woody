@@ -65,6 +65,54 @@ def test_invalid_history_bounds(tmp_path: Path) -> None:
         repository.history(limit=0)
 
 
+def test_bookmarks_crud_and_filter(tmp_path: Path) -> None:
+    repository = ProgressRepository(tmp_path / "progress.sqlite3")
+    repository.initialize()
+    a = repository.add_bookmark(
+        source_package="pkg-a",
+        puzzle_id="P0001",
+        tags=["endgame", "rook"],
+        bookmarked_at="2026-01-01T00:00:00Z",
+    )
+    b = repository.add_bookmark(
+        source_package="pkg-a",
+        puzzle_id="P0002",
+        tags=["opening"],
+        bookmarked_at="2026-01-02T00:00:00Z",
+    )
+    c = repository.add_bookmark(
+        source_package="pkg-b",
+        puzzle_id="P0001",
+        tags=[],
+        bookmarked_at="2026-01-03T00:00:00Z",
+    )
+    assert a["tags"] == ["endgame", "rook"]
+    assert repository.count_bookmarks() == 3
+    all_rows = repository.list_bookmarks()
+    assert [row["bookmark_id"] for row in all_rows] == [
+        c["bookmark_id"],
+        b["bookmark_id"],
+        a["bookmark_id"],
+    ]
+    endgame = repository.list_bookmarks(tag="endgame")
+    assert [row["bookmark_id"] for row in endgame] == [a["bookmark_id"]]
+    with pytest.raises(RepositoryError, match="already exists"):
+        repository.add_bookmark(
+            source_package="pkg-a",
+            puzzle_id="P0001",
+            tags=["dupe"],
+            bookmarked_at="2026-01-04T00:00:00Z",
+        )
+    updated = repository.update_bookmark_tags(a["bookmark_id"], ["middlegame"])
+    assert updated["tags"] == ["middlegame"]
+    fetched = repository.get_bookmark_by_puzzle("pkg-a", "P0001")
+    assert fetched is not None and fetched["tags"] == ["middlegame"]
+    assert repository.get_bookmark_by_puzzle("pkg-a", "missing") is None
+    assert repository.delete_bookmark(a["bookmark_id"]) is True
+    assert repository.delete_bookmark(a["bookmark_id"]) is False
+    assert repository.count_bookmarks() == 2
+
+
 def test_unsupported_schema_is_not_replaced(tmp_path: Path) -> None:
     path = tmp_path / "progress.sqlite3"
     connection = sqlite3.connect(path)

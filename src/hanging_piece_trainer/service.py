@@ -16,9 +16,11 @@ from typing import Any
 import chess
 import chess.engine
 
-from .catalog import RULES_VERSION, CatalogError, PuzzleCatalog
+from .catalog import RULES_VERSION, CatalogError, PackageRegistry, PuzzleCatalog
 from .domain import Color, DomainError, Scope, compare, normalize_squares, resolve_scope
 from .repository import SCHEMA_VERSION, ProgressRepository, RepositoryError
+
+BOOKMARKED_SLUG = "bookmarked"
 
 
 class ApplicationError(RuntimeError):
@@ -961,6 +963,191 @@ class TacticsPreviewService:
             "fen_sequence": fen_sequence,
             "wrong_moves": session.wrong_moves,
         }
+
+
+class BookmarkService:
+    """Manages user-created bookmarks that reference puzzles from any package."""
+
+    def __init__(
+        self,
+        repository: ProgressRepository,
+        packages: PackageRegistry,
+        *,
+        now: Callable[[], datetime] = lambda: datetime.now(UTC),
+    ) -> None:
+        self.repository = repository
+        self.packages = packages
+        self.now = now
+
+    @staticmethod
+    def normalize_tags(raw: Any) -> list[str]:
+        """Space-split, lowercase, dedupe while preserving first-seen order."""
+        if raw is None:
+            return []
+        if isinstance(raw, str):
+            tokens = raw.split()
+        elif isinstance(raw, list):
+            tokens = []
+            for item in raw:
+                if not isinstance(item, str):
+                    raise ApplicationError("invalid_tags", "tags must be strings")
+                tokens.extend(item.split())
+        else:
+            raise ApplicationError("invalid_tags", "tags must be a string or list of strings")
+        seen: set[str] = set()
+        out: list[str] = []
+        for token in tokens:
+            cleaned = token.strip().lower()
+            if not cleaned or cleaned in seen:
+                continue
+            seen.add(cleaned)
+            out.append(cleaned)
+        return out
+
+    def _resolve_puzzle(self, source_package: str, puzzle_id: str) -> PuzzleCatalog:
+        try:
+            catalog = self.packages.get(source_package)
+        except CatalogError as exc:
+            raise ApplicationError(
+                "unknown_package", f"No tactics package named {source_package!r}", status=404
+            ) from exc
+        try:
+            catalog.get(puzzle_id)
+        except CatalogError as exc:
+            raise ApplicationError(
+                "unknown_puzzle",
+                f"Puzzle {puzzle_id!r} is not in package {source_package!r}",
+                status=404,
+            ) from exc
+        return catalog
+
+    def create(self, payload: dict[str, Any]) -> dict[str, Any]:
+        if not isinstance(payload, dict):
+            raise ApplicationError("invalid_request", "JSON object required")
+        source_package = str(payload.get("source_package") or "").strip()
+        puzzle_id = str(payload.get("puzzle_id") or "").strip()
+        if not source_package or not puzzle_id:
+            raise ApplicationError("invalid_request", "source_package and puzzle_id are required")
+        if source_package == BOOKMARKED_SLUG:
+            raise ApplicationError(
+                "invalid_request", "cannot bookmark from the bookmarked set itself"
+            )
+        self._resolve_puzzle(source_package, puzzle_id)
+        tags = self.normalize_tags(payload.get("tags"))
+        existing = self.repository.get_bookmark_by_puzzle(source_package, puzzle_id)
+        if existing is not None:
+            raise ApplicationError(
+                "already_bookmarked",
+                "Puzzle is already bookmarked",
+                status=409,
+            )
+        try:
+            row = self.repository.add_bookmark(
+                source_package=source_package,
+                puzzle_id=puzzle_id,
+                tags=tags,
+                bookmarked_at=self.now().isoformat(),
+            )
+        except RepositoryError as exc:
+            raise ApplicationError(
+                "persistence_failure", "Could not save bookmark", status=500, retryable=True
+            ) from exc
+        return self._project(row)
+
+    def list(self, *, tag: str | None = None) -> list[dict[str, Any]]:
+        try:
+            rows = self.repository.list_bookmarks(tag=tag)
+        except RepositoryError as exc:
+            raise ApplicationError(
+                "persistence_failure", "Could not read bookmarks", status=500, retryable=True
+            ) from exc
+        out: list[dict[str, Any]] = []
+        for row in rows:
+            projected = self._project(row, include_puzzle=True, skip_missing=True)
+            if projected is not None:
+                out.append(projected)
+        return out
+
+    def status(self, source_package: str, puzzle_id: str) -> dict[str, Any]:
+        try:
+            row = self.repository.get_bookmark_by_puzzle(source_package, puzzle_id)
+        except RepositoryError as exc:
+            raise ApplicationError(
+                "persistence_failure", "Could not read bookmark", status=500, retryable=True
+            ) from exc
+        if row is None:
+            return {"bookmarked": False, "bookmark_id": None, "tags": []}
+        return {
+            "bookmarked": True,
+            "bookmark_id": int(row["bookmark_id"]),
+            "tags": list(row["tags"]),
+        }
+
+    def update(self, bookmark_id: int, payload: dict[str, Any]) -> dict[str, Any]:
+        if not isinstance(payload, dict):
+            raise ApplicationError("invalid_request", "JSON object required")
+        tags = self.normalize_tags(payload.get("tags"))
+        try:
+            row = self.repository.update_bookmark_tags(bookmark_id, tags)
+        except RepositoryError as exc:
+            raise ApplicationError("unknown_bookmark", "Bookmark not found", status=404) from exc
+        return self._project(row)
+
+    def delete(self, bookmark_id: int) -> None:
+        try:
+            ok = self.repository.delete_bookmark(bookmark_id)
+        except RepositoryError as exc:
+            raise ApplicationError(
+                "persistence_failure", "Could not delete bookmark", status=500, retryable=True
+            ) from exc
+        if not ok:
+            raise ApplicationError("unknown_bookmark", "Bookmark not found", status=404)
+
+    def count(self) -> int:
+        try:
+            return self.repository.count_bookmarks()
+        except RepositoryError:
+            return 0
+
+    def get_puzzle(self, source_package: str, puzzle_id: str) -> dict[str, Any]:
+        catalog = self._resolve_puzzle(source_package, puzzle_id)
+        puzzle = catalog.get(puzzle_id)
+        san, fen_sequence = _replay_solution(puzzle.presented_fen, puzzle.solution_moves_uci)
+        public = puzzle.public_dict()
+        public["source_package"] = source_package
+        public["source_package_title"] = catalog.package.get("title") or source_package
+        public["expected_moves"] = list(puzzle.solution_moves_uci)
+        public["expected_moves_san"] = san
+        public["fen_sequence"] = fen_sequence
+        public.update(_fen_start_metadata(puzzle.presented_fen))
+        return public
+
+    def _project(
+        self,
+        row: dict[str, Any],
+        *,
+        include_puzzle: bool = False,
+        skip_missing: bool = False,
+    ) -> dict[str, Any] | None:
+        base = {
+            "bookmark_id": int(row["bookmark_id"]),
+            "puzzle_id": row["puzzle_id"],
+            "source_package": row["source_package"],
+            "tags": list(row["tags"]),
+            "bookmarked_at": row["bookmarked_at"],
+        }
+        if not include_puzzle:
+            return base
+        try:
+            catalog = self.packages.get(row["source_package"])
+            puzzle = catalog.get(row["puzzle_id"])
+        except CatalogError:
+            if skip_missing:
+                return None
+            raise
+        base["source_package_title"] = catalog.package.get("title") or row["source_package"]
+        base["puzzle"] = puzzle.public_dict()
+        return base
 
 
 def _legal_targets(fen: str) -> dict[str, list[dict[str, str | None]]]:

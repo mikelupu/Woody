@@ -3,9 +3,12 @@
 const SLUG = document.body?.dataset?.slug ?? "tri-band-tactics";
 const PREVIEW_ID = document.body?.dataset?.previewId ?? null;
 const PREVIEW_BATCH = document.body?.dataset?.previewBatch ?? null;
+const BACK_URL = document.body?.dataset?.backUrl ?? null;
 const IS_PREVIEW_BATCH = PREVIEW_BATCH !== null;
-const IS_PREVIEW = PREVIEW_ID !== null || IS_PREVIEW_BATCH;
-const API_BASE = IS_PREVIEW
+const IS_BOOKMARK_REVIEW = PREVIEW_ID !== null && SLUG !== "__preview__";
+const IS_LICHESS_PREVIEW = PREVIEW_ID !== null && SLUG === "__preview__";
+const IS_PREVIEW = IS_LICHESS_PREVIEW || IS_PREVIEW_BATCH || IS_BOOKMARK_REVIEW;
+const API_BASE = (IS_LICHESS_PREVIEW || IS_PREVIEW_BATCH)
   ? "/api/v1/tactics/preview"
   : `/api/v1/tactics/${encodeURIComponent(SLUG)}`;
 
@@ -460,7 +463,12 @@ async function loadPuzzle() {
   state.lastMove = null;
   state.wrongMoves = 0;
   document.querySelector("#feedback").hidden = true;
+  resetBookmarkUi();
   statusEl.textContent = "Loading puzzle…";
+  if (IS_BOOKMARK_REVIEW) {
+    await loadBookmarkReviewPuzzle();
+    return;
+  }
   try {
     let response;
     if (IS_PREVIEW_BATCH) {
@@ -519,10 +527,14 @@ async function loadPuzzle() {
       });
     }
     renderBoard();
+    if (typeof onPuzzleLoaded === "function") onPuzzleLoaded(data);
   } catch (error) {
     statusEl.textContent = `Could not load a puzzle: ${error.message}`;
   }
 }
+
+// Hook set by the bookmark section below.
+let onPuzzleLoaded = null;
 
 async function errorMessage(response) {
   try { return (await response.json()).error.message; }
@@ -677,6 +689,12 @@ if (IS_PREVIEW) {
   if (IS_PREVIEW_BATCH) {
     nextBtn.textContent = "Next puzzle";
     nextBtn.addEventListener("click", nextPuzzleInBatch);
+  } else if (IS_BOOKMARK_REVIEW) {
+    nextBtn.textContent = "Back to bookmarks";
+    nextBtn.disabled = false;
+    nextBtn.addEventListener("click", () => {
+      window.location.href = BACK_URL || "/tactics/bookmarks";
+    });
   } else {
     nextBtn.textContent = "Back to search";
     nextBtn.addEventListener("click", () => {
@@ -692,6 +710,176 @@ settingsDialog.addEventListener("close", saveSettings);
 applySettingsToDom();
 if (movesPanelEl && window.MovesPanel) {
   panel = new window.MovesPanel({ container: movesPanelEl, onJump: panelOnJump });
+}
+
+// ─── Bookmark UI ────────────────────────────────────────────────────────────
+const bookmarkBtn = document.querySelector("#bookmark-btn");
+const bookmarkDialog = document.querySelector("#bookmark-dialog");
+const bookmarkTagsInput = document.querySelector("#bookmark-tags");
+const bookmarkCancelBtn = document.querySelector("#bookmark-cancel");
+const bookmarkErrorEl = document.querySelector("#bookmark-error");
+const bookmarkForm = bookmarkDialog?.querySelector("form");
+const canBookmark = !IS_PREVIEW && bookmarkBtn && bookmarkDialog;
+const bookmarkState = { bookmarkId: null, bookmarked: false, puzzleId: null };
+
+function resetBookmarkUi() {
+  if (!canBookmark) return;
+  bookmarkState.bookmarkId = null;
+  bookmarkState.bookmarked = false;
+  bookmarkState.puzzleId = null;
+  bookmarkBtn.hidden = false;
+  bookmarkBtn.classList.remove("is-bookmarked");
+  bookmarkBtn.disabled = true;
+  bookmarkBtn.title = "Solve the puzzle first to bookmark it";
+  bookmarkBtn.setAttribute("aria-label", "Bookmark this puzzle");
+}
+
+async function refreshBookmarkStatus(puzzleId) {
+  if (!canBookmark || !puzzleId) return;
+  bookmarkState.puzzleId = puzzleId;
+  try {
+    const response = await fetch(
+      `/api/v1/bookmarks/status?source_package=${encodeURIComponent(SLUG)}&puzzle_id=${encodeURIComponent(puzzleId)}`,
+    );
+    if (!response.ok) return;
+    const data = await response.json();
+    if (bookmarkState.puzzleId !== puzzleId) return; // moved on
+    bookmarkState.bookmarked = !!data.bookmarked;
+    bookmarkState.bookmarkId = data.bookmark_id ?? null;
+    applyBookmarkButtonState();
+  } catch (_error) {
+    /* silent */
+  }
+}
+
+function applyBookmarkButtonState() {
+  if (!canBookmark) return;
+  if (bookmarkState.bookmarked) {
+    bookmarkBtn.classList.add("is-bookmarked");
+    bookmarkBtn.disabled = true;
+    bookmarkBtn.title = "Bookmarked — manage on the Bookmarked page";
+    bookmarkBtn.setAttribute("aria-label", "Puzzle bookmarked");
+  } else if (state.completed) {
+    bookmarkBtn.classList.remove("is-bookmarked");
+    bookmarkBtn.disabled = false;
+    bookmarkBtn.title = "Bookmark this puzzle";
+    bookmarkBtn.setAttribute("aria-label", "Bookmark this puzzle");
+  } else {
+    bookmarkBtn.classList.remove("is-bookmarked");
+    bookmarkBtn.disabled = true;
+    bookmarkBtn.title = "Solve the puzzle first to bookmark it";
+  }
+}
+
+function openBookmarkDialog() {
+  if (!canBookmark || !bookmarkState.puzzleId) return;
+  if (bookmarkErrorEl) {
+    bookmarkErrorEl.textContent = "";
+    bookmarkErrorEl.hidden = true;
+  }
+  if (bookmarkTagsInput) bookmarkTagsInput.value = "";
+  bookmarkDialog.showModal();
+  bookmarkTagsInput?.focus();
+}
+
+async function submitBookmark(event) {
+  event.preventDefault();
+  if (!canBookmark || !bookmarkState.puzzleId) return;
+  const rawTags = bookmarkTagsInput?.value ?? "";
+  try {
+    const response = await fetch("/api/v1/bookmarks", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        source_package: SLUG,
+        puzzle_id: bookmarkState.puzzleId,
+        tags: rawTags,
+      }),
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      const message = data?.error?.message ?? "Could not save bookmark.";
+      if (bookmarkErrorEl) {
+        bookmarkErrorEl.textContent = message;
+        bookmarkErrorEl.hidden = false;
+      }
+      return;
+    }
+    bookmarkState.bookmarked = true;
+    bookmarkState.bookmarkId = data.bookmark_id ?? null;
+    applyBookmarkButtonState();
+    bookmarkDialog.close();
+  } catch (error) {
+    if (bookmarkErrorEl) {
+      bookmarkErrorEl.textContent = `Network error: ${error.message}`;
+      bookmarkErrorEl.hidden = false;
+    }
+  }
+}
+
+if (canBookmark) {
+  bookmarkBtn.hidden = false;
+  bookmarkBtn.addEventListener("click", openBookmarkDialog);
+  bookmarkForm?.addEventListener("submit", submitBookmark);
+  bookmarkCancelBtn?.addEventListener("click", () => bookmarkDialog.close());
+  // Refresh status whenever a puzzle finishes loading.
+  onPuzzleLoaded = (data) => {
+    if (data?.puzzle_id) refreshBookmarkStatus(data.puzzle_id);
+  };
+  // Enable the button as soon as the current puzzle is marked complete.
+  const originalCompletePuzzle = completePuzzle;
+  window.__origCompletePuzzle = originalCompletePuzzle;
+  // completePuzzle is a function declaration and can't be reassigned; instead
+  // hook via a MutationObserver-style approach: poll state.completed briefly.
+  // Simpler: patch by monkey-checking after each move — call from applyBookmark…
+  // Actually the reveal + move paths both call completePuzzle → then renderBoard.
+  // We'll hook by observing feedback panel visibility.
+  const feedback = document.querySelector("#feedback");
+  if (feedback) {
+    const obs = new MutationObserver(() => {
+      if (!feedback.hidden) applyBookmarkButtonState();
+    });
+    obs.observe(feedback, { attributes: true, attributeFilter: ["hidden"] });
+  }
+}
+
+// ─── Bookmark review single-puzzle mode ────────────────────────────────────
+async function loadBookmarkReviewPuzzle() {
+  try {
+    const response = await fetch(
+      `/api/v1/tactics/${encodeURIComponent(SLUG)}/puzzle/${encodeURIComponent(PREVIEW_ID)}`,
+    );
+    if (!response.ok) throw new Error(await errorMessage(response));
+    const data = await response.json();
+    state.puzzle = data;
+    state.pieces = parseFen(data.presented_fen);
+    state.sessionId = null;
+    state.legalTargets = {};
+    state.liveLegalTargets = {};
+    state.locked = true;
+    document.querySelector("#position-meta").textContent =
+      `${data.side_to_move === "white" ? "White" : "Black"} to move · Bookmarked review`;
+    updatePuzzleDetails(data);
+    state.completed = true;
+    state.wrongMoves = 0;
+    completePuzzle({
+      ...data,
+      puzzle_points: 0,
+      wrong_moves: 0,
+      given_up: false,
+      batch: null,
+    });
+    const feedbackDetail = document.querySelector("#feedback-detail");
+    if (feedbackDetail) {
+      feedbackDetail.textContent = `Reviewing a bookmarked puzzle from ${data.source_package_title ?? data.source_package}.`;
+    }
+    const heading = document.querySelector("#feedback-heading");
+    if (heading) heading.textContent = "Solution";
+    statusEl.textContent = "Reviewing solution.";
+    renderBoard();
+  } catch (error) {
+    statusEl.textContent = `Could not load puzzle: ${error.message}`;
+  }
 }
 
 loadPuzzle();

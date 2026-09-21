@@ -9,6 +9,7 @@ from typing import Any
 
 from .catalog import (
     PACKAGE_KINDS,
+    RESERVED_SLUGS,
     RULES_VERSION,
     SCHEMA_VERSION,
     SLUG_RE,
@@ -35,6 +36,8 @@ ALLOWED_COUNTS = (10, 20, 50, 100, 200)
 def _validate_slug(slug: str, *, existing: set[str]) -> None:
     if not SLUG_RE.match(slug):
         raise SearchError("invalid_slug", f"slug must match {SLUG_RE.pattern}")
+    if slug in RESERVED_SLUGS:
+        raise SearchError("slug_reserved", f"slug {slug!r} is reserved by the system")
     if slug in existing:
         raise SearchError("slug_in_use", f"a package named {slug!r} already exists")
 
