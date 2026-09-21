@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Header band — 6 options (paired with Chakra Petch)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #18201b; --muted: #667069;
+    --paper: #f4f1e8; --panel: #fffdf7; --line: #d5d0c3;
+    --forest: #234b3a; --forest-bright: #2d6a4f;
+    --gold: #d7a928;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    color: var(--ink);
+    background: radial-gradient(circle at 10% 0%, rgb(215 169 40 / 10%), transparent 30rem), var(--paper);
+    min-height: 100vh;
+  }
+  header.top {
+    padding: 3rem clamp(1rem, 4vw, 4rem) 1.5rem;
+    color: #fff; background: var(--forest); border-bottom: 5px solid var(--gold);
+  }
+  header.top h1 { margin: 0 0 .35rem; font: 800 clamp(1.6rem, 3.6vw, 2.4rem) Inter, sans-serif; letter-spacing: -.02em; }
+  header.top p { margin: 0; color: #d9e7de; max-width: 46rem; line-height: 1.5; }
+
+  main { width: min(1180px, calc(100% - 2rem)); margin: 2.5rem auto 4rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; }
+  .card {
+    display: flex; flex-direction: column; gap: .55rem;
+    padding: 0 0 1.2rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: .5rem;
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgb(30 35 30 / 7%);
+    transition: transform 120ms ease, box-shadow 120ms ease;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgb(30 35 30 / 14%); }
+  .card-body { padding: 0 1.35rem; }
+  .num { font: 800 .68rem "IBM Plex Mono", ui-monospace, monospace; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+  .title {
+    margin: .35rem 0 .3rem;
+    font-family: "Chakra Petch", Inter, sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--forest);
+    font-size: 1.15rem;
+    letter-spacing: -.005em;
+  }
+  .desc { margin: 0; color: var(--ink); font-size: .9rem; line-height: 1.5; }
+
+  /* thumb: real 78px-tall header band preview */
+  .thumb {
+    height: 82px;
+    border-bottom: 5px solid var(--gold);
+    position: relative;
+    display: flex; align-items: flex-end;
+    padding: .55rem .9rem 0;
+    color: #fff;
+    overflow: hidden;
+    font: 700 .85rem "Chakra Petch", Inter, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: -.005em;
+  }
+  .thumb .fake-tab {
+    display: inline-block;
+    padding: .3rem .55rem .35rem;
+    background: var(--paper);
+    color: var(--forest);
+    border: 1px solid var(--gold); border-bottom: 0;
+    border-radius: .3rem .3rem 0 0;
+    margin-bottom: -5px;
+    font: 700 .72rem Inter, sans-serif;
+    text-transform: none;
+    box-shadow: 0 -3px 0 var(--gold) inset;
+    padding-bottom: calc(.35rem + 5px);
+  }
+  .thumb-label { position: absolute; top: 10px; left: 14px; letter-spacing: .01em; }
+
+  /* per-band thumb visuals */
+  .thumb.gradient { background: linear-gradient(135deg, #1a3e2f 0%, var(--forest) 40%, var(--forest-bright) 100%); }
+  .thumb.grid {
+    background:
+      linear-gradient(rgb(255 255 255 / 5%) 1px, transparent 1px) 0 0 / 20px 20px,
+      linear-gradient(90deg, rgb(255 255 255 / 5%) 1px, transparent 1px) 0 0 / 20px 20px,
+      radial-gradient(circle at 90% 20%, rgb(215 169 40 / 14%), transparent 40%),
+      var(--forest);
+  }
+  .thumb.hex {
+    background:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='42' height='36' viewBox='0 0 42 36'><path d='M11 0 L31 0 L42 18 L31 36 L11 36 L0 18 Z' fill='none' stroke='rgba(255,255,255,0.06)' stroke-width='1.2'/></svg>") 0 0 / 42px 36px,
+      linear-gradient(135deg, var(--forest) 0%, #1c4030 100%);
+  }
+  .thumb.hazard {
+    background: var(--forest);
+    border-bottom: 0;
+  }
+  .thumb.hazard::after {
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: 0;
+    height: 8px;
+    background: repeating-linear-gradient(-45deg, var(--gold) 0 10px, #1a2822 10px 16px);
+  }
+  .thumb.notch {
+    background: var(--forest);
+    border-bottom: 0;
+    clip-path: polygon(
+      0 0, 100% 0, 100% calc(100% - 8px),
+      calc(60% + 20px) calc(100% - 8px), 60% 100%, calc(60% - 20px) calc(100% - 8px),
+      0 calc(100% - 8px)
+    );
+  }
+  .thumb.notch-wrap { position: relative; padding-bottom: 18px; }
+  .thumb.notch-wrap::after {
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: 0;
+    height: 18px;
+    background: var(--gold);
+    clip-path: polygon(
+      0 0, 100% 0, 100% 100%,
+      calc(60% + 20px) 100%, 60% 40%, calc(60% - 20px) 100%,
+      0 100%
+    );
+  }
+  .thumb.glow {
+    background:
+      radial-gradient(ellipse at 18% 55%, rgb(215 169 40 / 22%), transparent 55%),
+      radial-gradient(ellipse at 82% 0%, rgb(45 106 79 / 55%), transparent 60%),
+      var(--forest);
+  }
+
+  .problem, .note {
+    margin: 2rem 0 0; padding: 1rem 1.25rem;
+    border-left: 4px solid var(--gold); background: #f7f1dd; border-radius: .3rem;
+    font-size: .92rem; line-height: 1.5;
+  }
+  .problem { border-color: #a33a32; background: rgb(163 58 50 / 6%); }
+  .problem strong { color: #7a2822; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>Header band — 6 options</h1>
+  <p>Six treatments for the site header, all rendered with Chakra Petch + folder tabs. Pick one and we'll wire it into <code>app.css</code>.</p>
+</header>
+
+<main>
+
+  <div class="problem"><strong>Current:</strong> a flat forest-green block with a plain 5px gold stripe. It sits still while the new Chakra Petch title has motion — the band needs to hold up its end.</div>
+
+  <div class="grid" style="margin-top: 2rem;">
+
+    <a class="card" href="header-band-1-gradient.html">
+      <div class="thumb gradient">
+        <span class="thumb-label">Chess Mini Game</span>
+        <span class="fake-tab">Mini game</span>
+      </div>
+      <div class="card-body">
+        <span class="num">Band · 01</span>
+        <h2 class="title">Gradient</h2>
+        <p class="desc">Diagonal forest → forest-bright gradient. Subtle motion, low risk, easy sell.</p>
+      </div>
+    </a>
+
+    <a class="card" href="header-band-2-grid.html">
+      <div class="thumb grid">
+        <span class="thumb-label">Chess Mini Game</span>
+        <span class="fake-tab">Mini game</span>
+      </div>
+      <div class="card-body">
+        <span class="num">Band · 02</span>
+        <h2 class="title">Tactical grid</h2>
+        <p class="desc">Faint 32px grid + soft gold glow, HUD-style. Pairs naturally with Chakra Petch.</p>
+      </div>
+    </a>
+
+    <a class="card" href="header-band-3-hex.html">
+      <div class="thumb hex">
+        <span class="thumb-label">Chess Mini Game</span>
+        <span class="fake-tab">Mini game</span>
+      </div>
+      <div class="card-body">
+        <span class="num">Band · 03</span>
+        <h2 class="title">Hex pattern</h2>
+        <p class="desc">Faint honeycomb overlay. Echoes Chakra Petch's clipped corners as texture.</p>
+      </div>
+    </a>
+
+    <a class="card" href="header-band-4-hazard.html">
+      <div class="thumb hazard">
+        <span class="thumb-label">Chess Mini Game</span>
+        <span class="fake-tab" style="margin-bottom: -8px; padding-bottom: calc(.35rem + 8px);">Mini game</span>
+      </div>
+      <div class="card-body">
+        <span class="num">Band · 04</span>
+        <h2 class="title">Gold hazard stripe</h2>
+        <p class="desc">Diagonal gold/dark stripe replaces the flat 5px. Tournament-banner energy.</p>
+      </div>
+    </a>
+
+    <a class="card" href="header-band-5-notch.html">
+      <div class="thumb-wrap thumb notch-wrap" style="height: auto; padding: 0;">
+        <div class="thumb notch" style="height: 82px; border-bottom: 0;">
+          <span class="thumb-label">Chess Mini Game</span>
+          <span class="fake-tab" style="margin-bottom: -8px; padding-bottom: calc(.35rem + 8px);">Mini game</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <span class="num">Band · 05</span>
+        <h2 class="title">Notched edge</h2>
+        <p class="desc">Angular chevron cut on the bottom edge. Most explicitly "designed" of the six.</p>
+      </div>
+    </a>
+
+    <a class="card" href="header-band-6-glow.html">
+      <div class="thumb glow">
+        <span class="thumb-label">Chess Mini Game</span>
+        <span class="fake-tab">Mini game</span>
+      </div>
+      <div class="card-body">
+        <span class="num">Band · 06</span>
+        <h2 class="title">Gold spotlight</h2>
+        <p class="desc">Soft gold glow behind the title + green haze in the opposite corner. Cinematic depth.</p>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="note">Once picked, we'll wire the chosen band into <code>app.css</code>, swap <code>Georgia/system</code> for Chakra Petch on h1, replace the pill nav with folder tabs, and extract the nav into a shared Jinja partial.</div>
+</main>
+
+</body>
+</html>

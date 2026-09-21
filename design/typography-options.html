@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Typography options — page titles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Chakra+Petch:wght@600;700&family=DM+Serif+Display&family=Fraunces:opsz,wght@9..144,700;9..144,800&family=Fredoka:wght@600;700&family=Instrument+Serif&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Space+Grotesk:wght@600;700&family=Rubik+Mono+One&family=Unbounded:wght@600;700;800&family=Young+Serif&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #18201b;
+    --muted: #667069;
+    --paper: #f4f1e8;
+    --panel: #fffdf7;
+    --line: #d5d0c3;
+    --forest: #234b3a;
+    --forest-bright: #2d6a4f;
+    --gold: #d7a928;
+    --light-square: #e9dfca;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    color: var(--ink);
+    background: radial-gradient(circle at 10% 0%, rgb(215 169 40 / 10%), transparent 30rem), var(--paper);
+  }
+
+  /* Intro */
+  .intro {
+    padding: 3rem clamp(1rem, 4vw, 4rem) 1.5rem;
+    color: #fff;
+    background: var(--forest);
+    border-bottom: 5px solid var(--gold);
+  }
+  .intro h1 { margin: 0 0 .35rem; font: 800 clamp(1.6rem, 3.6vw, 2.4rem) Inter, sans-serif; letter-spacing: -.02em; }
+  .intro p { margin: 0; color: #d9e7de; max-width: 46rem; line-height: 1.5; }
+
+  main { padding: 2.5rem 0 4rem; display: flex; flex-direction: column; gap: 3rem; }
+  .row { }
+  .row-meta {
+    max-width: 1200px; margin: 0 auto 1rem; padding: 0 clamp(1rem, 4vw, 4rem);
+    display: grid; grid-template-columns: 200px 1fr auto; gap: 2rem;
+    align-items: baseline;
+  }
+  .badge { font: 800 .72rem "IBM Plex Mono", ui-monospace, monospace; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .name { font: 700 1.05rem Inter, sans-serif; color: var(--ink); }
+  .name .kind { color: var(--muted); font-weight: 500; margin-left: .5rem; font-size: .88rem; }
+  .desc { color: var(--muted); font-size: .88rem; line-height: 1.5; }
+
+  /* Site header shell — reuses the Tabs 3 folder pattern */
+  .site-header {
+    padding: 2rem clamp(1rem, 4vw, 4rem) 0;
+    background: var(--forest);
+    color: #fff;
+    border-bottom: 5px solid var(--gold);
+    position: relative;
+  }
+  .site-header h1 {
+    margin: 0 0 1.5rem;
+    font-size: clamp(1.9rem, 4vw, 3rem);
+    letter-spacing: -.01em;
+    line-height: 1.05;
+  }
+  .tabs {
+    display: flex; gap: .35rem;
+    margin: 0; padding: 0;
+    list-style: none;
+    position: relative; z-index: 1;
+  }
+  .tabs a {
+    display: inline-flex; align-items: center; gap: .5rem;
+    padding: .7rem 1.2rem .95rem;
+    border-radius: .5rem .5rem 0 0;
+    color: #d9e7de;
+    text-decoration: none;
+    font: 700 .9rem Inter, sans-serif;
+    letter-spacing: -.005em;
+    white-space: nowrap;
+    background: rgb(255 255 255 / 6%);
+    border: 1px solid transparent;
+    border-bottom: 0;
+  }
+  .tabs a svg { width: 15px; height: 15px; opacity: .85; }
+  .tabs a.current {
+    background: var(--paper);
+    color: var(--forest);
+    border-color: var(--gold);
+    box-shadow: 0 -3px 0 var(--gold) inset;
+    position: relative; z-index: 2;
+    margin-bottom: -5px;
+    padding-bottom: calc(.95rem + 5px);
+  }
+
+  /* Font families applied per row (h1 only) */
+  .f-georgia h1  { font-family: Georgia, serif; font-weight: 700; }
+  .f-fraunces h1 { font-family: "Fraunces", Georgia, serif; font-weight: 800; font-optical-sizing: auto; letter-spacing: -.02em; }
+  .f-instrument h1 { font-family: "Instrument Serif", Georgia, serif; font-weight: 400; letter-spacing: -.005em; }
+  .f-dmserif h1  { font-family: "DM Serif Display", Georgia, serif; font-weight: 400; letter-spacing: -.01em; }
+  .f-young h1    { font-family: "Young Serif", Georgia, serif; font-weight: 400; letter-spacing: -.005em; }
+  .f-space h1    { font-family: "Space Grotesk", Inter, sans-serif; font-weight: 700; letter-spacing: -.03em; }
+  .f-bricolage h1{ font-family: "Bricolage Grotesque", Inter, sans-serif; font-weight: 800; letter-spacing: -.02em; }
+  .f-fredoka h1  { font-family: "Fredoka", Inter, sans-serif; font-weight: 700; letter-spacing: -.02em; }
+  .f-chakra h1   { font-family: "Chakra Petch", Inter, sans-serif; font-weight: 700; letter-spacing: -.005em; text-transform: uppercase; font-size: clamp(1.6rem, 3.4vw, 2.6rem); }
+  .f-unbounded h1{ font-family: "Unbounded", Inter, sans-serif; font-weight: 800; letter-spacing: -.03em; font-size: clamp(1.5rem, 3.2vw, 2.4rem); }
+  .f-bungee h1   { font-family: "Bungee", Inter, sans-serif; font-weight: 400; letter-spacing: -.005em; font-size: clamp(1.4rem, 3vw, 2.2rem); }
+  .f-rubikmono h1{ font-family: "Rubik Mono One", Inter, sans-serif; font-weight: 400; letter-spacing: -.02em; font-size: clamp(1.3rem, 2.8vw, 2rem); }
+
+  .foot {
+    max-width: 1200px; margin: 2rem auto 0; padding: 1rem 1.25rem;
+    border-left: 4px solid var(--gold); background: #f7f1dd; border-radius: .3rem;
+    font-size: .92rem; line-height: 1.5;
+    margin-left: clamp(1rem, 4vw, 4rem); margin-right: clamp(1rem, 4vw, 4rem);
+  }
+</style>
+</head>
+<body>
+
+<div class="intro">
+  <h1>Typography — page titles</h1>
+  <p>Same header layout (with the folder-tab nav you picked), rendered in a mix of serious and playful font options. Each swatch changes <em>only</em> the H1 typeface — Inter stays for chrome/nav so we can judge title feel in isolation. Google Fonts are loaded from CDN just for this preview.</p>
+</div>
+
+<main>
+
+  <!-- 0. Georgia (baseline / current) -->
+  <div class="row f-georgia">
+    <div class="row-meta">
+      <span class="badge">Baseline</span>
+      <span class="name">Georgia <span class="kind">system serif</span></span>
+      <span class="desc">What we ship today. Neutral but a bit tired.</span>
+    </div>
+    <header class="site-header">
+      <h1>Chess Mini Game</h1>
+      <ul class="tabs">
+        <li><a>Hanging trainer</a></li><li><a>Tactics</a></li><li><a class="current">Mini game</a></li><li><a>Pawn war</a></li>
+      </ul>
+    </header>
+  </div>
+
+  <!-- Serif options -->
+
+  <div class="row f-fraunces">
+    <div class="row-meta">
+      <span class="badge">Serif · 01</span>
+      <span class="name">Fraunces <span class="kind">humanist display serif</span></span>
+      <span class="desc">Warm, editorial, quirky terminals. Modern serif done right.</span>
+    </div>
+    <header class="site-header">
+      <h1>Chess Mini Game</h1>
+      <ul class="tabs"><li><a>Hanging trainer</a></li><li><a>Tactics</a></li><li><a class="current">Mini game</a></li><li><a>Pawn war</a></li></ul>
+    </header>
+  </div>
+
+  <div class="row f-dmserif">
+    <div class="row-meta">
+      <span class="badge">Serif · 02</span>
+      <span class="name">DM Serif Display <span class="kind">high-contrast display</span></span>
+      <span class="desc">Dramatic, magazine-y. Thin/thick strokes give big presence.</span>
+    </div>
+    <header class="site-header">
+      <h1>Chess Mini Game</h1>
+      <ul class="tabs"><li><a>Hanging trainer</a></li><li><a>Tactics</a></li><li><a class="current">Mini game</a></li><li><a>Pawn war</a></li></ul>
+    </header>
+  </div>
+
+  <div class="row f-instrument">
+    <div class="row-meta">
+      <span class="badge">Serif · 03</span>
+      <span class="name">Instrument Serif <span class="kind">refined display</span></span>
+      <span class="desc">Elegant modern serif; slightly airy. Feels like a boutique brand.</span>
+    </div>
+    <header class="site-header">
+      <h1>Chess Mini Game</h1>
+      <ul class="tabs"><li><a>Hanging trainer</a></li><li><a>Tactics</a></li><li><a class="current">Mini game</a></li><li><a>Pawn war</a></li></ul>
+    </header>
+  </div>
+
+  <div class="row f-young">
+    <div class="row-meta">
+      <span class="badge">Serif · 04</span>
+      <span class="name">Young Serif <span class="kind">chunky slab-ish</span></span>
+      <span class="desc">Chunky, confident, warm. Feels like a printed book cover.</span>
+    </div>
+    <header class="site-header">
+      <h1>Chess Mini Game</h1>
+      <ul class="tabs"><li><a>Hanging trainer</a></li><li><a>Tactics</a></li><li><a class="current">Mini game</a></li><li><a>Pawn war</a></li></ul>
+    </header>
+  </div>
+
+  <!-- Modern sans options -->
+
+  <div class="row f-space">
+    <div class="row-meta">
+      <span class="badge">Sans · 05</span>
+      <span class="name">Space Grotesk <span class="kind">geometric sans, quirky</span></span>
+      <span class="desc">Modern, subtly tech; alt geometric with personality in the tails.</span>
+    </div>
+    <header class="site-header">
+      <h1>Chess Mini Game</h1>
+      <ul class="tabs"><li><a>Hanging trainer</a></li><li><a>Tactics</a></li><li><a class="current">Mini game</a></li><li><a>Pawn war</a></li></ul>
+    </header>
+  </div>
+
+  <div class="row f-bricolage">
+    <div class="row-meta">
+      <span class="badge">Sans · 06</span>
+      <span class="name">Bricolage Grotesque <span class="kind">variable, playful</span></span>
+      <span class="desc">2023 Google Font; contemporary, wide, editorial. Very "of now".</span>
+    </div>
+    <header class="site-header">
+      <h1>Chess Mini Game</h1>
+      <ul class="tabs"><li><a>Hanging trainer</a></li><li><a>Tactics</a></li><li><a class="current">Mini game</a></li><li><a>Pawn war</a></li></ul>
+    </header>
+  </div>
+
+  <!-- Fun options -->
+
+  <div class="row f-fredoka">
+    <div class="row-meta">
+      <span class="badge">Fun · 07</span>
+      <span class="name">Fredoka <span class="kind">rounded sans</span></span>
+      <span class="desc">Friendly, rounded corners. Says "game", says "approachable".</span>
+    </div>
+    <header class="site-header">
+      <h1>Chess Mini Game</h1>
+      <ul class="tabs"><li><a>Hanging trainer</a></li><li><a>Tactics</a></li><li><a class="current">Mini game</a></li><li><a>Pawn war</a></li></ul>
+    </header>
+  </div>
+
+  <div class="row f-chakra">
+    <div class="row-meta">
+      <span class="badge">Fun · 08</span>
+      <span class="name">Chakra Petch <span class="kind">tactical / sci-fi</span></span>
+      <span class="desc">Geometric with clipped corners. Perfect for a "tactics" app.</span>
+    </div>
+    <header class="site-header">
+      <h1>Chess Mini Game</h1>
+      <ul class="tabs"><li><a>Hanging trainer</a></li><li><a>Tactics</a></li><li><a class="current">Mini game</a></li><li><a>Pawn war</a></li></ul>
+    </header>
+  </div>
+
+  <div class="row f-unbounded">
+    <div class="row-meta">
+      <span class="badge">Fun · 09</span>
+      <span class="name">Unbounded <span class="kind">wide display</span></span>
+      <span class="desc">Extra-wide, futuristic. Bold and confident, still readable.</span>
+    </div>
+    <header class="site-header">
+      <h1>Chess Mini Game</h1>
+      <ul class="tabs"><li><a>Hanging trainer</a></li><li><a>Tactics</a></li><li><a class="current">Mini game</a></li><li><a>Pawn war</a></li></ul>
+    </header>
+  </div>
+
+  <div class="row f-bungee">
+    <div class="row-meta">
+      <span class="badge">Fun · 10</span>
+      <span class="name">Bungee <span class="kind">urban block letters</span></span>
+      <span class="desc">Chunky, arcade, street-signage. Very playful — commits hard.</span>
+    </div>
+    <header class="site-header">
+      <h1>Chess Mini Game</h1>
+      <ul class="tabs"><li><a>Hanging trainer</a></li><li><a>Tactics</a></li><li><a class="current">Mini game</a></li><li><a>Pawn war</a></li></ul>
+    </header>
+  </div>
+
+  <div class="row f-rubikmono">
+    <div class="row-meta">
+      <span class="badge">Fun · 11</span>
+      <span class="name">Rubik Mono One <span class="kind">bold mono display</span></span>
+      <span class="desc">Fixed-width block display. Retro-arcade, high impact, low subtlety.</span>
+    </div>
+    <header class="site-header">
+      <h1>Chess Mini Game</h1>
+      <ul class="tabs"><li><a>Hanging trainer</a></li><li><a>Tactics</a></li><li><a class="current">Mini game</a></li><li><a>Pawn war</a></li></ul>
+    </header>
+  </div>
+
+</main>
+
+<p class="foot">
+  All eleven load from Google Fonts (free, open-source). Once you pick, I'll self-host or use <code>@import</code> in <code>app.css</code> and swap <code>Georgia</code> in every <code>h1</code> across the app (index, tactics, packages, pawn, minigame, search-builder, stats, bookmarks).
+</p>
+
+</body>
+</html>

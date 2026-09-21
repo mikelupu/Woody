@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Nav Tabs 1 — Underlined (minimal)</title>
+<style>
+  :root {
+    --ink: #18201b;
+    --muted: #667069;
+    --paper: #f4f1e8;
+    --panel: #fffdf7;
+    --line: #d5d0c3;
+    --forest: #234b3a;
+    --forest-bright: #2d6a4f;
+    --gold: #d7a928;
+    --light-square: #e9dfca;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    background: radial-gradient(circle at 10% 0%, rgb(215 169 40 / 10%), transparent 30rem), var(--paper);
+    color: var(--ink);
+  }
+
+  /* ─── Header ─────────────────────────────────────────── */
+  .site-header {
+    padding: 2rem clamp(1rem, 4vw, 4rem) 0;
+    background: var(--forest);
+    color: #fff;
+    border-bottom: 5px solid var(--gold);
+  }
+  .site-header h1 {
+    margin: 0 0 1.25rem;
+    font-family: Georgia, serif;
+    font-size: clamp(1.7rem, 4vw, 3rem);
+    letter-spacing: -.01em;
+  }
+
+  /* ─── Underlined tabs ────────────────────────────────── */
+  .tabs {
+    display: flex;
+    gap: 1.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-x: auto;
+  }
+  .tabs a {
+    position: relative;
+    display: inline-block;
+    padding: .75rem 0 1rem;
+    color: #d9e7de;
+    text-decoration: none;
+    font: 700 .95rem Inter, sans-serif;
+    letter-spacing: -.005em;
+    white-space: nowrap;
+    transition: color 120ms ease;
+  }
+  .tabs a::after {
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: -5px;
+    height: 5px;
+    background: transparent;
+    transition: background 160ms ease;
+  }
+  .tabs a:hover { color: #fff; }
+  .tabs a.current { color: var(--gold); }
+  .tabs a.current::after { background: var(--gold); }
+
+  /* ─── Preview shell ──────────────────────────────────── */
+  .page { padding: 3rem clamp(1rem, 4vw, 4rem) 4rem; max-width: 1200px; margin: 0 auto; }
+  .caption { max-width: 44rem; margin: 0 auto 2rem; text-align: center; }
+  .caption h2 { margin: 0 0 .35rem; font: 800 1.5rem Inter, sans-serif; letter-spacing: -.02em; }
+  .caption p { margin: 0; color: var(--muted); line-height: 1.5; }
+  .back { display: inline-block; margin-top: .5rem; font: 700 .78rem "IBM Plex Mono", ui-monospace, monospace; color: var(--forest); text-decoration: none; letter-spacing: .1em; text-transform: uppercase; }
+  .back:hover { color: var(--gold); }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: .35rem;
+    padding: 2rem;
+    box-shadow: 0 8px 20px rgb(30 35 30 / 7%);
+    text-align: center;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+
+  <div style="padding: 2.5rem 1rem 1rem; text-align: center;">
+    <div class="caption">
+      <h2>Tabs 1 — Underlined (minimal)</h2>
+      <p>Flat text labels sitting flush with the header. Active tab is gold with a 5px gold underline that meets the gold header stripe below. No shapes, no icons, no boxes — the page title stays visually dominant.</p>
+      <a class="back" href="nav-tabs-index.html">← back to tab options</a>
+    </div>
+  </div>
+
+  <!-- Mock 1: Chess Mini Game page -->
+  <header class="site-header">
+    <h1>Chess Mini Game</h1>
+    <nav>
+      <ul class="tabs">
+        <li><a href="#">Hanging trainer</a></li>
+        <li><a href="#">Tactics</a></li>
+        <li><a href="#" class="current">Mini game</a></li>
+        <li><a href="#">Pawn war</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="page"><div class="card">Mini game content …</div></div>
+
+  <!-- Mock 2: Tactics page -->
+  <header class="site-header">
+    <h1>Tactics Trainer</h1>
+    <nav>
+      <ul class="tabs">
+        <li><a href="#">Hanging trainer</a></li>
+        <li><a href="#" class="current">Tactics</a></li>
+        <li><a href="#">Mini game</a></li>
+        <li><a href="#">Pawn war</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="page"><div class="card">Tactics content …</div></div>
+
+</body>
+</html>

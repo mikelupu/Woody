@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Header band 2 — Tactical grid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #18201b; --muted: #667069;
+    --paper: #f4f1e8; --panel: #fffdf7; --line: #d5d0c3;
+    --forest: #234b3a; --forest-bright: #2d6a4f;
+    --gold: #d7a928; --light-square: #e9dfca;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    color: var(--ink);
+    background: radial-gradient(circle at 10% 0%, rgb(215 169 40 / 10%), transparent 30rem), var(--paper);
+  }
+  .intro { padding: 2.5rem clamp(1rem, 4vw, 4rem) 1.25rem; text-align: center; max-width: 46rem; margin: 0 auto; }
+  .intro h2 { margin: 0 0 .35rem; font: 800 1.5rem Inter, sans-serif; letter-spacing: -.02em; }
+  .intro p { margin: 0; color: var(--muted); line-height: 1.5; }
+  .back { display: inline-block; margin-top: .5rem; font: 700 .78rem "IBM Plex Mono", ui-monospace, monospace; color: var(--forest); text-decoration: none; letter-spacing: .1em; text-transform: uppercase; }
+  .back:hover { color: var(--gold); }
+  .page-body { padding: 3rem clamp(1rem, 4vw, 4rem) 3rem; max-width: 1200px; margin: 0 auto; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: .35rem; padding: 2rem; box-shadow: 0 8px 20px rgb(30 35 30 / 7%); text-align: center; color: var(--muted); }
+
+  /* === Band treatment: HUD grid overlay === */
+  .site-header {
+    padding: 2rem clamp(1rem, 4vw, 4rem) 0;
+    color: #fff;
+    background:
+      linear-gradient(rgb(255 255 255 / 4%) 1px, transparent 1px) 0 0 / 32px 32px,
+      linear-gradient(90deg, rgb(255 255 255 / 4%) 1px, transparent 1px) 0 0 / 32px 32px,
+      radial-gradient(circle at 90% 20%, rgb(215 169 40 / 12%), transparent 40%),
+      var(--forest);
+    border-bottom: 5px solid var(--gold);
+    position: relative;
+  }
+  .site-header h1 {
+    margin: 0 0 1.5rem;
+    font-family: "Chakra Petch", Inter, sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -.005em;
+    font-size: clamp(1.7rem, 3.8vw, 2.6rem);
+    line-height: 1.05;
+  }
+
+  .tabs { display: flex; gap: .35rem; margin: 0; padding: 0; list-style: none; position: relative; z-index: 1; }
+  .tabs a {
+    display: inline-flex; align-items: center; gap: .5rem;
+    padding: .7rem 1.2rem .95rem;
+    border-radius: .5rem .5rem 0 0;
+    color: #d9e7de; text-decoration: none;
+    font: 700 .9rem Inter, sans-serif;
+    background: rgb(255 255 255 / 6%);
+    border: 1px solid transparent; border-bottom: 0;
+  }
+  .tabs a svg { width: 15px; height: 15px; opacity: .85; }
+  .tabs a.current {
+    background: var(--paper); color: var(--forest);
+    border-color: var(--gold);
+    box-shadow: 0 -3px 0 var(--gold) inset;
+    position: relative; z-index: 2;
+    margin-bottom: -5px; padding-bottom: calc(.95rem + 5px);
+  }
+</style>
+</head>
+<body>
+
+<div class="intro">
+  <h2>Band 2 — Tactical grid</h2>
+  <p>Faint 32px grid overlay + a soft gold glow in the top-right corner. Reads like a tactical HUD — pairs naturally with Chakra Petch's esports vibe.</p>
+  <a class="back" href="header-band-index.html">← back to band options</a>
+</div>
+
+<header class="site-header">
+  <h1>Chess Mini Game</h1>
+  <ul class="tabs">
+    <li><a><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 3 8l9 5 9-5-9-5zm0 7L3 15l9 5 9-5-9-5z"/></svg>Hanging trainer</a></li>
+    <li><a><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6 6.6.6-5 4.4 1.5 6.5L12 16.9l-6 3.6 1.5-6.5-5-4.4L9.1 8z"/></svg>Tactics</a></li>
+    <li><a class="current"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h6v6H4zm10 0h6v6h-6zM4 14h6v6H4zm10 0h6v6h-6z"/></svg>Mini game</a></li>
+    <li><a><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a3 3 0 0 0-2 5.2C8.8 8 8 9.2 8 10.5c0 1.1.6 2.1 1.5 2.7L8 21h8l-1.5-7.8A3.3 3.3 0 0 0 16 10.5c0-1.3-.8-2.5-2-3.3A3 3 0 0 0 12 2z"/></svg>Pawn war</a></li>
+  </ul>
+</header>
+<div class="page-body"><div class="card">Mini game content …</div></div>
+
+<header class="site-header">
+  <h1>Tactics Trainer</h1>
+  <ul class="tabs">
+    <li><a><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 3 8l9 5 9-5-9-5zm0 7L3 15l9 5 9-5-9-5z"/></svg>Hanging trainer</a></li>
+    <li><a class="current"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6 6.6.6-5 4.4 1.5 6.5L12 16.9l-6 3.6 1.5-6.5-5-4.4L9.1 8z"/></svg>Tactics</a></li>
+    <li><a><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h6v6H4zm10 0h6v6h-6zM4 14h6v6H4zm10 0h6v6h-6z"/></svg>Mini game</a></li>
+    <li><a><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a3 3 0 0 0-2 5.2C8.8 8 8 9.2 8 10.5c0 1.1.6 2.1 1.5 2.7L8 21h8l-1.5-7.8A3.3 3.3 0 0 0 16 10.5c0-1.3-.8-2.5-2-3.3A3 3 0 0 0 12 2z"/></svg>Pawn war</a></li>
+  </ul>
+</header>
+<div class="page-body"><div class="card">Tactics content …</div></div>
+
+</body>
+</html>

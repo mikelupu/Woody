@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Nav — Tab pattern options</title>
+<style>
+  :root {
+    --ink: #18201b;
+    --muted: #667069;
+    --paper: #f4f1e8;
+    --panel: #fffdf7;
+    --line: #d5d0c3;
+    --forest: #234b3a;
+    --forest-bright: #2d6a4f;
+    --gold: #d7a928;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    color: var(--ink);
+    background: radial-gradient(circle at 10% 0%, rgb(215 169 40 / 10%), transparent 30rem), var(--paper);
+    min-height: 100vh;
+  }
+  header {
+    padding: 3rem clamp(1rem, 4vw, 4rem) 1.5rem;
+    color: #fff;
+    background: var(--forest);
+    border-bottom: 5px solid var(--gold);
+  }
+  header h1 { margin: 0 0 .35rem; font: 800 clamp(1.6rem, 3.6vw, 2.4rem) Inter, sans-serif; letter-spacing: -.02em; }
+  header p { margin: 0; color: #d9e7de; max-width: 46rem; line-height: 1.5; }
+  main { width: min(1180px, calc(100% - 2rem)); margin: 2.5rem auto 4rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; }
+  .card {
+    display: flex; flex-direction: column; gap: .55rem;
+    padding: 1.35rem 1.5rem 1.5rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: .5rem;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 8px 20px rgb(30 35 30 / 7%);
+    transition: transform 120ms ease, box-shadow 120ms ease;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgb(30 35 30 / 14%); }
+  .num { font: 800 .68rem "IBM Plex Mono", ui-monospace, monospace; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+  .title { margin: 0; font: 800 1.25rem Georgia, serif; color: var(--forest); }
+  .desc { margin: 0; color: var(--ink); font-size: .92rem; line-height: 1.5; }
+  .tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .4rem; }
+  .tag { padding: .22rem .6rem; border-radius: 999px; background: rgb(45 106 79 / 12%); color: var(--forest); font: 700 .68rem "IBM Plex Mono", ui-monospace, monospace; letter-spacing: .04em; }
+  .tag.warn { background: rgb(215 169 40 / 20%); color: #7d5e00; }
+  .tag.good { background: rgb(45 106 79 / 18%); color: var(--forest); }
+  .note { margin-top: 2rem; padding: 1rem 1.25rem; border-left: 4px solid var(--gold); background: #f7f1dd; border-radius: .3rem; font-size: .92rem; line-height: 1.5; }
+  .problem { margin-top: 1.5rem; padding: 1rem 1.25rem; border-left: 4px solid #a33a32; background: rgb(163 58 50 / 6%); border-radius: .3rem; font-size: .92rem; line-height: 1.5; }
+  .problem strong { color: #7a2822; }
+
+  /* mini preview thumbs so index shows the visual difference at a glance */
+  .thumb {
+    height: 76px;
+    background: var(--forest);
+    border-radius: .3rem;
+    padding: .55rem .8rem 0;
+    display: flex;
+    align-items: end;
+    gap: .55rem;
+    color: #d9e7de;
+    font: 700 .7rem Inter, sans-serif;
+    border-bottom: 3px solid var(--gold);
+    overflow: hidden;
+  }
+  /* underlined */
+  .thumb.underlined a { padding-bottom: .55rem; position: relative; }
+  .thumb.underlined a.current { color: var(--gold); }
+  .thumb.underlined a.current::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -3px; height: 3px; background: var(--gold);
+  }
+  /* underlined + icons */
+  .thumb.icons a { padding-bottom: .55rem; position: relative; display: inline-flex; align-items: center; gap: .3rem; }
+  .thumb.icons a .dot { width: 8px; height: 8px; border-radius: 2px; background: currentColor; opacity: .8; }
+  .thumb.icons a.current { color: var(--gold); }
+  .thumb.icons a.current::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -3px; height: 3px; background: var(--gold);
+  }
+  /* folder */
+  .thumb.folder { align-items: flex-end; }
+  .thumb.folder a {
+    padding: .35rem .55rem .5rem; background: rgb(255 255 255 / 8%);
+    border-radius: .3rem .3rem 0 0;
+  }
+  .thumb.folder a.current {
+    background: var(--paper); color: var(--forest);
+    border: 1px solid var(--gold); border-bottom: 0;
+    margin-bottom: -3px; padding-bottom: calc(.5rem + 3px);
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Nav — Tab pattern options</h1>
+    <p>Three tab-based alternatives to the current gold pill nav. Each mockup shows the header on two different pages so you can see how the active state looks in context.</p>
+  </header>
+
+  <main>
+
+    <div class="problem">
+      <strong>Current issue:</strong> the solid gold pill nav pulls too much visual weight — it fights the page title, feels 2010s-bootstrap-y, and doesn't scale gracefully on narrow widths.
+    </div>
+
+    <div class="grid" style="margin-top: 2rem;">
+
+      <a class="card" href="nav-tabs-1-underlined.html">
+        <span class="num">Tabs 01</span>
+        <h2 class="title">Underlined (minimal)</h2>
+        <div class="thumb underlined">
+          <a>Trainer</a><a>Tactics</a><a class="current">Mini game</a><a>Pawn</a>
+        </div>
+        <p class="desc">Flat text labels; 5px gold underline for the active tab meets the header stripe. Zero shapes, zero icons — max quiet.</p>
+        <div class="tags"><span class="tag good">Minimal</span><span class="tag good">Title dominant</span></div>
+      </a>
+
+      <a class="card" href="nav-tabs-2-icon-underlined.html">
+        <span class="num">Tabs 02</span>
+        <h2 class="title">Underlined + icons</h2>
+        <div class="thumb icons">
+          <a><span class="dot"></span>Trainer</a><a><span class="dot"></span>Tactics</a><a class="current"><span class="dot"></span>Mini game</a><a><span class="dot"></span>Pawn</a>
+        </div>
+        <p class="desc">Same underline pattern with a small icon beside each label. Keeps the recognizability of the pill nav, drops the shapes and gold fills.</p>
+        <div class="tags"><span class="tag good">Familiar</span><span class="tag">Icons kept</span></div>
+      </a>
+
+      <a class="card" href="nav-tabs-3-folder.html">
+        <span class="num">Tabs 03</span>
+        <h2 class="title">Folder tabs</h2>
+        <div class="thumb folder">
+          <a>Trainer</a><a>Tactics</a><a class="current">Mini game</a><a>Pawn</a>
+        </div>
+        <p class="desc">Classic folder-style tabs. Active tab docks into the paper body below (matching color), connecting visually. Chunky and unambiguous.</p>
+        <div class="tags"><span class="tag good">Explicit</span><span class="tag warn">Chunkier</span></div>
+      </a>
+
+    </div>
+
+    <div class="note">
+      All three fix the "too much gold" problem the current pill nav has. Open each mockup to see two pages (Mini game + Tactics) rendered with the pattern so you can judge the active state in real context.
+    </div>
+  </main>
+</body>
+</html>
