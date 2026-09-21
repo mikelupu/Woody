@@ -124,11 +124,26 @@
                 <dt>Rating</dt>
                 <dd id="detail-rating" class="detail-rating">—</dd>
               </div>
+              <div id="opening-row" hidden>
+                <dt>Opening</dt>
+                <dd id="detail-opening" class="detail-opening">—</dd>
+              </div>
+              <div id="themes-row" hidden>
+                <dt>Themes</dt>
+                <dd><div id="theme-chips" class="theme-chips-row"></div></dd>
+              </div>
             </dl>
-            <button id="show-answer" class="show-answer-btn" type="button" disabled>
-              <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7Zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg>
-              Show answer
-            </button>
+            <div id="hint-chips" class="hint-chips-row" hidden></div>
+            <div class="answer-actions">
+              <button id="hint-btn" class="hint-btn" type="button" disabled>
+                <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M9 21h6v-1H9v1Zm3-19a7 7 0 0 0-4 12.7V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.3A7 7 0 0 0 12 2Z"/></svg>
+                <span id="hint-label">Hint</span>
+              </button>
+              <button id="show-answer" class="show-answer-btn" type="button" disabled>
+                <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7Zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg>
+                Show answer
+              </button>
+            </div>
           </section>
           <div id="moves-panel"></div>
           <section id="feedback" class="feedback" tabindex="-1" hidden>

@@ -30,6 +30,9 @@ const state = {
   locked: false,
   completed: false,
   wrongMoves: 0,
+  hintsUsed: 0,
+  pieceHint: false,
+  pieceHintSquare: null,
   // Review support: when reviewingIndex is not null, we're showing a completed
   // puzzle from earlier in the current batch. liveIndex is the index of the
   // puzzle we're actually playing (or just completed) — Prev/Next navigate
@@ -50,6 +53,13 @@ const settingsOpenBtn = document.querySelector("#settings-open");
 const showRatingInput = document.querySelector("#setting-show-rating");
 const showMaxPointsInput = document.querySelector("#setting-show-max-points");
 const showAnswerBtn = document.querySelector("#show-answer");
+const hintBtn = document.querySelector("#hint-btn");
+const hintLabelEl = document.querySelector("#hint-label");
+const hintChipsEl = document.querySelector("#hint-chips");
+const themeChipsEl = document.querySelector("#theme-chips");
+const themesRow = document.querySelector("#themes-row");
+const openingRow = document.querySelector("#opening-row");
+const openingEl = document.querySelector("#detail-opening");
 const movesPanelEl = document.querySelector("#moves-panel");
 let panel = null;
 
@@ -152,6 +162,7 @@ function renderBoard() {
     if (state.lastMove && (state.lastMove.from === square || state.lastMove.to === square)) {
       button.classList.add("last-move");
     }
+    if (state.pieceHintSquare === square) button.classList.add("piece-hint");
     button.disabled = state.locked;
     button.addEventListener("click", () => handleSquareClick(square));
     button.addEventListener("keydown", navigateBoard);
@@ -347,6 +358,10 @@ function completePuzzle(data) {
   const ratingRow = document.querySelector("#rating-row");
   if (ratingRow) ratingRow.hidden = false;
   showAnswerBtn.disabled = true;
+  clearPieceHint();
+  updateHintButton();
+  renderThemeChips(data.themes ?? state.puzzle?.themes ?? []);
+  renderOpening(data.opening ?? state.puzzle?.opening ?? null);
   if (state.puzzle && data.rating != null) state.puzzle.rating = data.rating;
   populatePanelFromCompletion(data);
   nextBtn.disabled = false;
@@ -462,7 +477,15 @@ async function loadPuzzle() {
   state.selected = null;
   state.lastMove = null;
   state.wrongMoves = 0;
+  state.hintsUsed = 0;
+  state.pieceHint = false;
+  state.pieceHintSquare = null;
   document.querySelector("#feedback").hidden = true;
+  if (themesRow) themesRow.hidden = true;
+  if (openingRow) openingRow.hidden = true;
+  if (hintChipsEl) { hintChipsEl.replaceChildren(); hintChipsEl.hidden = true; }
+  if (themeChipsEl) themeChipsEl.replaceChildren();
+  if (hintBtn) { hintBtn.disabled = true; if (hintLabelEl) hintLabelEl.textContent = "Hint"; }
   resetBookmarkUi();
   statusEl.textContent = "Loading puzzle…";
   if (IS_BOOKMARK_REVIEW) {
@@ -517,6 +540,7 @@ async function loadPuzzle() {
     }
     state.locked = false;
     showAnswerBtn.disabled = false;
+    updateHintButton();
     updateNavButtons();
     statusEl.textContent = "Your move — click one of your pieces.";
     if (panel) {
@@ -580,7 +604,110 @@ function populatePanelFromCompletion(data) {
   }
 }
 
+async function requestHint() {
+  if (!state.sessionId || state.completed || IS_PREVIEW) return;
+  hintBtn.disabled = true;
+  try {
+    const themesLen = (state.puzzle?.themes || []).length;
+    const type = state.hintsUsed < themesLen ? "theme" : "piece";
+    const response = await fetch(`${API_BASE}/hint`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ session_id: state.sessionId, type }),
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      statusEl.textContent = data.error?.message ?? "Could not fetch hint.";
+      updateHintButton();
+      return;
+    }
+    state.hintsUsed = data.hints_used;
+    state.pieceHint = data.piece_hint;
+    state.pieceHintSquare = data.piece_square || null;
+    renderHintChips();
+    if (state.pieceHint) renderBoard();
+  } catch (error) {
+    statusEl.textContent = `Hint error: ${error.message}`;
+  } finally {
+    updateHintButton();
+  }
+}
+
+function clearPieceHint() {
+  state.pieceHintSquare = null;
+  boardEl.querySelectorAll(".square.piece-hint").forEach((el) => el.classList.remove("piece-hint"));
+}
+
+function updateHintButton() {
+  if (!hintBtn) return;
+  const themes = state.puzzle?.themes || [];
+  const themesLeft = themes.length - state.hintsUsed;
+  if (!state.sessionId || state.completed || IS_PREVIEW) {
+    hintBtn.disabled = true;
+    if (hintLabelEl) hintLabelEl.textContent = "Hint";
+    return;
+  }
+  if (themesLeft > 0) {
+    hintBtn.disabled = false;
+    if (hintLabelEl) hintLabelEl.textContent = `Hint · ${themesLeft}`;
+  } else if (!state.pieceHint) {
+    hintBtn.disabled = false;
+    if (hintLabelEl) hintLabelEl.textContent = "Show piece";
+  } else {
+    hintBtn.disabled = true;
+    if (hintLabelEl) hintLabelEl.textContent = "No hints";
+  }
+}
+
+function renderHintChips() {
+  if (!hintChipsEl) return;
+  hintChipsEl.replaceChildren();
+  const themes = state.puzzle?.themes || [];
+  const revealed = Math.min(state.hintsUsed, themes.length);
+  if (!revealed) { hintChipsEl.hidden = true; return; }
+  for (let i = 0; i < revealed; i += 1) {
+    const chip = document.createElement("span");
+    chip.className = "hint-chip";
+    chip.innerHTML =
+      '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 21h6v-1H9v1Zm3-19a7 7 0 0 0-4 12.7V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.3A7 7 0 0 0 12 2Z"/></svg>' +
+      `<span>${escapeHtml(themes[i])}</span>`;
+    hintChipsEl.append(chip);
+  }
+  hintChipsEl.hidden = false;
+}
+
+function renderThemeChips(themes) {
+  if (!themeChipsEl || !themesRow) return;
+  themeChipsEl.replaceChildren();
+  const list = Array.isArray(themes) ? themes : [];
+  if (!list.length) { themesRow.hidden = true; return; }
+  list.forEach((theme, index) => {
+    const chip = document.createElement("span");
+    chip.className = "chip theme" + (index < state.hintsUsed ? " used" : "");
+    chip.textContent = theme;
+    themeChipsEl.append(chip);
+  });
+  themesRow.hidden = false;
+}
+
+function renderOpening(opening) {
+  if (!openingRow || !openingEl) return;
+  if (opening) {
+    openingEl.textContent = opening;
+    openingRow.hidden = false;
+  } else {
+    openingRow.hidden = true;
+  }
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) => (
+    { "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[c]
+  ));
+}
+
 showAnswerBtn.addEventListener("click", revealAnswer);
+if (hintBtn) hintBtn.addEventListener("click", requestHint);
 
 function updateBatchCounter() {
   const cell = document.querySelector("#batch-position")?.parentElement?.parentElement;
