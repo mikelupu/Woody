@@ -7,7 +7,8 @@ const startingPairs = ["RQ", "RN", "NB", "BQ", "NQ"];
 const spawnKinds = ["N", "B", "R", "Q"];
 const FILES = "abcdefgh";
 const BLACK_MOVE_DELAY_MS = 450;
-const BEST_KEY = "minigame_best";
+const BEST_KEY = "minigame_best_net";
+try { localStorage.removeItem("minigame_best"); } catch (e) {}
 
 const state = {
   pieces: new Map(),
@@ -29,6 +30,10 @@ const timerEl = document.querySelector("#timer");
 const scoreWhiteEl = document.querySelector("#score-white");
 const scoreBlackEl = document.querySelector("#score-black");
 const bestScoreEl = document.querySelector("#best-score");
+const resultDialog = document.querySelector("#result-dialog");
+const resultScoreEl = document.querySelector("#result-score");
+const resultBestEl = document.querySelector("#result-best");
+const resultMessageEl = document.querySelector("#result-message");
 const startBtn = document.querySelector("#start");
 const durationEl = document.querySelector("#duration");
 const extraPieceIntervalEl = document.querySelector("#extra-piece-interval");
@@ -163,15 +168,37 @@ function endGame() {
   clearTimeout(state.aiTimeoutId);
   state.selected = null;
   state.legalTargets = [];
-  const prevBest = Number(localStorage.getItem(BEST_KEY) || 0);
-  const best = Math.max(prevBest, state.scores.w);
+  const net = state.scores.w - state.scores.b;
+  const prevBest = readBest();
+  const best = prevBest === null ? net : Math.max(prevBest, net);
   localStorage.setItem(BEST_KEY, String(best));
-  bestScoreEl.textContent = best;
-  const improved = state.scores.w > prevBest;
+  bestScoreEl.textContent = formatNet(best);
+  const improved = prevBest === null || net > prevBest;
   statusEl.textContent = improved
-    ? `Time up. Final white score ${state.scores.w} — new best!`
-    : `Time up. Final white score ${state.scores.w}. Best remains ${best}.`;
+    ? `Time up. Final score ${formatNet(net)} — new best!`
+    : `Time up. Final score ${formatNet(net)}. Best remains ${formatNet(best)}.`;
   render();
+  showResultDialog(net, best, improved);
+}
+
+function formatNet(n) { return n > 0 ? `+${n}` : `${n}`; }
+
+function readBest() {
+  const raw = localStorage.getItem(BEST_KEY);
+  if (raw === null || raw === "") return null;
+  const n = Number(raw);
+  return Number.isFinite(n) ? n : null;
+}
+
+function showResultDialog(net, best, improved) {
+  if (!resultDialog) return;
+  resultScoreEl.textContent = formatNet(net);
+  resultBestEl.textContent = formatNet(best);
+  resultMessageEl.textContent = improved
+    ? "New personal best! Score = White captures − Black captures."
+    : "Score = White captures − Black captures.";
+  if (typeof resultDialog.showModal === "function") resultDialog.showModal();
+  else resultDialog.setAttribute("open", "");
 }
 
 function applyMove(from, to) {
@@ -235,6 +262,18 @@ function handleSquareClick(sq) {
   render();
 }
 
+function moveHangsToWhite(move) {
+  const scratch = new Map(state.pieces);
+  const piece = scratch.get(move.from);
+  scratch.delete(move.from);
+  scratch.set(move.to, piece);
+  for (const [from, symbol] of scratch) {
+    if (!isWhite(symbol)) continue;
+    if (legalMoves(scratch, from, symbol).includes(move.to)) return true;
+  }
+  return false;
+}
+
 function scheduleBlackMove() {
   statusEl.textContent = "Black is thinking…";
   state.aiTimeoutId = setTimeout(doBlackMove, BLACK_MOVE_DELAY_MS);
@@ -251,7 +290,9 @@ function doBlackMove() {
     return;
   }
   const best = Math.max(...options.map((o) => o.value));
-  const chosen = pick(options.filter((o) => o.value === best));
+  const tied = options.filter((o) => o.value === best);
+  const safe = tied.filter((o) => !moveHangsToWhite(o));
+  const chosen = pick(safe.length ? safe : tied);
   const captured = state.pieces.get(chosen.to);
   applyMove(chosen.from, chosen.to);
   const capturedText = captured
@@ -324,6 +365,7 @@ function showConfiguredTime() {
   timerEl.textContent = `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, "0")}`;
 }
 
-bestScoreEl.textContent = Number(localStorage.getItem(BEST_KEY) || 0);
+const initialBest = readBest();
+bestScoreEl.textContent = initialBest === null ? "—" : formatNet(initialBest);
 showConfiguredTime();
 render();
