@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mobile Design 5 — Rally Mode</title>
+<style>
+  :root {
+    --ink: #18201b;
+    --muted: #667069;
+    --paper: #f4f1e8;
+    --panel: #fffdf7;
+    --line: #d5d0c3;
+    --forest: #234b3a;
+    --forest-bright: #2d6a4f;
+    --gold: #d7a928;
+    --light-square: #e9dfca;
+    --dark-square: #66806b;
+    --danger: #a33a32;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at 10% 0%, rgb(215 169 40 / 10%), transparent 30rem),
+      var(--paper);
+    min-height: 100vh;
+  }
+  .page { display: flex; flex-direction: column; align-items: center; padding: 3rem 1rem 4rem; gap: 1.75rem; }
+  .caption { max-width: 34rem; text-align: center; }
+  .caption h1 { margin: 0 0 .35rem; font: 800 1.6rem Inter, sans-serif; letter-spacing: -.02em; }
+  .caption .sub { margin: 0; color: var(--muted); font-size: .95rem; line-height: 1.45; }
+  .frames { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; }
+  .frame-wrap { display: flex; flex-direction: column; align-items: center; gap: .65rem; }
+  .frame-label { font: 700 .72rem "IBM Plex Mono", ui-monospace, monospace; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .phone { width: 390px; height: 780px; border-radius: 46px; padding: 12px; background: #1a1f1c; box-shadow: 0 30px 60px rgb(30 35 30 / 25%); }
+  .screen { position: relative; width: 100%; height: 100%; border-radius: 34px; overflow: hidden; background: var(--paper); display: flex; flex-direction: column; }
+
+  /* Progress ribbon */
+  .ribbon {
+    height: 40px;
+    padding: 0 .95rem;
+    background: var(--forest);
+    color: #fff;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 3px solid var(--gold);
+  }
+  .dots { display: inline-flex; gap: .4rem; align-items: center; }
+  .dots .d { width: 12px; height: 12px; border-radius: 50%; border: 2px solid rgb(255 255 255 / 40%); background: transparent; }
+  .dots .d.ok { background: #4ea86f; border-color: #4ea86f; box-shadow: 0 0 0 2px rgb(78 168 111 / 25%); }
+  .dots .d.miss { background: var(--danger); border-color: var(--danger); }
+  .dots .d.now { border-color: var(--gold); background: rgb(215 169 40 / 20%); box-shadow: 0 0 0 3px rgb(215 169 40 / 30%); }
+  .streak { display: inline-flex; align-items: center; gap: .3rem; font: 800 .8rem "IBM Plex Mono", ui-monospace, monospace; }
+  .streak .flame { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--gold); color: #1b1200; font: 900 .68rem sans-serif; }
+
+  /* Score hero */
+  .hero {
+    padding: .9rem 1rem .6rem;
+    display: flex; align-items: baseline; justify-content: space-between;
+    background: linear-gradient(180deg, rgb(215 169 40 / 12%), transparent);
+  }
+  .hero .big { font: 800 2.6rem Georgia, serif; color: var(--forest-bright); letter-spacing: -.03em; line-height: 1; }
+  .hero .big .plus { color: var(--gold); }
+  .hero .lbl { display: block; margin-top: .1rem; font: 800 .62rem "IBM Plex Mono", ui-monospace, monospace; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+  .hero .rating { display: inline-flex; align-items: center; gap: .3rem; padding: .35rem .65rem; border-radius: 999px; background: #fff; border: 1px solid var(--line); font: 800 .85rem "IBM Plex Mono", ui-monospace, monospace; color: var(--forest); }
+
+  /* Board with glowing border */
+  .board-wrap { padding: .3rem .5rem; }
+  .board {
+    width: 100%; aspect-ratio: 1;
+    display: grid; grid-template-columns: repeat(8, 1fr);
+    border: 5px solid var(--gold);
+    border-radius: .35rem;
+    box-shadow: 0 0 0 3px rgb(215 169 40 / 20%), 0 10px 24px rgb(30 35 30 / 15%);
+    overflow: hidden;
+  }
+  .board.win {
+    border-color: #4ea86f;
+    box-shadow: 0 0 0 3px rgb(78 168 111 / 25%), 0 10px 30px rgb(78 168 111 / 30%);
+  }
+  .sq { position: relative; display: grid; place-items: center; font: 400 2.1rem "Arial Unicode MS", "Segoe UI Symbol", sans-serif; line-height: 1; }
+  .sq.light { background: var(--light-square); }
+  .sq.dark { background: var(--dark-square); }
+  .sq .p.b { color: #101010; }
+  .sq .p.w { color: #fffdf5; text-shadow: 0 1px 0 rgb(0 0 0 / 60%), 0 0 1px rgb(0 0 0 / 80%); }
+  .sq[data-file]::after { content: attr(data-file); position: absolute; right: 3px; bottom: 1px; font: 700 9px sans-serif; opacity: .65; }
+  .sq[data-rank]::before { content: attr(data-rank); position: absolute; left: 3px; top: 1px; font: 700 9px sans-serif; opacity: .65; }
+  .sq.selected { outline: 4px solid var(--gold); outline-offset: -5px; z-index: 2; }
+  .sq.capture .ring { position: absolute; inset: 0; background: radial-gradient(circle, transparent 0 44%, rgb(163 58 50 / 60%) 46% 55%, transparent 57%); pointer-events: none; }
+  .sq.last { box-shadow: inset 0 0 0 4px rgb(215 169 40 / 65%); }
+
+  /* Reactive action bar */
+  .rally-bar {
+    display: flex; align-items: center; gap: .5rem;
+    padding: .7rem .65rem calc(.7rem + env(safe-area-inset-bottom, 0px));
+    background: var(--panel);
+    border-top: 1px solid var(--line);
+  }
+  .rally-bar .back {
+    width: 46px; height: 46px;
+    display: grid; place-items: center;
+    border: 1px solid var(--line); border-radius: .55rem; background: #fff;
+  }
+  .rally-bar .back svg { width: 18px; height: 18px; }
+  .rally-bar .main {
+    flex: 1;
+    min-height: 54px;
+    display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+    border-radius: .55rem;
+    background: #fff; border: 1px solid var(--line); color: var(--ink);
+    font: 700 1rem Inter, sans-serif;
+  }
+  .rally-bar .main.hero-btn {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #1b1200;
+    font-size: 1.1rem;
+    box-shadow: 0 6px 16px rgb(215 169 40 / 40%);
+  }
+  .rally-bar .main svg { width: 18px; height: 18px; }
+  .rally-bar .pts {
+    display: inline-flex; align-items: center; gap: .3rem;
+    padding: .35rem .6rem;
+    border-radius: 999px;
+    background: rgb(24 121 78 / 12%);
+    color: #18794e;
+    font: 800 .85rem "IBM Plex Mono", ui-monospace, monospace;
+  }
+
+  /* Batch complete card */
+  .celebrate {
+    position: absolute; inset: 0;
+    background: rgb(24 32 27 / 55%);
+    display: grid; place-items: center;
+    padding: 1.5rem;
+  }
+  .celebrate .card {
+    background: var(--panel);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 24px 60px rgb(0 0 0 / 40%);
+    text-align: center;
+    width: 100%;
+  }
+  .celebrate .stars { font: 800 3.6rem Georgia, serif; color: var(--gold); line-height: 1; }
+  .celebrate .plus { margin: .35rem 0 .1rem; font: 800 3rem Georgia, serif; color: var(--forest-bright); }
+  .celebrate .plus .accent { color: var(--gold); }
+  .celebrate .lbl { font: 800 .68rem "IBM Plex Mono", ui-monospace, monospace; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+  .celebrate .row { display: flex; justify-content: space-around; margin: 1rem 0; }
+  .celebrate .row .stat .n { display: block; font: 800 1.4rem "IBM Plex Mono", ui-monospace, monospace; color: var(--forest); }
+  .celebrate .row .stat .k { font: 700 .68rem Inter, sans-serif; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; }
+  .celebrate .next {
+    display: block; width: 100%; margin-top: 1rem;
+    padding: .95rem 1rem;
+    border-radius: .55rem;
+    background: var(--forest-bright);
+    color: #fff;
+    font: 800 1rem Inter, sans-serif;
+    border: 0;
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="caption">
+      <h1>Design 5 — Rally Mode</h1>
+      <p class="sub">Engagement-first. Batch progress dots and streak counter are always visible. The board glows gold on idle, green on win. Batch complete is a full celebration takeover.</p>
+    </div>
+
+    <div class="frames">
+
+      <!-- Solving -->
+      <div class="frame-wrap">
+        <div class="frame-label">Mid-batch · solving</div>
+        <div class="phone"><div class="screen">
+          <div class="ribbon">
+            <div class="dots">
+              <span class="d ok"></span>
+              <span class="d ok"></span>
+              <span class="d now"></span>
+              <span class="d"></span>
+              <span class="d"></span>
+            </div>
+            <div class="streak"><span class="flame">3</span> streak</div>
+          </div>
+
+          <div class="hero">
+            <div>
+              <div class="big"><span class="plus">+</span>27</div>
+              <span class="lbl">earned this batch</span>
+            </div>
+            <div class="rating">★ 1620</div>
+          </div>
+
+          <div class="board-wrap">
+            <div class="board">
+              <div class="sq light" data-rank="8"><span class="p b">♜</span></div><div class="sq dark"></div><div class="sq light"></div><div class="sq dark"><span class="p b">♛</span></div><div class="sq light"></div><div class="sq dark"><span class="p b">♜</span></div><div class="sq light"><span class="p b">♚</span></div><div class="sq dark"></div>
+              <div class="sq dark" data-rank="7"><span class="p b">♟</span></div><div class="sq light"><span class="p b">♟</span></div><div class="sq dark"><span class="p b">♟</span></div><div class="sq light"></div><div class="sq dark"></div><div class="sq light"><span class="p b">♟</span></div><div class="sq dark"><span class="p b">♟</span></div><div class="sq light"><span class="p b">♟</span></div>
+              <div class="sq light" data-rank="6"></div><div class="sq dark"></div><div class="sq light"><span class="p b">♞</span></div><div class="sq dark"></div><div class="sq light"></div><div class="sq dark"></div><div class="sq light"></div><div class="sq dark"></div>
+              <div class="sq dark" data-rank="5"></div><div class="sq light"></div><div class="sq dark capture"><span class="ring"></span><span class="p b">♝</span></div><div class="sq light"></div><div class="sq dark"><span class="p b">♟</span></div><div class="sq light"></div><div class="sq dark"></div><div class="sq light"></div>
+              <div class="sq light" data-rank="4"></div><div class="sq dark"></div><div class="sq light"><span class="p w">♗</span></div><div class="sq dark"></div><div class="sq light selected"><span class="p w">♙</span></div><div class="sq dark"></div><div class="sq light"></div><div class="sq dark"></div>
+              <div class="sq dark" data-rank="3"></div><div class="sq light"></div><div class="sq dark"><span class="p w">♘</span></div><div class="sq light"></div><div class="sq dark"></div><div class="sq light"></div><div class="sq dark"></div><div class="sq light"></div>
+              <div class="sq light" data-rank="2"><span class="p w">♙</span></div><div class="sq dark"><span class="p w">♙</span></div><div class="sq light"><span class="p w">♙</span></div><div class="sq dark"></div><div class="sq light"></div><div class="sq dark"><span class="p w">♙</span></div><div class="sq light"><span class="p w">♙</span></div><div class="sq dark"><span class="p w">♙</span></div>
+              <div class="sq dark" data-rank="1" data-file="a"><span class="p w">♖</span></div><div class="sq light" data-file="b"></div><div class="sq dark" data-file="c"></div><div class="sq light" data-file="d"><span class="p w">♕</span></div><div class="sq dark" data-file="e"></div><div class="sq light" data-file="f"><span class="p w">♖</span></div><div class="sq dark" data-file="g"><span class="p w">♔</span></div><div class="sq light" data-file="h"></div>
+            </div>
+          </div>
+
+          <div class="rally-bar">
+            <button class="back"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M15 6l-6 6 6 6"/></svg></button>
+            <button class="main">
+              <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7Zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg>
+              Show answer
+            </button>
+          </div>
+        </div></div>
+      </div>
+
+      <!-- Batch complete -->
+      <div class="frame-wrap">
+        <div class="frame-label">Batch complete</div>
+        <div class="phone"><div class="screen">
+          <div class="ribbon">
+            <div class="dots">
+              <span class="d ok"></span><span class="d ok"></span><span class="d ok"></span>
+              <span class="d miss"></span><span class="d ok"></span>
+            </div>
+            <div class="streak"><span class="flame">4</span> streak</div>
+          </div>
+
+          <div class="hero">
+            <div>
+              <div class="big"><span class="plus">+</span>45</div>
+              <span class="lbl">earned this batch</span>
+            </div>
+            <div class="rating">★ 1620</div>
+          </div>
+
+          <div class="board-wrap">
+            <div class="board win">
+              <div class="sq light" data-rank="8"><span class="p b">♜</span></div><div class="sq dark"></div><div class="sq light"></div><div class="sq dark"><span class="p b">♛</span></div><div class="sq light"></div><div class="sq dark"><span class="p b">♜</span></div><div class="sq light"><span class="p b">♚</span></div><div class="sq dark"></div>
+              <div class="sq dark" data-rank="7"><span class="p b">♟</span></div><div class="sq light"><span class="p b">♟</span></div><div class="sq dark"><span class="p b">♟</span></div><div class="sq light"></div><div class="sq dark"></div><div class="sq light"><span class="p b">♟</span></div><div class="sq dark"><span class="p b">♟</span></div><div class="sq light"><span class="p b">♟</span></div>
+              <div class="sq light" data-rank="6"></div><div class="sq dark"></div><div class="sq light"><span class="p b">♞</span></div><div class="sq dark"></div><div class="sq light"></div><div class="sq dark"></div><div class="sq light"></div><div class="sq dark"></div>
+              <div class="sq dark" data-rank="5"></div><div class="sq light"></div><div class="sq dark last"><span class="p w">♙</span></div><div class="sq light"></div><div class="sq dark"><span class="p b">♟</span></div><div class="sq light"></div><div class="sq dark"></div><div class="sq light"></div>
+              <div class="sq light" data-rank="4"></div><div class="sq dark"></div><div class="sq light"><span class="p w">♗</span></div><div class="sq dark"></div><div class="sq light last"></div><div class="sq dark"></div><div class="sq light"></div><div class="sq dark"></div>
+              <div class="sq dark" data-rank="3"></div><div class="sq light"></div><div class="sq dark"><span class="p w">♘</span></div><div class="sq light"></div><div class="sq dark"></div><div class="sq light"></div><div class="sq dark"></div><div class="sq light"></div>
+              <div class="sq light" data-rank="2"><span class="p w">♙</span></div><div class="sq dark"><span class="p w">♙</span></div><div class="sq light"><span class="p w">♙</span></div><div class="sq dark"></div><div class="sq light"></div><div class="sq dark"><span class="p w">♙</span></div><div class="sq light"><span class="p w">♙</span></div><div class="sq dark"><span class="p w">♙</span></div>
+              <div class="sq dark" data-rank="1" data-file="a"><span class="p w">♖</span></div><div class="sq light" data-file="b"></div><div class="sq dark" data-file="c"></div><div class="sq light" data-file="d"><span class="p w">♕</span></div><div class="sq dark" data-file="e"></div><div class="sq light" data-file="f"><span class="p w">♖</span></div><div class="sq dark" data-file="g"><span class="p w">♔</span></div><div class="sq light" data-file="h"></div>
+            </div>
+          </div>
+
+          <div class="rally-bar">
+            <button class="back"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M15 6l-6 6 6 6"/></svg></button>
+            <button class="main hero-btn">
+              Next puzzle
+              <svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 6l6 6-6 6"/></svg>
+            </button>
+            <span class="pts">+9</span>
+          </div>
+
+          <div class="celebrate">
+            <div class="card">
+              <div class="stars">★★★★☆</div>
+              <div class="plus"><span class="accent">+</span>45</div>
+              <div class="lbl">Batch complete</div>
+              <div class="row">
+                <div class="stat"><span class="n">4/5</span><span class="k">solved</span></div>
+                <div class="stat"><span class="n">3</span><span class="k">streak</span></div>
+                <div class="stat"><span class="n">90%</span><span class="k">accuracy</span></div>
+              </div>
+              <button class="next">Next batch ▶</button>
+            </div>
+          </div>
+        </div></div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>

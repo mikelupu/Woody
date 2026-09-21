@@ -1,0 +1,774 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tactics mobile — interactive combined mockup</title>
+<style>
+  :root {
+    --ink: #18201b;
+    --muted: #667069;
+    --paper: #f4f1e8;
+    --panel: #fffdf7;
+    --line: #d5d0c3;
+    --forest: #234b3a;
+    --forest-bright: #2d6a4f;
+    --gold: #d7a928;
+    --light-square: #e9dfca;
+    --dark-square: #66806b;
+    --danger: #a33a32;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at 10% 0%, rgb(215 169 40 / 10%), transparent 30rem),
+      var(--paper);
+    min-height: 100vh;
+  }
+  .page {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 2.5rem 1rem 4rem; gap: 1.5rem;
+  }
+  .caption { max-width: 36rem; text-align: center; }
+  .caption h1 { margin: 0 0 .35rem; font: 800 1.6rem Inter, sans-serif; letter-spacing: -.02em; }
+  .caption .sub { margin: 0; color: var(--muted); font-size: .95rem; line-height: 1.45; }
+
+  /* demo controls under the phone */
+  .demo-bar {
+    display: inline-flex; gap: .5rem; flex-wrap: wrap; justify-content: center;
+    padding: .75rem 1rem;
+    border-radius: .55rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    box-shadow: 0 8px 20px rgb(30 35 30 / 7%);
+  }
+  .demo-bar .lbl { font: 800 .68rem "IBM Plex Mono", ui-monospace, monospace; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); align-self: center; margin-right: .35rem; }
+  .demo-bar button {
+    padding: .45rem .8rem;
+    border: 1px solid var(--line);
+    border-radius: .35rem;
+    background: #fff;
+    color: var(--ink);
+    font: 700 .82rem Inter, sans-serif;
+    cursor: pointer;
+  }
+  .demo-bar button:hover { background: var(--light-square); }
+
+  .phone {
+    width: 390px;
+    height: 780px;
+    border-radius: 46px;
+    padding: 12px;
+    background: #1a1f1c;
+    box-shadow: 0 30px 60px rgb(30 35 30 / 25%), inset 0 0 0 2px rgb(255 255 255 / 5%);
+    flex: none;
+  }
+  .screen {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 34px;
+    overflow: hidden;
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* top bar (from Design 1) */
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+    height: 52px;
+    padding: 0 .85rem;
+    background: var(--forest);
+    color: #fff;
+    border-bottom: 3px solid var(--gold);
+    flex: 0 0 auto;
+    z-index: 4;
+  }
+  .top-bar .chev {
+    display: grid; place-items: center;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 8%);
+    color: #fff;
+    border: 0;
+    cursor: pointer;
+  }
+  .top-bar .title {
+    font: 700 .92rem "IBM Plex Mono", ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  .top-bar .title .sep { opacity: .5; margin: 0 .3rem; }
+  .top-bar .right { display: flex; align-items: center; gap: .45rem; }
+  .more-btn {
+    display: grid; place-items: center;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 8%);
+    color: #fff;
+    font: 900 1.1rem sans-serif;
+    letter-spacing: 2px;
+    border: 0;
+    cursor: pointer;
+  }
+
+  /* board — centered, big, adapts when details opens */
+  .board-wrap {
+    flex: 1 1 auto;
+    display: grid;
+    place-items: center;
+    padding: 6px 0;
+    background: var(--paper);
+    overflow: hidden;
+    min-height: 0;
+    transition: flex 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .board {
+    width: min(100%, 100vh);
+    aspect-ratio: 1;
+    max-height: 100%;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    border-top: 6px solid #303a32;
+    border-bottom: 6px solid #303a32;
+  }
+  .sq { position: relative; display: grid; place-items: center; font: 400 2.1rem "Arial Unicode MS", "Segoe UI Symbol", sans-serif; line-height: 1; }
+  .sq.light { background: var(--light-square); }
+  .sq.dark { background: var(--dark-square); }
+  .sq .p.b { color: #101010; }
+  .sq .p.w { color: #fffdf5; text-shadow: 0 1px 0 rgb(0 0 0 / 60%), 0 0 1px rgb(0 0 0 / 80%); }
+  .sq[data-file]::after { content: attr(data-file); position: absolute; right: 3px; bottom: 1px; font: 700 9px sans-serif; opacity: .65; }
+  .sq[data-rank]::before { content: attr(data-rank); position: absolute; left: 3px; top: 1px; font: 700 9px sans-serif; opacity: .65; }
+  .sq.selected { outline: 4px solid var(--gold); outline-offset: -5px; z-index: 2; }
+  .sq.capture .ring { position: absolute; inset: 0; background: radial-gradient(circle, transparent 0 44%, rgb(163 58 50 / 60%) 46% 55%, transparent 57%); pointer-events: none; }
+  .sq.last { box-shadow: inset 0 0 0 4px rgb(215 169 40 / 65%); }
+  .sq.piece-hint {
+    animation: piece-hint-pulse 1.4s ease-in-out infinite;
+    z-index: 2;
+  }
+  @keyframes piece-hint-pulse {
+    0%, 100% {
+      outline: 4px solid rgb(215 169 40 / 25%);
+      outline-offset: -5px;
+      box-shadow: inset 0 0 0 0 rgb(215 169 40 / 0%);
+    }
+    50% {
+      outline: 4px solid rgb(215 169 40 / 95%);
+      outline-offset: -5px;
+      box-shadow: inset 0 0 14px 2px rgb(215 169 40 / 55%);
+    }
+  }
+
+  /* Turn / hint strip — sits directly under the board */
+  .turn-strip {
+    flex: 0 0 auto;
+    padding: .5rem .75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: .4rem;
+    background: var(--paper);
+    border-top: 1px dashed rgb(213 208 195 / 60%);
+    transition: opacity 200ms ease, max-height 350ms cubic-bezier(0.4, 0, 0.2, 1), padding 350ms ease;
+    max-height: 200px;
+    overflow: hidden;
+  }
+  .screen.details-open .turn-strip { max-height: 0; padding-top: 0; padding-bottom: 0; opacity: 0; }
+  .turn-badge {
+    display: inline-flex; align-items: center; gap: .4rem;
+    padding: .35rem .7rem;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid var(--line);
+    font: 800 .82rem Inter, sans-serif;
+    color: var(--ink);
+  }
+  .turn-badge .side-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid var(--ink);
+    box-shadow: inset 0 0 0 1px #fff;
+  }
+  .turn-badge .side-dot.b { background: var(--ink); }
+
+  .hint-chip {
+    display: inline-flex; align-items: center; gap: .35rem;
+    padding: .32rem .6rem;
+    border-radius: 999px;
+    background: rgb(215 169 40 / 15%);
+    border: 1px solid rgb(215 169 40 / 55%);
+    color: var(--forest);
+    font: 700 .78rem Inter, sans-serif;
+    animation: hint-pop 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .hint-chip svg { width: 12px; height: 12px; color: var(--gold); }
+  @keyframes hint-pop {
+    0% { opacity: 0; transform: scale(.7) translateY(-6px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* details panel */
+  .details {
+    flex: 0 0 auto;
+    height: 0;
+    overflow: hidden;
+    background: var(--panel);
+    border-top: 1px solid var(--line);
+    transition: height 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .screen.details-open .details { height: 380px; }
+  .screen.details-open .board-wrap { flex: 0 0 auto; }
+
+  .details-inner {
+    height: 100%;
+    padding: .75rem 1rem;
+    overflow-y: auto;
+    display: flex; flex-direction: column; gap: .55rem;
+  }
+  .details-head { display: flex; align-items: center; justify-content: space-between; }
+  .details-head h3 {
+    margin: 0;
+    font: 800 .72rem "IBM Plex Mono", ui-monospace, monospace;
+    letter-spacing: .16em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .details-head .close-x {
+    width: 28px; height: 28px;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    font: 900 1.2rem sans-serif;
+    cursor: pointer;
+  }
+  .details-head .close-x:hover { background: var(--light-square); color: var(--ink); }
+
+  .kv-row { display: flex; flex-wrap: wrap; gap: .3rem; align-items: center; }
+  .kv-row .lbl {
+    font: 800 .62rem "IBM Plex Mono", ui-monospace, monospace;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--muted);
+    margin-right: .25rem;
+  }
+  .chip {
+    display: inline-flex; align-items: center; gap: .3rem;
+    padding: .3rem .55rem;
+    border-radius: .35rem;
+    border: 1px solid var(--line);
+    background: #fff;
+    font: 700 .78rem Inter, sans-serif;
+    color: var(--ink);
+  }
+  .chip svg { width: 11px; height: 11px; }
+  .chip.gold {
+    background: rgb(215 169 40 / 12%);
+    border-color: rgb(215 169 40 / 45%);
+    color: var(--forest);
+  }
+  .chip.link {
+    color: var(--forest-bright);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .chip.side .dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: #fff; border: 2px solid var(--ink);
+  }
+  .chip.side .dot.b { background: var(--ink); }
+  .chip.opening {
+    background: rgb(45 106 79 / 8%);
+    border-color: rgb(45 106 79 / 30%);
+    color: var(--forest);
+  }
+  .chip.theme.used {
+    background: rgb(215 169 40 / 18%);
+    border-color: rgb(215 169 40 / 55%);
+    color: var(--forest);
+  }
+  .chip.theme.used::before {
+    content: "✓";
+    font: 900 .68rem sans-serif;
+    color: var(--gold);
+    margin-right: .1rem;
+  }
+
+  .moves .list {
+    border: 1px solid var(--line);
+    border-radius: .3rem;
+    background: #fff;
+    overflow: hidden;
+    max-height: 130px;
+    overflow-y: auto;
+  }
+  .moves table { width: 100%; border-collapse: collapse; font: 700 .88rem "IBM Plex Mono", ui-monospace, monospace; }
+  .moves td { padding: .38rem .6rem; border-bottom: 1px solid var(--line); cursor: pointer; }
+  .moves tr:last-child td { border-bottom: 0; }
+  .moves td.num { color: var(--muted); width: 2.6rem; text-align: right; }
+  .moves td.ply:hover { background: var(--light-square); }
+  .moves td.ply.active { background: rgb(215 169 40 / 20%); color: var(--forest); box-shadow: inset 0 0 0 2px var(--gold); }
+
+  /* action strip — 4 columns now */
+  .action-strip {
+    flex: 0 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.4fr 1fr;
+    gap: .35rem;
+    padding: .5rem .5rem calc(.5rem + env(safe-area-inset-bottom, 0px));
+    background: var(--panel);
+    border-top: 1px solid var(--line);
+    z-index: 3;
+  }
+  .action-strip button {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: .3rem;
+    min-height: 52px;
+    padding: 0 .35rem;
+    border: 1px solid var(--line);
+    border-radius: .55rem;
+    background: #fff;
+    color: var(--ink);
+    font: 700 .82rem Inter, sans-serif;
+    cursor: pointer;
+    transition: transform 100ms ease, background 100ms ease;
+  }
+  .action-strip button:active:not(:disabled) { transform: translateY(1px); }
+  .action-strip button:disabled { opacity: .45; cursor: not-allowed; }
+  .action-strip button.primary {
+    color: #fff;
+    background: var(--forest-bright);
+    border-color: var(--forest-bright);
+  }
+  .action-strip button.active {
+    color: var(--forest);
+    background: rgb(215 169 40 / 20%);
+    border-color: var(--gold);
+  }
+  .action-strip button.hint svg { color: var(--gold); }
+  .action-strip button svg { width: 15px; height: 15px; flex: none; }
+
+  /* Celebration overlay (from Design 5) */
+  .celebrate {
+    position: absolute; inset: 0;
+    background: rgb(24 32 27 / 60%);
+    display: grid; place-items: center;
+    padding: 1.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 250ms ease;
+    z-index: 10;
+  }
+  .celebrate.show { opacity: 1; pointer-events: auto; }
+  .celebrate .card {
+    background: var(--panel);
+    border-radius: 1rem;
+    padding: 1.5rem 1.5rem 1.25rem;
+    box-shadow: 0 24px 60px rgb(0 0 0 / 40%);
+    text-align: center;
+    width: 100%;
+    max-width: 320px;
+    transform: scale(.92);
+    transition: transform 250ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .celebrate.show .card { transform: scale(1); }
+  .celebrate .stars { font: 800 3rem Georgia, serif; color: var(--gold); line-height: 1; letter-spacing: .05em; }
+  .celebrate .plus { margin: .5rem 0 .1rem; font: 800 2.6rem Georgia, serif; color: var(--forest-bright); line-height: 1; }
+  .celebrate .plus .accent { color: var(--gold); }
+  .celebrate .lbl {
+    display: block; margin-top: .25rem;
+    font: 800 .68rem "IBM Plex Mono", ui-monospace, monospace;
+    letter-spacing: .18em; text-transform: uppercase; color: var(--muted);
+  }
+  .celebrate .row { display: flex; justify-content: space-around; margin: 1rem 0 .5rem; }
+  .celebrate .row .stat .n { display: block; font: 800 1.3rem "IBM Plex Mono", ui-monospace, monospace; color: var(--forest); }
+  .celebrate .row .stat .k { font: 700 .62rem Inter, sans-serif; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; }
+  .celebrate .next {
+    display: block; width: 100%; margin-top: 1rem;
+    padding: .85rem 1rem;
+    border-radius: .55rem;
+    background: var(--forest-bright);
+    color: #fff;
+    font: 800 .95rem Inter, sans-serif;
+    border: 0;
+    cursor: pointer;
+  }
+  .celebrate .next:hover { background: var(--forest); }
+  .celebrate .dismiss {
+    display: block; width: 100%; margin-top: .5rem;
+    padding: .55rem 1rem;
+    background: transparent;
+    color: var(--muted);
+    font: 700 .8rem Inter, sans-serif;
+    border: 0;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="caption">
+      <h1>Interactive combined mockup</h1>
+      <p class="sub">
+        D1 layout (top banner, big centered board, bottom action strip) + turn indicator + <b>Hint</b> button that reveals themes one at a time (−1 pt each); after all themes are shown, the next hint highlights the piece to move (−2 pts). <b>Show answer</b> opens D3-style details (rating, side, opening, themes, solution). D5 batch overlay when the batch is done.
+      </p>
+    </div>
+
+    <div class="phone" id="phone">
+      <div class="screen" id="screen">
+
+        <!-- top bar -->
+        <div class="top-bar">
+          <button class="chev" aria-label="Back">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M15 6l-6 6 6 6"/></svg>
+          </button>
+          <div class="title"><span id="puzzle-idx">3</span>/5<span class="sep">·</span>Batch 1/20</div>
+          <div class="right">
+            <button class="more-btn" aria-label="More">···</button>
+          </div>
+        </div>
+
+        <!-- board -->
+        <div class="board-wrap">
+          <div class="board">
+            <!-- rank 8 -->
+            <div class="sq light" data-rank="8"><span class="p b">♜</span></div>
+            <div class="sq dark"></div>
+            <div class="sq light"></div>
+            <div class="sq dark"><span class="p b">♛</span></div>
+            <div class="sq light"></div>
+            <div class="sq dark"><span class="p b">♜</span></div>
+            <div class="sq light"><span class="p b">♚</span></div>
+            <div class="sq dark"></div>
+            <!-- 7 -->
+            <div class="sq dark" data-rank="7"><span class="p b">♟</span></div>
+            <div class="sq light"><span class="p b">♟</span></div>
+            <div class="sq dark"><span class="p b">♟</span></div>
+            <div class="sq light"></div>
+            <div class="sq dark"></div>
+            <div class="sq light"><span class="p b">♟</span></div>
+            <div class="sq dark"><span class="p b">♟</span></div>
+            <div class="sq light"><span class="p b">♟</span></div>
+            <!-- 6 -->
+            <div class="sq light" data-rank="6"></div>
+            <div class="sq dark"></div>
+            <div class="sq light"><span class="p b">♞</span></div>
+            <div class="sq dark"></div>
+            <div class="sq light"></div>
+            <div class="sq dark"></div>
+            <div class="sq light"></div>
+            <div class="sq dark"></div>
+            <!-- 5 -->
+            <div class="sq dark" data-rank="5"></div>
+            <div class="sq light"></div>
+            <div class="sq dark"><span class="p b">♝</span></div>
+            <div class="sq light"></div>
+            <div class="sq dark"><span class="p b">♟</span></div>
+            <div class="sq light"></div>
+            <div class="sq dark"></div>
+            <div class="sq light"></div>
+            <!-- 4 -->
+            <div class="sq light" data-rank="4"></div>
+            <div class="sq dark"></div>
+            <div class="sq light" id="sq-c4"><span class="p w">♗</span></div>
+            <div class="sq dark"></div>
+            <div class="sq light"><span class="p w">♙</span></div>
+            <div class="sq dark"></div>
+            <div class="sq light"></div>
+            <div class="sq dark"></div>
+            <!-- 3 -->
+            <div class="sq dark" data-rank="3"></div>
+            <div class="sq light"></div>
+            <div class="sq dark"><span class="p w">♘</span></div>
+            <div class="sq light"></div>
+            <div class="sq dark"></div>
+            <div class="sq light"></div>
+            <div class="sq dark"></div>
+            <div class="sq light"></div>
+            <!-- 2 -->
+            <div class="sq light" data-rank="2"><span class="p w">♙</span></div>
+            <div class="sq dark"><span class="p w">♙</span></div>
+            <div class="sq light"><span class="p w">♙</span></div>
+            <div class="sq dark"></div>
+            <div class="sq light"></div>
+            <div class="sq dark"><span class="p w">♙</span></div>
+            <div class="sq light"><span class="p w">♙</span></div>
+            <div class="sq dark"><span class="p w">♙</span></div>
+            <!-- 1 -->
+            <div class="sq dark" data-rank="1" data-file="a"><span class="p w">♖</span></div>
+            <div class="sq light" data-file="b"></div>
+            <div class="sq dark" data-file="c"></div>
+            <div class="sq light" data-file="d"><span class="p w">♕</span></div>
+            <div class="sq dark" data-file="e"></div>
+            <div class="sq light" data-file="f"><span class="p w">♖</span></div>
+            <div class="sq dark" data-file="g"><span class="p w">♔</span></div>
+            <div class="sq light" data-file="h"></div>
+          </div>
+        </div>
+
+        <!-- turn indicator + hint chips -->
+        <div class="turn-strip" id="turn-strip">
+          <span class="turn-badge">
+            <span class="side-dot"></span>
+            White to move
+          </span>
+          <div id="hint-chips" style="display:contents;"></div>
+        </div>
+
+        <!-- details panel (results view, hidden by default) -->
+        <div class="details" id="details">
+          <div class="details-inner">
+            <div class="details-head">
+              <h3>Solution &amp; details</h3>
+              <button class="close-x" id="close-details" aria-label="Close details">×</button>
+            </div>
+
+            <div class="kv-row">
+              <span class="chip side"><span class="dot"></span>White to move</span>
+              <span class="chip gold">★ 1620</span>
+              <span class="chip link">lichess/PxT7q ↗</span>
+            </div>
+
+            <div class="kv-row">
+              <span class="lbl">Opening</span>
+              <span class="chip opening">
+                <svg viewBox="0 0 24 24"><path fill="currentColor" d="M4 4h11a4 4 0 0 1 4 4v12H8a4 4 0 0 1-4-4V4Zm2 2v10a2 2 0 0 0 2 2h9V8a2 2 0 0 0-2-2H6Z"/></svg>
+                Italian Game
+              </span>
+            </div>
+
+            <div class="kv-row">
+              <span class="lbl">Themes</span>
+              <div id="theme-chips" class="kv-row" style="gap:.3rem;"></div>
+            </div>
+
+            <div class="moves">
+              <div class="list">
+                <table>
+                  <tr><td class="num">1.</td><td class="ply">e4</td><td class="ply">e5</td></tr>
+                  <tr><td class="num">2.</td><td class="ply">Nf3</td><td class="ply">Nc6</td></tr>
+                  <tr><td class="num">3.</td><td class="ply">Bc4</td><td class="ply">Bc5</td></tr>
+                  <tr><td class="num">4.</td><td class="ply active">Bxd5</td><td class="ply">Nxd5</td></tr>
+                  <tr><td class="num">5.</td><td class="ply">Bxc6+</td><td class="ply">bxc6</td></tr>
+                  <tr><td class="num">6.</td><td class="ply">Nxe5</td><td class="ply">—</td></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- action strip (4 buttons: Prev · Hint · Show · Next) -->
+        <div class="action-strip">
+          <button id="prev-btn" aria-label="Previous puzzle">
+            <svg viewBox="0 0 24 24"><path fill="currentColor" d="M15 6l-6 6 6 6"/></svg>
+            Prev
+          </button>
+          <button id="hint-btn" class="hint">
+            <svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 21h6v-1H9v1Zm3-19a7 7 0 0 0-4 12.7V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.3A7 7 0 0 0 12 2Z"/></svg>
+            <span id="hint-label">Hint</span>
+          </button>
+          <button id="show-answer">
+            <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7Zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg>
+            <span id="show-answer-label">Show answer</span>
+          </button>
+          <button class="primary" id="next-btn">
+            Next
+            <svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+
+        <!-- celebration overlay -->
+        <div class="celebrate" id="celebrate">
+          <div class="card">
+            <div class="stars">★★★★☆</div>
+            <div class="plus"><span class="accent">+</span>45</div>
+            <span class="lbl">Batch complete</span>
+            <div class="row">
+              <div class="stat"><span class="n">4/5</span><span class="k">solved</span></div>
+              <div class="stat"><span class="n">3</span><span class="k">streak</span></div>
+              <div class="stat"><span class="n">90%</span><span class="k">accuracy</span></div>
+            </div>
+            <button class="next" id="celebrate-next">Next batch ▶</button>
+            <button class="dismiss" id="celebrate-dismiss">Not now</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="demo-bar">
+      <span class="lbl">Demo controls</span>
+      <button id="ctl-hint">Reveal next hint</button>
+      <button id="ctl-details">Toggle Show answer</button>
+      <button id="ctl-celebrate">Show batch overlay</button>
+      <button id="ctl-reset">Reset puzzle</button>
+    </div>
+  </div>
+
+<script>
+  const screen = document.getElementById('screen');
+  const puzzleIdx = document.getElementById('puzzle-idx');
+
+  const showBtn = document.getElementById('show-answer');
+  const showLabel = document.getElementById('show-answer-label');
+  const closeDetailsBtn = document.getElementById('close-details');
+  const hintBtn = document.getElementById('hint-btn');
+  const hintLabel = document.getElementById('hint-label');
+  const nextBtn = document.getElementById('next-btn');
+  const prevBtn = document.getElementById('prev-btn');
+
+  const hintChips = document.getElementById('hint-chips');
+  const themeChipsEl = document.getElementById('theme-chips');
+  const turnStrip = document.getElementById('turn-strip');
+  const pieceHintSquare = document.getElementById('sq-c4');
+
+  const celebrate = document.getElementById('celebrate');
+  const celebrateNext = document.getElementById('celebrate-next');
+  const celebrateDismiss = document.getElementById('celebrate-dismiss');
+
+  const ctlHint = document.getElementById('ctl-hint');
+  const ctlDetails = document.getElementById('ctl-details');
+  const ctlCelebrate = document.getElementById('ctl-celebrate');
+  const ctlReset = document.getElementById('ctl-reset');
+
+  // Puzzle data (mock)
+  const PUZZLE = {
+    id: 'PxT7q',
+    rating: 1620,
+    fullPoints: 9,
+    themes: ['Fork', 'Middlegame', 'Short', 'Advantage'],
+    opening: 'Italian Game'
+  };
+
+  const state = {
+    idx: 3,
+    hintsUsed: 0,      // -1 point each (theme reveals)
+    pieceHintShown: false,  // -2 points (final hint: highlights piece to move)
+  };
+
+  function renderHintChips() {
+    hintChips.innerHTML = '';
+    for (let i = 0; i < state.hintsUsed; i++) {
+      const chip = document.createElement('span');
+      chip.className = 'hint-chip';
+      chip.innerHTML = `
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 21h6v-1H9v1Zm3-19a7 7 0 0 0-4 12.7V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.3A7 7 0 0 0 12 2Z"/></svg>
+        ${PUZZLE.themes[i]}
+      `;
+      hintChips.appendChild(chip);
+    }
+  }
+
+  function renderThemeChips() {
+    themeChipsEl.innerHTML = '';
+    PUZZLE.themes.forEach((t, i) => {
+      const chip = document.createElement('span');
+      chip.className = 'chip theme' + (i < state.hintsUsed ? ' used' : '');
+      chip.textContent = t;
+      themeChipsEl.appendChild(chip);
+    });
+  }
+
+  function updateHintButton() {
+    const themesLeft = PUZZLE.themes.length - state.hintsUsed;
+    if (themesLeft > 0) {
+      hintBtn.disabled = false;
+      hintLabel.textContent = `Hint · ${themesLeft}`;
+    } else if (!state.pieceHintShown) {
+      hintBtn.disabled = false;
+      hintLabel.textContent = 'Show piece';
+    } else {
+      hintBtn.disabled = true;
+      hintLabel.textContent = 'No hints';
+    }
+  }
+
+  function revealHint() {
+    if (state.hintsUsed < PUZZLE.themes.length) {
+      // Theme reveal (-1 point)
+      state.hintsUsed += 1;
+      renderHintChips();
+      renderThemeChips();
+    } else if (!state.pieceHintShown) {
+      // Final hint level: highlight piece to move (-2 points)
+      state.pieceHintShown = true;
+      pieceHintSquare.classList.add('piece-hint');
+    }
+    updateHintButton();
+  }
+
+  function openDetails() {
+    screen.classList.add('details-open');
+    showBtn.classList.add('active');
+    showLabel.textContent = 'Hide answer';
+    renderThemeChips();
+  }
+  function closeDetailsPanel() {
+    screen.classList.remove('details-open');
+    showBtn.classList.remove('active');
+    showLabel.textContent = 'Show answer';
+  }
+  function toggleDetails() {
+    if (screen.classList.contains('details-open')) closeDetailsPanel();
+    else openDetails();
+  }
+
+  function resetPuzzle() {
+    state.hintsUsed = 0;
+    state.pieceHintShown = false;
+    pieceHintSquare.classList.remove('piece-hint');
+    renderHintChips();
+    renderThemeChips();
+    updateHintButton();
+    closeDetailsPanel();
+  }
+
+  showBtn.addEventListener('click', toggleDetails);
+  closeDetailsBtn.addEventListener('click', closeDetailsPanel);
+  hintBtn.addEventListener('click', revealHint);
+  ctlDetails.addEventListener('click', toggleDetails);
+  ctlHint.addEventListener('click', revealHint);
+
+  nextBtn.addEventListener('click', () => {
+    if (state.idx >= 5) {
+      celebrate.classList.add('show');
+      return;
+    }
+    state.idx += 1;
+    puzzleIdx.textContent = state.idx;
+    resetPuzzle();
+  });
+  prevBtn.addEventListener('click', () => {
+    if (state.idx <= 1) return;
+    state.idx -= 1;
+    puzzleIdx.textContent = state.idx;
+    resetPuzzle();
+  });
+
+  ctlCelebrate.addEventListener('click', () => celebrate.classList.add('show'));
+  celebrateNext.addEventListener('click', () => {
+    celebrate.classList.remove('show');
+    state.idx = 1;
+    puzzleIdx.textContent = state.idx;
+    resetPuzzle();
+  });
+  celebrateDismiss.addEventListener('click', () => celebrate.classList.remove('show'));
+
+  ctlReset.addEventListener('click', () => {
+    celebrate.classList.remove('show');
+    resetPuzzle();
+  });
+
+  // initial render
+  renderThemeChips();
+  updateHintButton();
+</script>
+</body>
+</html>

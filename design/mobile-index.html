@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tactics mobile — 5 design options</title>
+<style>
+  :root {
+    --ink: #18201b;
+    --muted: #667069;
+    --paper: #f4f1e8;
+    --panel: #fffdf7;
+    --line: #d5d0c3;
+    --forest: #234b3a;
+    --forest-bright: #2d6a4f;
+    --gold: #d7a928;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at 10% 0%, rgb(215 169 40 / 10%), transparent 30rem),
+      var(--paper);
+    min-height: 100vh;
+  }
+  header {
+    padding: 3rem clamp(1rem, 4vw, 4rem) 1.5rem;
+    color: #fff;
+    background: var(--forest);
+    border-bottom: 5px solid var(--gold);
+  }
+  header h1 { margin: 0 0 .35rem; font: 800 clamp(1.6rem, 3.6vw, 2.4rem) Inter, sans-serif; letter-spacing: -.02em; }
+  header p { margin: 0; color: #d9e7de; max-width: 40rem; }
+  main { width: min(1180px, calc(100% - 2rem)); margin: 2.5rem auto 4rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; }
+  .card {
+    display: flex; flex-direction: column; gap: .55rem;
+    padding: 1.35rem 1.5rem 1.5rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: .5rem;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 8px 20px rgb(30 35 30 / 7%);
+    transition: transform 120ms ease, box-shadow 120ms ease;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgb(30 35 30 / 14%); }
+  .num { font: 800 .68rem "IBM Plex Mono", ui-monospace, monospace; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+  .title { margin: 0; font: 800 1.25rem Georgia, serif; color: var(--forest); }
+  .desc { margin: 0; color: var(--ink); font-size: .92rem; line-height: 1.45; }
+  .tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .4rem; }
+  .tag { padding: .2rem .55rem; border-radius: 999px; background: rgb(45 106 79 / 10%); color: var(--forest); font: 700 .7rem "IBM Plex Mono", ui-monospace, monospace; }
+  .tag.warn { background: rgb(215 169 40 / 18%); color: #7d5e00; }
+  .note { margin-top: 2rem; padding: 1rem 1.25rem; border-left: 4px solid var(--gold); background: #f7f1dd; border-radius: .3rem; font-size: .92rem; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Tactics — mobile design options</h1>
+    <p>Five distinct mobile experiences for the tactics playing view. Desktop is unchanged. Open each to see two device-sized states side by side.</p>
+  </header>
+
+  <main>
+    <div class="grid">
+      <a class="card" href="mobile-1-boardmax.html">
+        <span class="num">01</span>
+        <h2 class="title">Boardmax</h2>
+        <p class="desc">Minimal chrome. Slim top bar, edge-to-edge board, three-button action strip. Metadata hides behind a <code>⋯</code> sheet.</p>
+        <div class="tags"><span class="tag">Largest board</span><span class="tag">Low complexity</span></div>
+      </a>
+
+      <a class="card" href="mobile-2-bottom-sheet.html">
+        <span class="num">02</span>
+        <h2 class="title">Bottom Sheet</h2>
+        <p class="desc">Board always visible. A draggable sheet peeks with essentials; drag up (or auto-expand on wrong move) for moves + review.</p>
+        <div class="tags"><span class="tag">Native feel</span><span class="tag warn">Gesture-heavy</span></div>
+      </a>
+
+      <a class="card" href="mobile-3-segmented.html">
+        <span class="num">03</span>
+        <h2 class="title">Segmented Below</h2>
+        <p class="desc">Board on top, persistent action bar, and a Play / Moves / Review tab strip. Auto-switches to Review on submit.</p>
+        <div class="tags"><span class="tag">Familiar</span><span class="tag">No gestures</span></div>
+      </a>
+
+      <a class="card" href="mobile-4-hud.html">
+        <span class="num">04</span>
+        <h2 class="title">HUD Overlay</h2>
+        <p class="desc">Board fills the screen edge-to-edge. Translucent blurred pills float top and bottom. Feedback appears as a centered toast.</p>
+        <div class="tags"><span class="tag">Immersive</span><span class="tag warn">Overlay risk</span></div>
+      </a>
+
+      <a class="card" href="mobile-combined-interactive.html" style="border-color: var(--gold); background: linear-gradient(180deg, rgb(215 169 40 / 8%), var(--panel));">
+        <span class="num">★ Combined</span>
+        <h2 class="title">Interactive mockup</h2>
+        <p class="desc">D1 layout + D3 details slide-up on Show Answer + D5 batch overlay. Clickable states for review.</p>
+        <div class="tags"><span class="tag">Interactive</span><span class="tag">Combined</span></div>
+      </a>
+
+      <a class="card" href="mobile-5-rally.html">
+        <span class="num">05</span>
+        <h2 class="title">Rally Mode</h2>
+        <p class="desc">Engagement-first. Batch progress dots + streak counter always visible. Board glows gold on idle, green on win. Batch complete is a full celebration takeover.</p>
+        <div class="tags"><span class="tag">Highest engagement</span><span class="tag warn">Gamified feel</span></div>
+      </a>
+    </div>
+
+    <div class="note">
+      Each mockup renders two 390×780 device frames side-by-side so you can compare states (idle vs. after-solve, peek vs. expanded, etc.). All use the app's color palette (forest, gold, paper).
+    </div>
+  </main>
+</body>
+</html>
