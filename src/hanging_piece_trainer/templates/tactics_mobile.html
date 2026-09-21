@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Hanging Piece Trainer · Tactics</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link rel="alternate icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='tactics_mobile.css') }}">
+    <script src="{{ url_for('static', filename='pieces.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='tactics_mobile.js') }}" defer></script>
+  </head>
+  <body{% if slug %} data-slug="{{ slug }}"{% endif %}{% if preview_batch %} data-preview-batch="{{ preview_batch }}"{% endif %} data-back-url="{{ back_url }}">
+    <div class="screen" id="screen">
+
+      <!-- top bar -->
+      <div class="top-bar">
+        <a class="chev" href="{{ back_url }}" aria-label="Back">
+          <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M15 6l-6 6 6 6"/></svg>
+        </a>
+        <div class="title">
+          <span id="puzzle-position">1</span>/<span id="puzzle-total">5</span><span class="sep">·</span>Batch <span id="batch-position">1</span>/<span id="batch-total">20</span>
+        </div>
+        <div class="right">
+          <button id="more-btn" class="more-btn" type="button" aria-label="Settings">···</button>
+        </div>
+      </div>
+
+      <!-- board -->
+      <div class="board-wrap">
+        <div id="board" class="board" role="grid" aria-label="Chess position"></div>
+      </div>
+
+      <!-- turn indicator + hint chips -->
+      <div class="turn-strip" id="turn-strip">
+        <span class="turn-badge">
+          <span id="turn-dot" class="side-dot"></span>
+          <span id="turn-label">Loading…</span>
+        </span>
+        <div id="hint-chips" style="display:contents;"></div>
+      </div>
+
+      <!-- details panel -->
+      <div class="details" id="details">
+        <div class="details-inner">
+          <div class="details-head">
+            <h3>Solution &amp; details</h3>
+            <button class="close-x" id="close-details" type="button" aria-label="Close details">×</button>
+          </div>
+
+          <div class="kv-row">
+            <span class="chip side"><span id="detail-side-dot" class="dot"></span><span id="detail-side">—</span></span>
+            <span class="chip gold" id="detail-rating-chip" hidden>★ <span id="detail-rating">—</span></span>
+            <a class="chip link" id="detail-lichess" href="#" target="_blank" rel="noopener">—</a>
+          </div>
+
+          <div class="kv-row" id="detail-opening-row" hidden>
+            <span class="lbl">Opening</span>
+            <span class="chip opening" id="detail-opening">
+              <svg viewBox="0 0 24 24"><path fill="currentColor" d="M4 4h11a4 4 0 0 1 4 4v12H8a4 4 0 0 1-4-4V4Zm2 2v10a2 2 0 0 0 2 2h9V8a2 2 0 0 0-2-2H6Z"/></svg>
+              <span id="detail-opening-name">—</span>
+            </span>
+          </div>
+
+          <div class="kv-row">
+            <span class="lbl">Themes</span>
+            <div id="theme-chips" class="kv-row" style="gap:.3rem;"></div>
+          </div>
+
+          <div class="moves">
+            <div class="moves-nav" role="group" aria-label="Move navigation">
+              <button type="button" id="nav-first" title="Starting position" aria-label="First">⏮</button>
+              <button type="button" id="nav-prev" title="Previous move" aria-label="Previous">◀</button>
+              <button type="button" id="nav-next" title="Next move" aria-label="Next">▶</button>
+              <button type="button" id="nav-last" title="Latest move" aria-label="Last">⏭</button>
+            </div>
+            <div class="list">
+              <table id="moves-table"></table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- action strip: Prev · Hint · Show answer · Next -->
+      <div class="action-strip">
+        <button id="prev-btn" type="button" aria-label="Previous puzzle" disabled>
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M15 6l-6 6 6 6"/></svg>
+          Prev
+        </button>
+        <button id="hint-btn" class="hint" type="button" disabled>
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 21h6v-1H9v1Zm3-19a7 7 0 0 0-4 12.7V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.3A7 7 0 0 0 12 2Z"/></svg>
+          <span id="hint-label">Hint</span>
+        </button>
+        <button id="show-answer" type="button" disabled>
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7Zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg>
+          <span id="show-answer-label">Show answer</span>
+        </button>
+        <button class="primary" id="next-btn" type="button" disabled>
+          Next
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+
+      <!-- ephemeral status text (loading / errors) -->
+      <div id="board-status" class="status-strip" role="status" aria-live="polite" hidden></div>
+
+      <!-- celebration overlay -->
+      <div class="celebrate" id="celebrate">
+        <div class="card">
+          <div class="stars" id="celebrate-stars">★★★★★</div>
+          <div class="plus"><span class="accent">+</span><span id="celebrate-points">0</span></div>
+          <span class="lbl">Batch complete</span>
+          <div class="row">
+            <div class="stat"><span class="n" id="celebrate-solved">0/5</span><span class="k">solved</span></div>
+            <div class="stat"><span class="n" id="celebrate-earned">0</span><span class="k">of <span id="celebrate-possible">0</span></span></div>
+            <div class="stat"><span class="n" id="celebrate-accuracy">0%</span><span class="k">accuracy</span></div>
+          </div>
+          <button class="next" id="celebrate-next" type="button">Next batch ▶</button>
+          <button class="dismiss" id="celebrate-dismiss" type="button">Not now</button>
+        </div>
+      </div>
+    </div>
+
+    <dialog id="promotion-dialog" class="promotion-dialog" aria-labelledby="promotion-title">
+      <form method="dialog">
+        <h2 id="promotion-title">Promote to</h2>
+        <div class="promotion-picks">
+          <button type="submit" value="q" aria-label="Queen">♛</button>
+          <button type="submit" value="r" aria-label="Rook">♜</button>
+          <button type="submit" value="b" aria-label="Bishop">♝</button>
+          <button type="submit" value="n" aria-label="Knight">♞</button>
+        </div>
+        <button type="button" id="promotion-cancel" class="promotion-cancel">Cancel</button>
+      </form>
+    </dialog>
+  </body>
+</html>

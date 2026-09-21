@@ -693,4 +693,5 @@ applySettingsToDom();
 if (movesPanelEl && window.MovesPanel) {
   panel = new window.MovesPanel({ container: movesPanelEl, onJump: panelOnJump });
 }
+
 loadPuzzle();

@@ -179,3 +179,154 @@ def test_hanging_and_tactics_stats_are_independent(client, app) -> None:
     tactics_stats = client.get(f"{BASE}/stats").json
     assert hanging_stats["attempts"] == 0
     assert tactics_stats["attempts"] == 1
+
+
+def test_score_for_puzzle_hint_reductions() -> None:
+    from hanging_piece_trainer.service import _score_for_puzzle
+
+    # Base cases (unchanged behavior)
+    assert _score_for_puzzle(1600, 0) == 16
+    assert _score_for_puzzle(1600, 1) == 8
+    assert _score_for_puzzle(1600, 2) == 0
+    # Theme hints subtract 1 per hint
+    assert _score_for_puzzle(1600, 0, hints_used=1) == 15
+    assert _score_for_puzzle(1600, 0, hints_used=3) == 13
+    # Piece hint subtracts 2
+    assert _score_for_puzzle(1600, 0, piece_hint=True) == 14
+    # Both hint types stack
+    assert _score_for_puzzle(1600, 0, hints_used=2, piece_hint=True) == 12
+    # Hints can't push score below 0
+    assert _score_for_puzzle(100, 0, hints_used=10) == 0
+    # Zero-score puzzle (2+ mistakes) stays at 0
+    assert _score_for_puzzle(1600, 2, hints_used=1) == 0
+
+
+def test_hint_endpoint_reveals_themes_then_piece(client, app) -> None:
+    payload, _ = next_puzzle(client, app)
+    session_id = payload["session_id"]
+    themes = payload["themes"]
+    if not themes:
+        pytest.skip("puzzle has no themes")
+    # First theme hint
+    r1 = client.post(
+        f"{BASE}/hint",
+        json={"session_id": session_id, "type": "theme"},
+        headers=HEADERS,
+    )
+    assert r1.status_code == 200
+    assert r1.json["hints_used"] == 1
+    assert r1.json["piece_hint"] is False
+    assert r1.json["piece_square"] is None
+    assert r1.json["themes"] == themes
+    # Exhaust all theme hints
+    for _ in range(len(themes) - 1):
+        client.post(
+            f"{BASE}/hint",
+            json={"session_id": session_id, "type": "theme"},
+            headers=HEADERS,
+        )
+    # Extra theme call is a no-op (doesn't crash, caps at len(themes))
+    r_extra = client.post(
+        f"{BASE}/hint",
+        json={"session_id": session_id, "type": "theme"},
+        headers=HEADERS,
+    )
+    assert r_extra.json["hints_used"] == len(themes)
+    # Piece hint reveals the source square of the first solution move
+    r_piece = client.post(
+        f"{BASE}/hint",
+        json={"session_id": session_id, "type": "piece"},
+        headers=HEADERS,
+    )
+    assert r_piece.status_code == 200
+    assert r_piece.json["piece_hint"] is True
+    assert r_piece.json["piece_square"]
+    catalog_puzzle = _catalog(app).get(payload["puzzle_id"])
+    expected_from = catalog_puzzle.solution_moves_uci[0][:2]
+    assert r_piece.json["piece_square"] == expected_from
+
+
+def test_hint_reductions_flow_into_puzzle_points(client, app) -> None:
+    payload, solution = next_puzzle(client, app)
+    session_id = payload["session_id"]
+    themes = payload["themes"] or []
+    full_points = payload["batch"]["full_points"]
+    # Consume 2 theme hints (or as many as available, up to 2) + piece hint
+    theme_calls = min(2, len(themes))
+    for _ in range(theme_calls):
+        client.post(
+            f"{BASE}/hint",
+            json={"session_id": session_id, "type": "theme"},
+            headers=HEADERS,
+        )
+    client.post(
+        f"{BASE}/hint",
+        json={"session_id": session_id, "type": "piece"},
+        headers=HEADERS,
+    )
+    final = _play_full_solution(client, session_id, solution)
+    expected_penalty = theme_calls + 2
+    assert final["puzzle_points"] == max(0, full_points - expected_penalty)
+
+
+def test_hint_endpoint_validates_input(client, app) -> None:
+    payload, _ = next_puzzle(client, app)
+    # Missing type
+    r = client.post(
+        f"{BASE}/hint",
+        json={"session_id": payload["session_id"]},
+        headers=HEADERS,
+    )
+    assert r.status_code == 400
+    # Bad type
+    r = client.post(
+        f"{BASE}/hint",
+        json={"session_id": payload["session_id"], "type": "unknown"},
+        headers=HEADERS,
+    )
+    assert r.status_code == 400
+    # Missing session_id
+    r = client.post(
+        f"{BASE}/hint",
+        json={"type": "theme"},
+        headers=HEADERS,
+    )
+    assert r.status_code == 400
+
+
+def test_mobile_page_renders(client) -> None:
+    response = client.get(f"/tactics/{SLUG}/mobile")
+    assert response.status_code == 200
+    body = response.get_data(as_text=True)
+    assert 'id="board"' in body
+    assert "tactics_mobile.css" in body
+    assert "tactics_mobile.js" in body
+    # No desktop-view stylesheet on the mobile page.
+    assert '"tactics.css"' not in body
+
+
+def test_desktop_page_redirects_mobile_viewport(client) -> None:
+    response = client.get(f"/tactics/{SLUG}")
+    assert response.status_code == 200
+    body = response.get_data(as_text=True)
+    # Mobile detection is loaded as an external same-origin script (kept out
+    # of the inline body so it passes the CSP `script-src 'self'` header).
+    assert "mobileDetect.js" in body
+    # Old mobile subtree no longer served from tactics.html.
+    assert 'id="mobile-view"' not in body
+
+
+def test_mobile_preview_batch_page_renders(client) -> None:
+    response = client.get("/tactics/preview/batch/nonexistent/mobile")
+    assert response.status_code == 200
+    body = response.get_data(as_text=True)
+    assert 'data-preview-batch="nonexistent"' in body
+    assert "tactics_mobile.js" in body
+
+
+def test_puzzle_public_dict_includes_opening_field(app) -> None:
+    catalog = _catalog(app)
+    puzzle = catalog.get(catalog._ids[0])
+    public = puzzle.public_dict()
+    # Field is present (even if None for packages that don't carry openings)
+    assert "opening" in public

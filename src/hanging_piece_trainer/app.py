@@ -288,6 +288,15 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
             preview_batch=batch_id,
         )
 
+    @app.get("/tactics/preview/batch/<batch_id>/mobile")
+    def tactics_preview_batch_mobile_page(batch_id: str):
+        return render_template(
+            "tactics_mobile.html",
+            slug="__preview__",
+            preview_batch=batch_id,
+            back_url=url_for("tactics_packages_new_page"),
+        )
+
     @app.get("/tactics/<slug>")
     def tactics_play_page(slug: str):
         if slug == "preview":
@@ -295,6 +304,18 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
         if package_registry is None or slug not in package_registry.slugs():
             return redirect(url_for("tactics_packages_page"))
         return render_template("tactics.html", slug=slug)
+
+    @app.get("/tactics/<slug>/mobile")
+    def tactics_mobile_page(slug: str):
+        if slug == "preview":
+            return redirect(url_for("tactics_packages_page"))
+        if package_registry is None or slug not in package_registry.slugs():
+            return redirect(url_for("tactics_packages_page"))
+        return render_template(
+            "tactics_mobile.html",
+            slug=slug,
+            back_url=url_for("tactics_packages_page"),
+        )
 
     @app.get("/tactics/<slug>/stats")
     def tactics_stats_page(slug: str):
@@ -406,6 +427,14 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
         if payload is None:
             raise ApplicationError("invalid_json", "A JSON request body is required")
         return jsonify(require_tactics(slug).reveal(payload))
+
+    @app.post("/api/v1/tactics/<slug>/hint")
+    def submit_tactic_hint(slug: str):
+        _require_same_origin_json()
+        payload = request.get_json(silent=True)
+        if payload is None:
+            raise ApplicationError("invalid_json", "A JSON request body is required")
+        return jsonify(require_tactics(slug).hint(payload))
 
     @app.get("/api/v1/tactics/<slug>/stats")
     def tactic_stats(slug: str):
@@ -528,13 +557,29 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
                 status=409,
             )
         payload = request.get_json(silent=True) or {}
-        try:
-            query = query_from_payload(payload)
-        except SearchError as exc:
-            raise ApplicationError(exc.code, str(exc)) from exc
-        ranked = lichess_index.matching_ids_ranked(query, limit=10)
-        if not ranked:
-            raise ApplicationError("no_matches", "No puzzles matched this query", status=409)
+        puzzle_ids = payload.get("puzzle_ids")
+        if puzzle_ids is not None:
+            if not isinstance(puzzle_ids, list) or not all(
+                isinstance(pid, str) for pid in puzzle_ids
+            ):
+                raise ApplicationError("invalid_request", "puzzle_ids must be a list of strings")
+            if not 1 <= len(puzzle_ids) <= 200:
+                raise ApplicationError("invalid_request", "puzzle_ids length must be 1..200")
+            ranked = [
+                puz
+                for puz in (lichess_index.get_puzzle(pid) for pid in puzzle_ids)
+                if puz is not None
+            ]
+            if not ranked:
+                raise ApplicationError("no_matches", "No puzzles found for those ids", status=404)
+        else:
+            try:
+                query = query_from_payload(payload)
+            except SearchError as exc:
+                raise ApplicationError(exc.code, str(exc)) from exc
+            ranked = lichess_index.matching_ids_ranked(query, limit=10)
+            if not ranked:
+                raise ApplicationError("no_matches", "No puzzles matched this query", status=409)
         rows = [
             {
                 "id": row["id"],
@@ -603,8 +648,7 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
         return jsonify(
             {
                 "count": preview.count,
-                "sample": preview.sample,
-                "rating_histogram": preview.rating_histogram,
+                "rows": preview.rows,
                 "allowed_counts": list(ALLOWED_COUNTS),
             }
         )
